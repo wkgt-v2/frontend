@@ -8,7 +8,7 @@
       :items="items"
       :ui="{ dots: 'bottom-4' }"
     >
-      <img :src="item" class="aspect-[16/5] w-full object-cover rounded-lg md:rounded-2xl">
+      <img :src="item" class="aspect-[16/5] w-full object-cover rounded-lg md:rounded-2xl" loading="lazy">
     </UCarousel>
   </div>
 </template>
