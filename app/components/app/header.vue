@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed top-0 w-full bg-white shadow-md z-[99]">
+  <nav class="fixed top-0 w-full bg-cyan-50/20 shadow-md z-[99]">
     <div class="container flex flex-col md:flex-row items-center md:justify-between h-16">
       <NuxtLink to="/">
         <img src="/assets/images/ic_logo.png" alt="Logo" class="h-10">

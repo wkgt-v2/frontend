@@ -1,10 +1,8 @@
 <template>
   <UApp>
     <AppHeader />
-    <div class="mt-16">
-      <slot />
-    </div>
-    <AppFooter />
+    <slot />
+    <!-- <AppFooter /> -->
   </UApp>
 </template>
 

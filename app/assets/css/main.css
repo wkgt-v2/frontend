@@ -1,18 +1,22 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@theme {
+  --font-sans: "Geist", sans-serif;
+}
+
 @theme static {
-  --color-gulf-blue-50: #eaf3ff;
-  --color-gulf-blue-100: #d9e8ff;
-  --color-gulf-blue-200: #bbd3ff;
-  --color-gulf-blue-300: #93b5ff;
-  --color-gulf-blue-400: #688aff;
-  --color-gulf-blue-500: #4560ff;
-  --color-gulf-blue-600: #2432ff;
-  --color-gulf-blue-700: #1923e9;
-  --color-gulf-blue-800: #1822bb;
-  --color-gulf-blue-900: #1c2693;
-  --color-gulf-blue-950: #101451;
+  --color-cyan-50: #f0faff;
+  --color-cyan-100: #dff4ff;
+  --color-cyan-200: #b8eaff;
+  --color-cyan-300: #7adaff;
+  --color-cyan-400: #33c9fd;
+  --color-cyan-500: #09b2ee;
+  --color-cyan-600: #0090cc;
+  --color-cyan-700: #0072a5;
+  --color-cyan-800: #046088;
+  --color-cyan-900: #094b6a;
+  --color-cyan-950: #06324b;
 }
 
 @utility container {
@@ -20,9 +24,9 @@
 }
 
 :root {
-  --ui-primary: var(--ui-color-primary-950);
+  --ui-primary: var(--ui-color-primary-600);
 }
 
 .dark {
-  --ui-primary: var(--ui-color-primary-200);
+  --ui-primary: var(--ui-color-primary-400);
 }

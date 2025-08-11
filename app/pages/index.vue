@@ -1,8 +1,9 @@
 <template>
-  <div class="space-y-8 py-8">
-    <LandingCarousel />
-    <LandingBanner />
-    <LandingCategories />
+  <div class="space-y-8">
+    <LandingHero />
     <LandingAboutUs />
+    <LandingCategories />
+    <LandingClient />
+    <LandingContactUs />
   </div>
 </template>
