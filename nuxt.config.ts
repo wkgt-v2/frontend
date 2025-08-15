@@ -6,8 +6,5 @@ export default defineNuxtConfig({
     "@nuxt/eslint"
   ],
   css: ["~/assets/css/main.css"],
-  ui: {
-    colorMode: false,
-  },
-  compatibilityDate: "2025-07-16"
+  compatibilityDate: "2025-07-16",
 });

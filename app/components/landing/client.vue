@@ -6,7 +6,7 @@
         <h1 class="text-5xl text-primary font-semibold">
           Dipercaya Oleh Client Kami
         </h1>
-        <p class="text-sm text-slate-950 text-center">
+        <p class="text-sm text-tone text-center">
           Berpengalaman lebih dari satu dekade dalam menyediakan produk berkualitas dan layanan menyeluruh, kami menjadi mitra andal bagi vendor dan klien di seluruh Indonesia.
         </p>
       </div>

@@ -17,6 +17,7 @@
   --color-cyan-800: #046088;
   --color-cyan-900: #094b6a;
   --color-cyan-950: #06324b;
+  --color-tone: var(--color-slate-950);
 }
 
 @utility container {
@@ -24,9 +25,12 @@
 }
 
 :root {
+  --ui-bg: var(--color-slate-50);
   --ui-primary: var(--ui-color-primary-600);
 }
 
 .dark {
+  --ui-bg: var(--color-slate-950);
   --ui-primary: var(--ui-color-primary-400);
+  --color-tone: var(--color-slate-50);
 }
