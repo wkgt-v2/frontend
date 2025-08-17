@@ -1,0 +1,8 @@
+export default {
+  nav: {
+    about_us: "About Us",
+    product: "Product",
+    contact: "Contact",
+    services: "Services",
+  },
+}
