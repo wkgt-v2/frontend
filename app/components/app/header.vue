@@ -71,6 +71,7 @@ const items = ref<NavigationMenuItem[]>([
   },
   {
     label: t("nav.services"),
+    to: localePath("service"),
   },
   {
     label: t("nav.contact"),
