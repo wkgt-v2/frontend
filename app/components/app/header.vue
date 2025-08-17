@@ -64,6 +64,7 @@ const productCategories = CATEGORY.map(c => {
 const items = ref<NavigationMenuItem[]>([
   {
     label: t("nav.about_us"),
+    to: localePath("about-us"),
   },
   {
     label: t("nav.product"),

@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8 overflow-x-hidden">
+  <div class="space-y-8 overflow-hidden">
     <LandingHero />
     <LandingAboutUs />
     <LandingCategories />
