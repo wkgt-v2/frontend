@@ -26,12 +26,7 @@
           }"
           @change="changeLanguage"
         />
-        <UIcon
-          name="i-material-symbols-dark-mode-outline"
-          class="size-6 text-tone cursor-pointer"
-          mode="svg"
-          @click="isDark = !isDark"
-        />
+        <DarkModeToggler />
       </div>
     </div>
   </nav>
@@ -42,15 +37,6 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 import CATEGORY from "~/mock/category";
 
 const { locale, locales, setLocale, t } = useI18n();
-const colorMode = useColorMode();
-const isDark = computed({
-  get() {
-    return colorMode.value === "dark";
-  },
-  set(_isDark) {
-    colorMode.preference = _isDark ? "dark" : "light";
-  }
-});
 const lang = ref(locale.value);
 const langOptions = locales.value.map(l => {
   return { label: l.name, value: l.code };

@@ -3,6 +3,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "@nuxt/eslint", "@nuxtjs/i18n"],
   css: ["~/assets/css/main.css"],
+  runtimeConfig: {
+    public: {
+      apiBase: "",
+    },
+  },
   i18n: {
     defaultLocale: "id",
     locales: [
