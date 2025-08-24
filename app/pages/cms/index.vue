@@ -4,5 +4,11 @@
 
 <script setup lang="ts">
   const localePath = useLocalePath();
-  navigateTo(localePath("cms-login"));
+  const token = useToken();
+
+  if (token.value) {
+    navigateTo(localePath("cms-dashboard"));
+  } else {
+    navigateTo(localePath("cms-login"));
+  }
 </script>

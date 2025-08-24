@@ -48,7 +48,7 @@
         <div class="flex gap-6">
           <div
             v-for="business in businesses"
-            class="w-full bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md border border-cyan-200 dark:border-cyan-800 rounded-xl"
+            class="w-full glass border border-accent rounded-xl"
           >
             <img
               :src="`/assets/images/illustrations/${business.img}`"
@@ -80,7 +80,7 @@
         <div class="flex gap-3">
           <div
             v-for="strategy in strategies"
-            class="space-y-1 bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md p-3 border border-cyan-200 dark:border-cyan-800 rounded-xl"
+            class="space-y-1 glass p-3 border border-accent rounded-xl"
           >
             <UIcon :name="`i-${strategy.icon}`" class="size-5 mx-auto text-primary" mode="svg" />
             <p class="text-tone">{{ strategy.content }}</p>

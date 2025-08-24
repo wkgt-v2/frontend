@@ -8,7 +8,7 @@
       class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
     ></div>
     <div
-      class="relative w-96 bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md p-6 border border-cyan-200 dark:border-cyan-800 rounded-xl shadow-md z-10"
+      class="relative w-96 glass p-6 border border-accent rounded-xl shadow-md z-10"
     >
       <UForm
         :schema="schema"

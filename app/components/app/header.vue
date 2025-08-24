@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed top-0 w-full bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md shadow-md z-[99]">
+  <nav class="fixed top-0 w-full glass shadow-md z-[99]">
     <div class="container flex flex-col md:flex-row items-center md:justify-between h-16">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">

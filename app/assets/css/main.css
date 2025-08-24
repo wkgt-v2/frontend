@@ -18,10 +18,15 @@
   --color-cyan-900: #094b6a;
   --color-cyan-950: #06324b;
   --color-tone: var(--color-slate-950);
+  --color-accent: var(--color-cyan-200);
 }
 
 @utility container {
   @apply mx-auto px-2 md:px-4 lg:px-8;
+}
+
+@utility glass {
+  @apply bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md;
 }
 
 :root {
@@ -33,4 +38,5 @@
   --ui-bg: var(--color-slate-950);
   --ui-primary: var(--ui-color-primary-400);
   --color-tone: var(--color-slate-50);
+  --color-accent: var(--color-cyan-800);
 }
