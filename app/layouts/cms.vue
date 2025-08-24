@@ -1,10 +1,10 @@
 <template>
   <UApp>
     <div class="flex">
-      <CmsSidebar />
-      <div class="w-full">
+      <CmsSidebar ref="sidebarRef" />
+      <div :style="{ width: sidebarWidth }">
         <CmsHeader ref="headerRef" />
-        <main class="overflow-y-auto" :style="{ maxHeight: contentHeight }">
+        <main class="overflow-auto" :style="{ maxHeight: contentHeight }">
           <slot />
         </main>
       </div>
@@ -13,15 +13,21 @@
 </template>
 
 <script setup lang="ts">
-import type { ComponentPublicInstance } from "vue";
-
 const headerRef = ref<ComponentPublicInstance>();
+const sidebarRef = ref<ComponentPublicInstance>();
 
 const contentHeight = computed(() => {
   let headerHeight = 72;
   if (headerRef.value) {
-    headerHeight = (headerRef.value.$el as HTMLDivElement).clientHeight;
+    headerHeight = (headerRef.value.$el as HTMLDivElement).offsetHeight;
   }
   return `calc(100dvh - ${headerHeight}px)`;
+});
+const sidebarWidth = computed(() => {
+  let sidebarWidth = 320;
+  if (sidebarRef.value) {
+    sidebarWidth = (sidebarRef.value.$el as HTMLDivElement).offsetWidth;
+  }
+  return `calc(100% - ${sidebarWidth}px)`;
 });
 </script>

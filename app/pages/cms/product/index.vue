@@ -5,5 +5,5 @@
 <script setup lang="ts">
   const localePath = useLocalePath();
 
-  navigateTo(localePath("cms-dashboard"));
+  navigateTo(localePath("cms-product-category"));
 </script>

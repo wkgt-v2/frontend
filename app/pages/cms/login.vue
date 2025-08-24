@@ -30,15 +30,11 @@
           <DarkModeToggler class="ml-auto" />
         </div>
         <UFormField label="Username" name="user_username">
-          <UInput v-model="state.user_username" class="w-full" />
+          <UInput v-model="state.user_username" />
         </UFormField>
 
         <UFormField label="Password" name="user_password">
-          <UInput
-            v-model="state.user_password"
-            type="password"
-            class="w-full"
-          />
+          <UInput v-model="state.user_password" type="password" />
         </UFormField>
 
         <UButton

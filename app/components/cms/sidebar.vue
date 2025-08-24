@@ -56,6 +56,7 @@ const navItems = ref<NavigationMenuItem[]>([
     children: [
       {
         label: "Category",
+        to: localePath("cms-product-category"),
       },
       {
         label: "Series",

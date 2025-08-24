@@ -1,9 +1,9 @@
 <template>
-  <div>
-    ini dashboard
-  </div>
+  <NuxtPage />
 </template>
 
 <script setup lang="ts">
-
+definePageMeta({
+  layout: "cms",
+});
 </script>
