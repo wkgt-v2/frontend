@@ -10,3 +10,13 @@ export interface Category {
   updated_at: string;
   deleted_at: null | string;
 }
+
+export interface Series {
+  series_id: number;
+  series_name: string;
+  series_code: string;
+  category_id: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+}
