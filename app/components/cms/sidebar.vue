@@ -40,6 +40,7 @@ const token = useToken();
 const dropdownItems = ref<DropdownMenuItem[]>([
   {
     label: "Logout",
+    icon: "material-symbols:power-settings-new-outline",
     onSelect() {
       token.value = null;
       location.href = localePath("cms-login");
