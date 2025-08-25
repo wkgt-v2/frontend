@@ -75,6 +75,6 @@ function changeLanguage() {
    */
   setTimeout(() => {
     location.href = localePath(route.path, lang.value);
-  }, 10);
+  }, 500);
 }
 </script>
