@@ -25,9 +25,10 @@ const route = useRoute();
 const sidebarRef = ref<ComponentPublicInstance>();
 
 const contentHeight = computed(() => {
-  const headerHeight = headerRef.value?.$el instanceof HTMLElement
-    ? headerRef.value.$el.offsetHeight
-    : 72;
+  let headerHeight = 72;
+  if (headerRef.value) {
+    headerHeight = headerRef.value.$el.offsetHeight;
+  }
   return `calc(100dvh - ${headerHeight}px)`;
 });
 const radialEnabled = computed(() => {
@@ -37,9 +38,10 @@ const radialEnabled = computed(() => {
   return routes.includes(pathName);
 });
 const sidebarWidth = computed(() => {
-  const sidebarWidth = sidebarRef.value?.$el instanceof HTMLElement
-    ? sidebarRef.value.$el.offsetWidth
-    : 320;
+  let sidebarWidth = 72;
+  if (sidebarRef.value) {
+    sidebarWidth = sidebarRef.value.$el.offsetWidth;
+  }
   return `calc(100% - ${sidebarWidth}px)`;
 });
 
