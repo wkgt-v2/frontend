@@ -22,7 +22,13 @@
       </div>
     </div>
 
-    <UButton size="lg" trailing-icon="i-material-symbols-arrow-right-alt-rounded">Tentang Kami</UButton>
+    <UButton
+      size="lg"
+      trailing-icon="i-material-symbols-arrow-right-alt-rounded"
+      :to="$localePath('about-us')"
+    >
+      Tentang Kami
+    </UButton>
   </div>
 </template>
 

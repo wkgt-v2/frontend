@@ -12,7 +12,13 @@
           <br>
           Konsultasikan dengan kami untuk mendapatkan solusi terbaik untuk kebutuhan bisnis anda.
         </p>
-        <UButton size="lg" trailing-icon="i-material-symbols-arrow-right-alt-rounded">Hubungi Kami</UButton>
+        <UButton
+          size="lg"
+          trailing-icon="i-material-symbols-arrow-right-alt-rounded"
+          :to="$localePath('contact-us')"
+        >
+          Hubungi Kami
+        </UButton>
       </div>
       <img src="/assets/images/illustrations/landing-2.jpg" alt="Typing on laptop" class="size-full aspect-square object-cover rounded-3xl">
     </div>
