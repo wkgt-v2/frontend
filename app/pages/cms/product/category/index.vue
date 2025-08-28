@@ -24,6 +24,9 @@
         </template>
       </UTable>
     </div>
+    <div class="flex justify-center">
+      <UPagination v-model:page="meta.page" :total="meta.total" />
+    </div>
   </div>
 
   <UModal
@@ -84,7 +87,7 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
-import type { HttpError, HttpSuccess } from "~/types/http";
+import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Category } from "~/types/product";
 
 const column: TableColumn<Category>[] = [
@@ -111,6 +114,11 @@ const column: TableColumn<Category>[] = [
   },
   {
     id: "action",
+    meta: {
+      class: {
+        td: "w-16 text-right",
+      },
+    },
   },
 ];
 
@@ -134,6 +142,11 @@ const schema = v.object({
 type Schema = v.InferOutput<typeof schema>;
 
 const config = useRuntimeConfig();
+const meta = reactive({
+  perPage: 10,
+  page: 1,
+  total: 0,
+});
 const modal = reactive({
   onSubmit: false,
   open: false,
@@ -149,10 +162,13 @@ const state = reactive({
   // category_main: true,
 });
 const toast = useToast();
+const { bearer } = useToken();
 
 const { data: categories, status: onLoadData, refresh: refreshCategory } = await useFetch(`${config.public.apiBase}/categories`, {
-  transform: (value: HttpSuccess<Category[]>) => {
-    return value.data;
+  headers: { ...bearer },
+  transform: (value: HttpSuccessWithPagination<Category[]>) => {
+    meta.total = value.data.totalData;
+    return value.data.data;
   },
 });
 
@@ -180,6 +196,7 @@ function getDropdownActions(category: Category) {
 async function handleDelete(category: Category) {
   try {
     await $fetch(`${config.public.apiBase}/categories/${category.category_id}`, {
+      headers: { ...bearer },
       method: "DELETE",
     });
 
@@ -209,15 +226,19 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
     modal.onSubmit = true;
 
     try {
+      const body = new FormData();
+      for (const key in e.data) {
+        const value = e.data[key as keyof typeof e.data];
+        if (key === "category_image" && typeof value === "string") continue;
+        body.append(key, value);
+      }
+      body.append("category_instruction", "-");
+      body.append("category_main", "true");
+
       await $fetch(`${config.public.apiBase}/categories${selected.value ? "/" + selected.value.category_id : ""}`, {
+        headers: { ...bearer },
         method: selected.value ? "PUT" : "POST",
-        body: {
-          ...e.data,
-          /* TODO: change to proper image */
-          category_image: "https://picsum.dev/300",
-          category_instruction: "-",
-          category_main: true,
-        },
+        body
       });
 
       toast.add({
