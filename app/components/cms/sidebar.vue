@@ -26,7 +26,7 @@
         content: 'w-48'
       }"
     >
-      <UButton variant="ghost" label="Admin" trailing-icon="i-material-symbols-person-outline" block />
+      <UButton variant="ghost" :label="user.user_username" trailing-icon="i-material-symbols-person-outline" block />
     </UDropdownMenu>
   </div>
 </template>
@@ -35,7 +35,8 @@
 import type { DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
 
 const localePath = useLocalePath();
-const token = useToken();
+const { token } = useToken();
+const user = useUser();
 
 const dropdownItems = ref<DropdownMenuItem[]>([
   {

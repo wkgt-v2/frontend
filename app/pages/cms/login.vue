@@ -77,7 +77,9 @@ const state = reactive({
   user_password: "",
 });
 const toast = useToast();
-const token = useToken();
+const { token } = useToken();
+const uid = useUid();
+const user = useUser();
 
 async function onSubmit(e: FormSubmitEvent<Schema>) {
   if (!onLoading.value) {
@@ -88,7 +90,8 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
         body: e.data,
       });
       token.value = res.data.token;
-      console.log(token.value)
+      uid.value = `${res.data.user.user_id}`;
+      user.value = res.data.user;
       navigateTo(localePath("cms-dashboard"));
     } catch (error) {
       console.log(error)
