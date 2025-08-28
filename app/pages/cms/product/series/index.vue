@@ -24,6 +24,9 @@
         </template>
       </UTable>
     </div>
+    <div class="flex justify-center">
+      <UPagination v-model:page="meta.page" :total="meta.total" />
+    </div>
   </div>
 
   <UModal
@@ -66,7 +69,7 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
-import type { HttpError, HttpSuccess } from "~/types/http";
+import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
 import type { Category, Series } from "~/types/product";
 
 const column: TableColumn<Series>[] = [
@@ -89,17 +92,30 @@ const column: TableColumn<Series>[] = [
   },
   {
     id: "action",
+    meta: {
+      class: {
+        td: "w-16 text-right",
+      },
+    },
   },
 ];
 
 const schema = v.object({
   series_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
   series_code: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_id: v.pipe(v.number(), v.integer("This field is required.")),
+  category_id: v.pipe(
+    v.union([v.number(), v.nullish(v.number())]),
+    v.number("This field is required.")
+  ),
 });
 type Schema = v.InferOutput<typeof schema>;
 
 const config = useRuntimeConfig();
+const meta = reactive({
+  perPage: 10,
+  page: 1,
+  total: 0,
+});
 const modal = reactive({
   onSubmit: false,
   open: false,
@@ -112,16 +128,21 @@ const state = reactive({
   category_id: undefined,
 });
 const toast = useToast();
+const { bearer } = useToken();
 
 const { data: series, status: onLoadData, refresh: refreshSeries } = await useFetch(`${config.public.apiBase}/series`, {
-  transform: (value: HttpSuccess<Series[]>) => {
-    return value.data;
+  headers: { ...bearer },
+  transform: (value: HttpSuccessWithPagination<Series[]>) => {
+    meta.total = value.data.totalData;
+    return value.data.data;
   },
 });
 
+/* TODO: Set limit or handle load more */
 const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(`${config.public.apiBase}/categories`, {
-  transform: (value: HttpSuccess<Category[]>) => {
-    return value.data.map(c => {
+  headers: { ...bearer },
+  transform: (value: HttpSuccessWithPagination<Category[]>) => {
+    return value.data.data.map(c => {
       return {
         label: c.category_name,
         value: c.category_id,
@@ -154,6 +175,7 @@ function getDropdownActions(series: Series) {
 async function handleDelete(series: Series) {
   try {
     await $fetch(`${config.public.apiBase}/series/${series.series_id}`, {
+      headers: { ...bearer },
       method: "DELETE",
     });
 
@@ -184,6 +206,7 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 
     try {
       await $fetch(`${config.public.apiBase}/series${selected.value ? "/" + selected.value.series_id : ""}`, {
+        headers: { ...bearer },
         method: selected.value ? "PUT" : "POST",
         body: e.data,
       });
