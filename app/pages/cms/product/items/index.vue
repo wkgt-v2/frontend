@@ -1,0 +1,144 @@
+<template>
+  <div class="space-y-6 p-6">
+    <div class="flex justify-end gap-4">
+      <ClientOnly>
+        <UTooltip text="If the list is not updated, click this to refresh the data">
+          <UButton :loading="onLoadData === 'pending'" @click="refreshItems()">
+            Refresh
+          </UButton>
+        </UTooltip>
+      </ClientOnly>
+      <UButton :to="$localePath('cms-product-items-new')">Create New Item</UButton>
+    </div>
+    <div class="overflow-x-auto">
+      <UTable :columns="columns" :data="items" :loading="onLoadData === 'pending'">
+        <template #category-cell="{ row }">
+          {{ row.original.category?.category_name || "-" }}
+        </template>
+        <template #series-cell="{ row }">
+          {{ row.original.series?.series_name || "-" }}
+        </template>
+        <template #action-cell="{ row }">
+          <UDropdownMenu :items="getDropdownActions(row.original)">
+            <UButton
+              icon="i-material-symbols-more-vert"
+              color="neutral"
+              variant="ghost"
+              aria-label="Actions"
+            />
+          </UDropdownMenu>
+        </template>
+      </UTable>
+    </div>
+    <div class="flex justify-center">
+      <ClientOnly>
+        <UPagination v-model:page="meta.page" :total="meta.total" />
+      </ClientOnly>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
+import type { HttpSuccessWithPagination } from "~/types/http";
+import type { Item } from "~/types/product";
+
+const columns: TableColumn<Item>[] = [
+  {
+    accessorKey: "product_id",
+    header: "#",
+    cell: ({ row }) => `#${row.getValue("product_id")}`,
+  },
+  {
+    accessorKey: "product_name",
+    header: "Name",
+  },
+  {
+    accessorKey: "product_code",
+    header: "Code",
+  },
+  // {
+  //   accessorKey: "images",
+  //   header: "Image",
+  // },
+  {
+    accessorKey: "series",
+    header: "Series",
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+  },
+  // {
+  //   accessorKey: "product_marketplace",
+  //   header: "Marketplace",
+  // },
+  {
+    id: "action",
+    meta: {
+      class: {
+        td: "w-16 text-right",
+      },
+    },
+  },
+];
+
+const config = useRuntimeConfig();
+const localeRoute = useLocaleRoute();
+const meta = reactive({
+  perPage: 10,
+  page: 1,
+  total: 0,
+});
+const toast = useToast();
+const { bearer } = useToken();
+
+const params = computed(() => {
+  const params = new URLSearchParams();
+  params.append("page", `${meta.page}`);
+  return params.toString();
+});
+
+const { data: items, status: onLoadData, refresh: refreshItems } = await useFetch(
+  () => `${config.public.apiBase}/products?${params.value}`,
+  {
+    headers: { ...bearer },
+    transform: (value: HttpSuccessWithPagination<Item[]>) => {
+      meta.total = value.data.totalData;
+      console.log(value.data.data)
+      return value.data.data;
+    },
+    watch: [() => meta.page],
+  }
+);
+
+// watch(() => meta.page, (val) => console.log("page changed to", val))
+
+function getDropdownActions(item: Item) {
+  return [
+    [
+      {
+        label: "View",
+        icon: "i-material-symbols:visibility-outline",
+        onSelect() {
+          navigateTo(localeRoute(`/cms/product/items/${item.product_id}`));
+        },
+      },
+      {
+        label: "Edit",
+        icon: "i-material-symbols-edit-square-outline",
+        onSelect() {
+          // openModal(item);
+        },
+      },
+      {
+        label: "Delete",
+        icon: "i-material-symbols-delete-outline",
+        onSelect() {
+          // handleDelete(item);
+        },
+      },
+    ],
+  ];
+}
+</script>

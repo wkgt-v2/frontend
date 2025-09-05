@@ -13,6 +13,12 @@ export default defineAppConfig({
         base: "w-full",
       },
     },
+    selectMenu: {
+      slots: {
+        base: "w-full",
+        placeholder: "min-h-5",
+      },
+    },
     textarea: {
       slots: {
         root: "w-full",
