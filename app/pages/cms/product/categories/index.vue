@@ -47,20 +47,10 @@
           <Textarea v-model="state.category_description" :rows="2" />
         </UFormField>
         <UFormField label="Image" name="category_image">
-          <div v-if="typeof state.category_image === 'string'" class="relative">
-            <img :src="state.category_image" class="w-full h-48 rounded-lg object-cover" />
-            <UButton
-              class="absolute -end-1.5 -top-1.5 size-5 bg-inverted hover:bg-inverted/90 p-0 rounded-full border-2"
-              trailing-icon="i-lucide:x"
-              :ui="{ trailingIcon: 'size-4' }"
-              @click="state.category_image = undefined"
-            />
-          </div>
           <UFileUpload
-            v-else
-            accept=".jpg,.jpeg,.png"
+            accept=".jpg,.jpeg,.png,.webp"
             class="w-full h-48"
-            description="JPG, JPEG, PNG"
+            description="JPG, JPEG, PNG, WebP"
             v-model="state.category_image"
           />
         </UFormField>
@@ -125,16 +115,13 @@ const column: TableColumn<Category>[] = [
 const schema = v.object({
   category_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
   category_code: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_image: v.union([
-    v.pipe(
-      v.file("Please select an image file."),
-      v.mimeType(
-        ["image/jpeg", "image/png", "image/jpg"],
-        "Please select a JPG, JPEG or PNG file."
-      )
-    ),
-    v.pipe(v.string()), /* for edit without changing the source */
-  ]),
+  category_image: v.pipe(
+    v.file("Please select an image file."),
+    v.mimeType(
+      ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+      "Please select a JPG, JPEG, PNG or WebP file."
+    )
+  ),
   category_description: v.pipe(v.string(), v.nonEmpty("This field is required.")),
   // category_instruction: v.pipe(v.string()),
   // category_main: v.pipe(v.boolean()),
@@ -266,13 +253,19 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
   }
 }
 
-function openModal(category?: Category) {
+async function openModal(category?: Category) {
   selected.value = category;
+
+  let categoryImage: any = category?.category_image;
+  if (categoryImage) {
+    const splitted = categoryImage.split(".");
+    categoryImage = await getBlobFromUrl(categoryImage, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
+  }
 
   Object.assign(state, {
     category_name: category?.category_name || "",
     category_code: category?.category_code || "",
-    category_image: category?.category_image,
+    category_image: categoryImage,
     category_description: category?.category_description || "",
     // category_instruction: category?.category_instruction || "",
     // category_main: category?.category_main ?? true,
