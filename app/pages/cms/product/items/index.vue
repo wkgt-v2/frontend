@@ -39,8 +39,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FetchError } from "ofetch";
 import type { TableColumn } from "@nuxt/ui";
-import type { HttpSuccessWithPagination } from "~/types/http";
+import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Item } from "~/types/product";
 
 const columns: TableColumn<Item>[] = [
@@ -105,14 +106,11 @@ const { data: items, status: onLoadData, refresh: refreshItems } = await useFetc
     headers: { ...bearer },
     transform: (value: HttpSuccessWithPagination<Item[]>) => {
       meta.total = value.data.totalData;
-      console.log(value.data.data)
       return value.data.data;
     },
     watch: [() => meta.page],
   }
 );
-
-// watch(() => meta.page, (val) => console.log("page changed to", val))
 
 function getDropdownActions(item: Item) {
   return [
@@ -135,10 +133,38 @@ function getDropdownActions(item: Item) {
         label: "Delete",
         icon: "i-material-symbols-delete-outline",
         onSelect() {
-          // handleDelete(item);
+          handleDelete(item);
         },
       },
     ],
   ];
+}
+
+async function handleDelete(item: Item) {
+  try {
+    await $fetch(`${config.public.apiBase}/products/${item.product_id}`, {
+      headers: { ...bearer },
+      method: "DELETE",
+    });
+
+    toast.add({
+      title: "Item deleted successfully!",
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    setTimeout(() => {
+      refreshItems();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: "Failed to delete item!",
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
 }
 </script>

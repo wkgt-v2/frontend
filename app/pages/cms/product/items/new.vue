@@ -119,7 +119,7 @@
 <script setup lang="ts">
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
-import type { FormErrorEvent, FormSubmitEvent } from "@nuxt/ui";
+import type { FormSubmitEvent } from "@nuxt/ui";
 import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
 import type { Category, Item, Series } from "~/types/product";
 
