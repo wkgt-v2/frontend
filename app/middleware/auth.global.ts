@@ -1,7 +1,9 @@
 import type { User } from "~/types";
-import type { HttpSuccess } from "~/types/http";
+import type { HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
+import type { Category } from "~/types/product";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  const categories = useState<Category[] | undefined>("categories");
   const config = useRuntimeConfig();
   const localePath = useLocalePath();
   const path = to.path;
@@ -28,5 +30,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         user.value = data.value.data;
       } else return redirectToLogin();
     }
+  }
+
+  if (!categories.value) {
+    const { data } = await useFetch<HttpSuccessWithPagination<Category[]>>(
+      `${config.public.apiBase}/categories?limit=9999`,
+    );
+    categories.value = data.value?.data.data || [];
   }
 });
