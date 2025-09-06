@@ -49,7 +49,12 @@
           <UInput v-model="state.series_code" />
         </UFormField>
         <UFormField label="Category" name="category_id">
-          <USelect v-model="state.category_id" :loading="onLoadCategories === 'pending'" :items="categories" />
+          <USelectMenu
+            v-model="state.category_id"
+            :items="categories"
+            value-key="value"
+            :loading="onLoadCategories === 'pending'"
+          />
         </UFormField>
 
         <div class="flex justify-end gap-4">
