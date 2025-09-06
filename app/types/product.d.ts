@@ -60,4 +60,8 @@ export interface Series {
   created_at: string;
   updated_at: string;
   deleted_at: null | string;
+  category: {
+    category_id: number;
+    category_name: string;
+  };
 }

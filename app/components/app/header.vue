@@ -44,15 +44,15 @@
 
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
-import type { Category } from "~/types/product";
 
-const categories = useState<Category[]>("categories");
+const categories = useCategories();
 const { locale, locales, setLocale, t } = useI18n();
 const lang = ref(locale.value);
 const langOptions = locales.value.map(l => {
   return { label: l.name, value: l.code };
 });
 const localePath = useLocalePath();
+const localeRoute = useLocaleRoute();
 
 const navItems = computed(() => {
   return [
@@ -77,8 +77,16 @@ const navItems = computed(() => {
 });
 const productCategories = computed(() => {
   return categories.value?.map(c => {
-    return { label: c.category_name, img: c.category_image };
-  }) || [];
+    return {
+      label: c.category_name,
+      img: c.category_image,
+      to: localeRoute(`/products/${c.category_id}`),
+    };
+  }) || [{
+    label: "",
+    img: "",
+    to: localeRoute(`/products`)
+  }];
 });
 
 const highlightedCategory = ref<string>();

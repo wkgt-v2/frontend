@@ -70,14 +70,10 @@
             </table>
           </template>
           <template #detail>
-            <div class="whitespace-pre-line">
-              {{ item.product_detail }}
-            </div>
+            <div class="whitespace-pre-line" v-html="item.product_detail"></div>
           </template>
           <template #information>
-            <div class="whitespace-pre-line">
-              {{ item.product_info }}
-            </div>
+            <div class="whitespace-pre-line" v-html="item.product_info"></div>
           </template>
         </UTabs>
       </div>
