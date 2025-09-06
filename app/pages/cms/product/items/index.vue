@@ -17,12 +17,6 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="columns" :data="items" :loading="onLoadData === 'pending'">
-        <template #category-cell="{ row }">
-          {{ row.original.category?.category_name || "-" }}
-        </template>
-        <template #series-cell="{ row }">
-          {{ row.original.series?.series_name || "-" }}
-        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -70,10 +64,12 @@ const columns: TableColumn<Item>[] = [
   {
     accessorKey: "series",
     header: "Series",
+    cell: ({ row }) => row.original.series?.series_name || "-",
   },
   {
     accessorKey: "category",
     header: "Category",
+    cell: ({ row }) => row.original.category?.category_name || "-",
   },
   // {
   //   accessorKey: "product_marketplace",

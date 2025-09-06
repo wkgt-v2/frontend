@@ -92,8 +92,9 @@ const column: TableColumn<Series>[] = [
     header: "Code",
   },
   {
-    accessorKey: "category_id",
-    header: "Category ID",
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => row.original.category?.category_name || "-",
   },
   {
     id: "action",

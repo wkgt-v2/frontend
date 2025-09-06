@@ -99,10 +99,10 @@ const column: TableColumn<Category>[] = [
     accessorKey: "category_code",
     header: "Code",
   },
-  {
-    accessorKey: "category_image",
-    header: "Image",
-  },
+  // {
+  //   accessorKey: "category_image",
+  //   header: "Image",
+  // },
   {
     accessorKey: "category_description",
     header: "Description",
