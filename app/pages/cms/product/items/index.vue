@@ -126,7 +126,7 @@ function getDropdownActions(item: Item) {
         label: "Edit",
         icon: "i-material-symbols-edit-square-outline",
         onSelect() {
-          // openModal(item);
+          navigateTo(localeRoute(`/cms/product/items/${item.product_id}/edit`));
         },
       },
       {
