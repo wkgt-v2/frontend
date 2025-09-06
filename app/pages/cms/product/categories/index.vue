@@ -1,14 +1,19 @@
 <template>
   <div class="space-y-6 p-6">
-    <div class="flex justify-end gap-4">
-      <ClientOnly>
-        <UTooltip text="If the list is not updated, click this to refresh the data">
-          <UButton :loading="onLoadData === 'pending'" @click="refreshCategory()">
-            Refresh
-          </UButton>
-        </UTooltip>
-      </ClientOnly>
-      <UButton @click="openModal()">Create New Category</UButton>
+    <div class="flex justify-between gap-8">
+      <UFormField label="Search Category">
+        <UInput v-model="searchQuery" />
+      </UFormField>
+      <div class="flex items-end justify-end gap-4 *:h-fit">
+        <ClientOnly>
+          <UTooltip text="If the list is not updated, click this to refresh the data">
+            <UButton :loading="onLoadData === 'pending'" @click="refreshCategory()">
+              Refresh
+            </UButton>
+          </UTooltip>
+        </ClientOnly>
+        <UButton @click="openModal()">Create New Category</UButton>
+      </div>
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="categories" :loading="onLoadData === 'pending'">
@@ -130,7 +135,7 @@ type Schema = v.InferOutput<typeof schema>;
 
 const config = useRuntimeConfig();
 const meta = reactive({
-  perPage: 10,
+  limit: 10,
   page: 1,
   total: 0,
 });
@@ -139,6 +144,7 @@ const modal = reactive({
   open: false,
   type: "add" as "add" | "edit",
 });
+const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Category>();
 const state = reactive({
   category_name: "",
@@ -151,13 +157,24 @@ const state = reactive({
 const toast = useToast();
 const { bearer } = useToken();
 
-const { data: categories, status: onLoadData, refresh: refreshCategory } = await useFetch(`${config.public.apiBase}/categories`, {
-  headers: { ...bearer },
-  transform: (value: HttpSuccessWithPagination<Category[]>) => {
-    meta.total = value.data.totalData;
-    return value.data.data;
-  },
+const params = computed(() => {
+  const params = new URLSearchParams();
+  params.append("page", `${meta.page}`);
+  params.append("limit", `${meta.limit}`);
+  if (searchQuery.value) params.append("category_name", searchQuery.value);
+  return params.toString();
 });
+
+const { data: categories, status: onLoadData, refresh: refreshCategory } = await useFetch(
+  () => `${config.public.apiBase}/categories?${params.value}`,
+  {
+    transform: (value: HttpSuccessWithPagination<Category[]>) => {
+      meta.total = value.data.totalData;
+      return value.data.data;
+    },
+    watch: [() => params.value],
+  }
+);
 
 function getDropdownActions(category: Category) {
   return [

@@ -1,14 +1,19 @@
 <template>
   <div class="space-y-6 p-6">
-    <div class="flex justify-end gap-4">
-      <ClientOnly>
-        <UTooltip text="If the list is not updated, click this to refresh the data">
-          <UButton :loading="onLoadData === 'pending'" @click="refreshItems()">
-            Refresh
-          </UButton>
-        </UTooltip>
-      </ClientOnly>
-      <UButton :to="$localePath('cms-product-items-new')">Create New Item</UButton>
+    <div class="flex justify-between gap-8">
+      <UFormField label="Search Item">
+        <UInput v-model="searchQuery" />
+      </UFormField>
+      <div class="flex items-end justify-end gap-4 *:h-fit">
+        <ClientOnly>
+          <UTooltip text="If the list is not updated, click this to refresh the data">
+            <UButton :loading="onLoadData === 'pending'" @click="refreshItems()">
+              Refresh
+            </UButton>
+          </UTooltip>
+        </ClientOnly>
+        <UButton :to="$localePath('cms-product-items-new')">Create New Item</UButton>
+      </div>
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="columns" :data="items" :loading="onLoadData === 'pending'">
@@ -87,28 +92,30 @@ const columns: TableColumn<Item>[] = [
 const config = useRuntimeConfig();
 const localeRoute = useLocaleRoute();
 const meta = reactive({
-  perPage: 10,
+  limit: 10,
   page: 1,
   total: 0,
 });
+const searchQuery = useDebouncedRef("", 500);
 const toast = useToast();
 const { bearer } = useToken();
 
 const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
+  params.append("limit", `${meta.limit}`);
+  if (searchQuery.value) params.append("product_name", searchQuery.value);
   return params.toString();
 });
 
 const { data: items, status: onLoadData, refresh: refreshItems } = await useFetch(
   () => `${config.public.apiBase}/products?${params.value}`,
   {
-    headers: { ...bearer },
     transform: (value: HttpSuccessWithPagination<Item[]>) => {
       meta.total = value.data.totalData;
       return value.data.data;
     },
-    watch: [() => meta.page],
+    watch: [() => params.value],
   }
 );
 

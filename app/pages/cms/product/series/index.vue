@@ -1,14 +1,19 @@
 <template>
   <div class="space-y-6 p-6">
-    <div class="flex justify-end gap-4">
-      <ClientOnly>
-        <UTooltip text="If the list is not updated, click this to refresh the data">
-          <UButton :loading="onLoadData === 'pending'" @click="refreshSeries()">
-            Refresh
-          </UButton>
-        </UTooltip>
-      </ClientOnly>
-      <UButton @click="openModal()">Create New Series</UButton>
+    <div class="flex justify-between gap-8">
+      <UFormField label="Search Series">
+        <UInput v-model="searchQuery" />
+      </UFormField>
+      <div class="flex items-end justify-end gap-4 *:h-fit">
+        <ClientOnly>
+          <UTooltip text="If the list is not updated, click this to refresh the data">
+            <UButton :loading="onLoadData === 'pending'" @click="refreshSeries()">
+              Refresh
+            </UButton>
+          </UTooltip>
+        </ClientOnly>
+        <UButton @click="openModal()">Create New Series</UButton>
+      </div>
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="series" :loading="onLoadData === 'pending'">
@@ -112,7 +117,7 @@ type Schema = v.InferOutput<typeof schema>;
 
 const config = useRuntimeConfig();
 const meta = reactive({
-  perPage: 10,
+  limit: 10,
   page: 1,
   total: 0,
 });
@@ -121,6 +126,7 @@ const modal = reactive({
   open: false,
   type: "add" as "add" | "edit",
 });
+const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Series>();
 const state = reactive({
   series_name: "",
@@ -130,26 +136,38 @@ const state = reactive({
 const toast = useToast();
 const { bearer } = useToken();
 
-const { data: series, status: onLoadData, refresh: refreshSeries } = await useFetch(`${config.public.apiBase}/series`, {
-  headers: { ...bearer },
-  transform: (value: HttpSuccessWithPagination<Series[]>) => {
-    meta.total = value.data.totalData;
-    return value.data.data;
-  },
+const params = computed(() => {
+  const params = new URLSearchParams();
+  params.append("page", `${meta.page}`);
+  params.append("limit", `${meta.limit}`);
+  if (searchQuery.value) params.append("series_name", searchQuery.value);
+  return params.toString();
 });
 
-/* TODO: Set limit or handle load more */
-const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(`${config.public.apiBase}/categories`, {
-  headers: { ...bearer },
-  transform: (value: HttpSuccessWithPagination<Category[]>) => {
-    return value.data.data.map(c => {
-      return {
-        label: c.category_name,
-        value: c.category_id,
-      };
-    });
-  },
-});
+const { data: series, status: onLoadData, refresh: refreshSeries } = await useFetch(
+  () => `${config.public.apiBase}/series?${params.value}`,
+  {
+    transform: (value: HttpSuccessWithPagination<Series[]>) => {
+      meta.total = value.data.totalData;
+      return value.data.data;
+    },
+    watch: [() => params.value],
+  }
+);
+
+const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
+  `${config.public.apiBase}/categories`,
+  {
+    transform: (value: HttpSuccessWithPagination<Category[]>) => {
+      return value.data.data.map(c => {
+        return {
+          label: c.category_name,
+          value: c.category_id,
+        };
+      });
+    },
+  }
+);
 
 function getDropdownActions(series: Series) {
   return [
