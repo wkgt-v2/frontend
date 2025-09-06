@@ -30,13 +30,23 @@
             <h2 class="text-2xl text-tone font-semibold">
               {{ item.product_name }}
             </h2>
-            <UButton
-              :to="$localeRoute(`/cms/product/items/${item.product_id}/edit`)"
-              icon="i-material-symbols:visibility-outline"
-              class="whitespace-nowrap"
-            >
-              Edit item
-            </UButton>
+            <div class="flex gap-2">
+              <UButton
+                v-if="images.length < 10"
+                icon="i-material-symbols:add-photo-alternate-outline"
+                class="whitespace-nowrap"
+                @click="openAddImagesModal"
+              >
+                Add images
+              </UButton>
+              <UButton
+                :to="$localeRoute(`/cms/product/items/${item.product_id}/edit`)"
+                icon="i-material-symbols:visibility-outline"
+                class="whitespace-nowrap"
+              >
+                Edit item
+              </UButton>
+            </div>
           </div>
           <div class="flex gap-2">
             <UBadge v-if="item.category?.category_name" size="lg" variant="outline">
@@ -84,13 +94,59 @@
       Data not found
     </h4>
   </div>
+
+  <UModal
+    title="Add Images"
+    v-model:open="modal.open"
+    :close="{ class: `${modal.onSubmit ? 'hidden' : ''}` }"
+    :dismissible="!modal.onSubmit"
+  >
+    <template #body>
+      <UForm :schema="schema" :state="state" class="space-y-6" @submit="addImages">
+        <UFormField label="Image" name="product_images">
+          <UFileUpload
+            accept=".jpg,.jpeg,.png,.webp"
+            description="JPG, JPEG, PNG, WebP"
+            v-model="state.product_images"
+            layout="list"
+            multiple
+            @change="handleFileChanged"
+          />
+        </UFormField>
+
+        <div class="flex justify-end gap-4">
+          <UButton
+            variant="outline"
+            :class="{ 'pointer-events-none': modal.onSubmit }"
+            :disabled="modal.onSubmit"
+            @click="modal.open = false"
+          >
+            Cancel
+          </UButton>
+          <UButton type="submit" :loading="modal.onSubmit">
+            Add
+          </UButton>
+        </div>
+      </UForm>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
+import * as v from "valibot";
 import type { FetchError } from "ofetch";
-import type { TabsItem } from "@nuxt/ui";
+import type { FormSubmitEvent, TabsItem } from "@nuxt/ui";
 import type { HttpError, HttpSuccess } from "~/types/http";
 import type { Image, Item } from "~/types/product";
+
+const schema = v.object({
+  product_images: v.pipe(
+    v.array(v.file()),
+    v.filterItems((item) => ALLOWED_FILE_TYPES.includes(item.type)),
+    v.minLength(1, "Select at least one image."),
+  ),
+});
+type Schema = v.InferOutput<typeof schema>;
 
 const tabItems = [
   {
@@ -109,7 +165,14 @@ const tabItems = [
 
 const { bearer } = useToken();
 const config = useRuntimeConfig();
+const modal = reactive({
+  onSubmit: false,
+  open: false,
+});
 const route = useRoute();
+const state = reactive({
+  product_images: [] as File[],
+});
 const toast = useToast();
 
 const { data: item } = await useFetch(
@@ -132,6 +195,44 @@ watch(() => item.value, (val) => {
     images.value = val.images;
   }
 }, { immediate: true });
+
+async function addImages(e: FormSubmitEvent<Schema>) {
+  if (modal.onSubmit) return;
+
+  modal.onSubmit = true;
+  try {
+    const body = new FormData();
+    state.product_images.forEach(file => {
+      body.append("product_images", file);
+    });
+
+    const res = await $fetch<HttpSuccess<Item>>(`${config.public.apiBase}/products/${route.params.id}/images`, {
+      headers: { ...bearer },
+      method: "POST",
+      body
+    });
+
+    images.value = res.data.images;
+    modal.open = false;
+    toast.add({
+      title: `Product images added successfully!`,
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: `Failed to add product images!`,
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+
+  modal.onSubmit = false;
+}
 
 async function deleteImage(url: string) {
   const index = images.value.findIndex(i => i.image_url === url) || -1;
@@ -161,6 +262,15 @@ async function deleteImage(url: string) {
       });
     }
   }
+}
+
+function handleFileChanged() {
+  state.product_images = state.product_images.filter(f => ALLOWED_FILE_TYPES.includes(f.type));
+}
+
+function openAddImagesModal() {
+  state.product_images = [];
+  modal.open = true;
 }
 
 async function setMainImage(url: string) {
