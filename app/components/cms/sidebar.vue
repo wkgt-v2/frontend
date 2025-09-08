@@ -70,13 +70,17 @@ const navItems = ref<NavigationMenuItem[]>([
       },
     ],
   },
+  // {
+  //   label: "Company",
+  //   children: [
+  //     {
+  //       label: "Settings",
+  //     },
+  //   ],
+  // },
   {
-    label: "Company",
-    children: [
-      {
-        label: "Settings",
-      },
-    ],
+    label: "Service Order",
+    to: localePath("cms-service-order"),
   },
 ]);
 </script>

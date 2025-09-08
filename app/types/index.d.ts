@@ -1,3 +1,23 @@
+export interface ServiceOrder {
+  service_order_id: number;
+  no_resi: string;
+  product_id: number;
+  customer_name: string;
+  customer_phone: string;
+  start_date: string;
+  end_date: null | string;
+  status: "pending" | "in_progress" | "completed" | "cancelled";
+  description: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+  product: {
+    product_id: number;
+    product_name: string;
+    product_code: string;
+  };
+}
+
 export interface User {
   user_id: number;
   user_username: string;
