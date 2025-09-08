@@ -1,0 +1,386 @@
+<template>
+  <div class="space-y-6 p-6">
+    <div class="flex justify-between gap-8">
+      <UFormField label="Search Activity">
+        <UInput v-model="searchQuery" />
+      </UFormField>
+      <div class="flex items-end justify-end gap-4 *:h-fit">
+        <ClientOnly>
+          <UTooltip text="If the list is not updated, click this to refresh the data">
+            <UButton :loading="onLoadData === 'pending'" @click="refreshActivities()">
+              Refresh
+            </UButton>
+          </UTooltip>
+        </ClientOnly>
+        <UButton @click="openModal()">Create New Activity</UButton>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <UTable :columns="column" :data="activities" :loading="onLoadData === 'pending'">
+        <template #audit_status-cell="{ row }">
+          <UBadge :label="parseAuditStatus(row.original).label" :color="parseAuditStatus(row.original).color" />
+        </template>
+        <template #action-cell="{ row }">
+          <UDropdownMenu :items="getDropdownActions(row.original)">
+            <UButton
+              icon="i-material-symbols-more-vert"
+              color="neutral"
+              variant="ghost"
+              aria-label="Actions"
+            />
+          </UDropdownMenu>
+        </template>
+      </UTable>
+    </div>
+    <div class="flex justify-center">
+      <UPagination v-model:page="meta.page" :total="meta.total" />
+    </div>
+  </div>
+
+  <UModal
+    :title="`${modal.type === 'add' ? 'Create New' : 'Edit'} Activity`"
+    v-model:open="modal.open"
+    :close="{ class: `${modal.onSubmit ? 'hidden' : ''}` }"
+    :dismissible="!modal.onSubmit"
+  >
+    <template #body>
+      <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
+        <UFormField label="Sales Person" name="salesperson_id">
+          <USelectMenu
+            v-model="state.salesperson_id"
+            :items="users"
+            value-key="value"
+            :loading="onLoadUsers === 'pending'"
+          />
+        </UFormField>
+        <UFormField label="Lead" name="lead_id">
+          <USelectMenu
+            v-model="state.lead_id"
+            :items="leads"
+            value-key="value"
+            :placeholder="`${!state.salesperson_id ? 'Please choose sales person first' : ''}`"
+            :disabled="!state.salesperson_id"
+            :loading="onLoadLeads === 'pending'"
+          />
+        </UFormField>
+        <UFormField label="Activity Type" name="activity_type">
+          <USelect v-model="state.activity_type" :items="SALES_ACTIVITY_TYPES" />
+        </UFormField>
+        <UFormField label="Follow-Up Date" name="follow_up_date">
+          <Datepicker v-model="state.follow_up_date" />
+        </UFormField>
+        <UFormField v-if="!selected" label="Proof Photos" name="proof_photos">
+          <UFileUpload
+            v-model="state.proof_photos"
+            accept=".jpg,.jpeg,.png,.webp"
+            description="JPG, JPEG, PNG, WebP"
+            layout="list"
+            multiple
+            @change="handleFileChanged"
+          />
+        </UFormField>
+
+        <div class="flex justify-end gap-4">
+          <UButton
+            variant="outline"
+            :class="{ 'pointer-events-none': modal.onSubmit }"
+            :disabled="modal.onSubmit"
+            @click="modal.open = false"
+          >
+            Cancel
+          </UButton>
+          <UButton type="submit" :loading="modal.onSubmit">
+            {{ modal.type === "add" ? "Create" : "Save" }}
+          </UButton>
+        </div>
+      </UForm>
+    </template>
+  </UModal>
+</template>
+
+<script setup lang="ts">
+import * as v from "valibot";
+import type { FetchError } from "ofetch";
+import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
+import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
+import type { Activity, Lead } from "~/types/sales";
+import type { User } from "~/types";
+
+const column: TableColumn<Activity>[] = [
+  {
+    accessorKey: "activity_id",
+    header: "#",
+    cell: ({ row }) => `#${row.getValue("activity_id")}`,
+  },
+  {
+    accessorKey: "salesperson",
+    header: "Sales Person",
+    cell: ({ row }) => row.original.salesperson?.user_username || "-",
+  },
+  {
+    accessorKey: "activity_type",
+    header: "Activity Type",
+  },
+  {
+    accessorKey: "follow_up_date",
+    header: "Follow-Up Date",
+  },
+  {
+    accessorKey: "audit_status",
+    header: "Audit Status",
+  },
+  {
+    id: "action",
+    meta: {
+      class: {
+        td: "w-16 text-right",
+      },
+    },
+  },
+];
+
+const schema = v.object({
+  salesperson_id: v.pipe(
+    v.union([v.number(), v.nullish(v.number())]),
+    v.number("This field is required.")
+  ),
+  lead_id: v.pipe(
+    v.union([v.number(), v.nullish(v.number())]),
+    v.number("This field is required.")
+  ),
+  activity_type: v.pipe(
+    v.union([v.string(), v.nullish(v.string())]),
+    v.string("This field is required.")
+  ),
+  follow_up_date: v.pipe(
+    v.union([v.string(), v.nullish(v.string())]),
+    v.string("This field is required.")
+  ),
+  proof_photos: v.pipe(
+    v.array(v.file()),
+    v.filterItems((item) => ALLOWED_FILE_TYPES.includes(item.type)),
+    v.minLength(1, "Select at least one image."),
+  ),
+});
+type Schema = v.InferOutput<typeof schema>;
+
+const { bearer } = useToken();
+const config = useRuntimeConfig();
+const meta = reactive({
+  limit: 10,
+  page: 1,
+  total: 0,
+});
+const modal = reactive({
+  onSubmit: false,
+  open: false,
+  type: "add" as "add" | "edit",
+});
+const searchQuery = useDebouncedRef("", 500);
+const selected = ref<Activity>();
+const state = reactive({
+  salesperson_id: undefined,
+  lead_id: undefined,
+  activity_type: undefined,
+  follow_up_date: undefined,
+  proof_photos: [] as File[],
+});
+const toast = useToast();
+
+const params = computed(() => {
+  const params = new URLSearchParams();
+  params.append("page", `${meta.page}`);
+  params.append("limit", `${meta.limit}`);
+  if (searchQuery.value) params.append("customer_name", searchQuery.value);
+  return params.toString();
+});
+
+const leadsParams = computed(() => {
+  const params = new URLSearchParams();
+  params.append("limit", "9999");
+  if (state.salesperson_id) params.append("salesperson_id", `${state.salesperson_id}`);
+  return params.toString();
+
+});
+
+const { data: activities, status: onLoadData, refresh: refreshActivities } = await useFetch(
+  () => `${config.public.apiBase}/sales-activities?${params.value}`,
+  {
+    headers: { ...bearer },
+    transform: (value: HttpSuccessWithPagination<Activity[]>) => {
+      meta.total = value.data.totalData;
+      return value.data.data;
+    },
+    watch: [() => params.value],
+  }
+);
+
+const { data: users, status: onLoadUsers, refresh: refreshUsers } = await useFetch(
+  `${config.public.apiBase}/users?limit=9999`,
+  {
+    headers: { ...bearer },
+    transform: (value: HttpSuccessWithPagination<User[]>) => {
+      return value.data.data.map(u => {
+        return {
+          label: u.user_username,
+          value: u.user_id,
+        };
+      });
+    },
+  }
+);
+
+const { data: leads, status: onLoadLeads, refresh: refreshLeads } = await useFetch(
+  () => `${config.public.apiBase}/leads?${leadsParams.value}`,
+  {
+    headers: { ...bearer },
+    transform: (value: HttpSuccessWithPagination<Lead[]>) => {
+      return value.data.data.map(l => {
+        return {
+          label: l.customer_name,
+          value: l.lead_id,
+        };
+      });
+    },
+    watch: [() => leadsParams.value],
+  }
+);
+
+function getDropdownActions(activity: Activity) {
+  return [
+    [
+      {
+        label: "Edit",
+        icon: "i-material-symbols-edit-square-outline",
+        onSelect() {
+          openModal(activity);
+        },
+      },
+      {
+        label: "Delete",
+        icon: "i-material-symbols-delete-outline",
+        onSelect() {
+          handleDelete(activity);
+        },
+      },
+    ],
+  ];
+}
+
+async function handleDelete(activity: Activity) {
+  try {
+    await $fetch(`${config.public.apiBase}/sales-activities/${activity.activity_id}`, {
+      headers: { ...bearer },
+      method: "DELETE",
+    });
+
+    toast.add({
+      title: "Activity deleted successfully!",
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    setTimeout(() => {
+      refreshActivities();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: "Failed to delete activity!",
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+}
+
+function handleFileChanged() {
+  state.proof_photos = state.proof_photos.filter(f => ALLOWED_FILE_TYPES.includes(f.type));
+}
+
+async function onSubmit(e: FormSubmitEvent<Schema>) {
+  if (modal.onSubmit) return;
+  modal.onSubmit = true;
+
+  try {
+    let formData: FormData | undefined;
+    if (!selected.value) {
+      formData = new FormData();
+      for (const key in e.data) {
+        const value = e.data[key as keyof typeof e.data];
+        if (key === "proof_photos") {
+          (value as File[]).forEach(file => {
+            formData?.append("proof_photos", file);
+          });
+        } else {
+          formData.append(key, `${value}`);
+        }
+      }
+    };
+
+    await $fetch(`${config.public.apiBase}/sales-activities${selected.value ? "/" + selected.value.activity_id : ""}`, {
+      headers: { ...bearer },
+      method: selected.value ? "PUT" : "POST",
+      body: formData || e.data,
+    });
+
+    toast.add({
+      title: `Activity ${modal.type === "add" ? "created" : "updated"} successfully!`,
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    modal.open = false;
+    setTimeout(() => {
+      refreshActivities();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: `Failed to ${modal.type === "add" ? "create" : "update"} activity!`,
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+
+  modal.onSubmit = false;
+}
+
+async function openModal(activity?: Activity) {
+  selected.value = activity;
+  refreshUsers();
+
+  /* Only to bypass validation */
+  let photo: File | undefined;
+  let photos = activity?.photos;
+  if (photos?.length) {
+    const splitted = photos[0]!.photo_url.split(".");
+    photo = await getBlobFromUrl(photos[0]!.photo_url, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
+  }
+
+  Object.assign(state, {
+    salesperson_id: activity?.salesperson_id || undefined,
+    lead_id: activity?.lead_id || undefined,
+    activity_type: activity?.activity_type || undefined,
+    follow_up_date: activity?.follow_up_date || undefined,
+    proof_photos: activity ? [photo] : [],
+  });
+
+  modal.type = activity ? "edit" : "add";
+  modal.open = true;
+}
+
+function parseAuditStatus(activity: Activity): { label: string; color: "success" | "error" | "neutral"; } {
+  switch (activity.audit_status) {
+    case "approved":
+      return { label: "Approved", color: "success" };
+    case "rejected":
+      return { label: "Rejected", color: "error" };
+    default:
+      return { label: "Pending", color: "neutral" };
+  }
+}
+</script>

@@ -12,6 +12,19 @@ export interface Activity {
   created_at: string;
   updated_at: string;
   deleted_at: null | string;
+  lead: Omit<Lead, "activities" | "salesperson" | "last_activity" | "follow_up_date">;
+  salesperson: {
+    user_id: number;
+    user_username: string;
+  },
+  photos: {
+    photo_id: number;
+    activity_id: number;
+    photo_url: string;
+    description: null | string;
+    created_at: string;
+    updated_at: string;
+  }[];
 }
 
 export type ActivityType = "Call" | "Chat" | "Visit" | "Demo" | "Follow Up";
@@ -33,7 +46,7 @@ export interface Lead {
   created_at: string;
   updated_at: string;
   deleted_at: null | string;
-  activities: Activity[];
+  activities: Omit<Activity, "lead" | "salesperson" | "photos">[];
   salesperson: {
     user_id: number;
     user_username: string;
