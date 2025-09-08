@@ -82,5 +82,14 @@ const navItems = ref<NavigationMenuItem[]>([
     label: "Service Order",
     to: localePath("cms-service-order"),
   },
+  {
+    label: "Settings",
+    children: [
+      {
+        label: "Users",
+        to: localePath("cms-settings-users"),
+      },
+    ],
+  },
 ]);
 </script>
