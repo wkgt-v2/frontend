@@ -89,6 +89,10 @@ const navItems = ref<NavigationMenuItem[]>([
         label: "Users",
         to: localePath("cms-settings-users"),
       },
+      {
+        label: "Roles",
+        to: localePath("cms-settings-roles"),
+      },
     ],
   },
 ]);

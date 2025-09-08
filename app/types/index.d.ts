@@ -1,3 +1,9 @@
+export interface RolePermission {
+  permission_id: number;
+  permission_name: string;
+  permission_group: string;
+}
+
 export interface ServiceOrder {
   service_order_id: number;
   no_resi: string;
