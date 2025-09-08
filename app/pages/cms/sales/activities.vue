@@ -176,6 +176,7 @@ const modal = reactive({
   open: false,
   type: "add" as "add" | "edit",
 });
+const route = useRoute();
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Activity>();
 const state = reactive({
@@ -191,6 +192,7 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  if (route.query.lead_id) params.append("lead_id", `${route.query.lead_id}`);
   if (searchQuery.value) params.append("customer_name", searchQuery.value);
   return params.toString();
 });

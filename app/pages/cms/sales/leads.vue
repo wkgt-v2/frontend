@@ -243,6 +243,13 @@ function getDropdownActions(lead: Lead) {
   return [
     [
       {
+        label: "View activities",
+        icon: "i-material-symbols:visibility-outline",
+        onSelect() {
+          navigateTo(localeRoute(`/cms/sales/activities?lead_id=${lead.lead_id}`));
+        },
+      },
+      {
         label: "Edit",
         icon: "i-material-symbols-edit-square-outline",
         onSelect() {
