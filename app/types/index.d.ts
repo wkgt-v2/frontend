@@ -21,6 +21,14 @@ export interface ServiceOrder {
     product_id: number;
     product_name: string;
     product_code: string;
+    category: {
+      category_id: number;
+      category_name: string;
+    },
+    series: {
+      series_id: number;
+      series_name: string;
+    };
   };
 }
 

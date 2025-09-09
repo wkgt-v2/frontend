@@ -48,27 +48,34 @@
         <UFormField label="No. Resi" name="no_resi">
           <UInput v-model="state.no_resi" />
         </UFormField>
-        <UFormField label="Product" name="product_id" class="space-y-4">
-          <!-- <div class="flex gap-4">
+        <div class="grid grid-cols-2 gap-4">
+          <UFormField label="Product Category" name="category_id">
             <USelectMenu
-              v-model="form.category_id"
+              v-model="state.category_id"
               :items="categories"
               value-key="value"
               :loading="onLoadCategories === 'pending'"
             />
+          </UFormField>
+          <UFormField label="Product Series" name="series_id">
             <USelectMenu
-              v-model="form.series_id"
+              v-model="state.series_id"
               :items="series"
               value-key="value"
+              :placeholder="`${!state.category_id ? 'Please choose product category first' : ''}`"
               :loading="onLoadSeries === 'pending'"
+              :disabled="!state.category_id"
             />
-          </div> -->
+          </UFormField>
+        </div>
+        <UFormField label="Product Item" name="product_id">
           <USelectMenu
             v-model="state.product_id"
             :items="products"
             value-key="value"
+            :placeholder="`${!state.series_id ? 'Please choose product series first' : ''}`"
             :loading="onLoadProducts === 'pending'"
-            @update:search-term="(val) => productsSearchQuery = val"
+            :disabled="!state.series_id"
           />
         </UFormField>
         <UFormField label="Customer Name" name="customer_name">
@@ -147,6 +154,14 @@ const column: TableColumn<ServiceOrder>[] = [
 
 const schema = v.object({
   no_resi: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  category_id: v.pipe(
+    v.union([v.number(), v.nullish(v.number())]),
+    v.number("This field is required.")
+  ),
+  series_id: v.pipe(
+    v.union([v.number(), v.nullish(v.number())]),
+    v.number("This field is required.")
+  ),
   product_id: v.pipe(
     v.union([v.number(), v.nullish(v.number())]),
     v.number("This field is required.")
@@ -164,10 +179,6 @@ type Schema = v.InferOutput<typeof schema>;
 
 const { bearer } = useToken();
 const config = useRuntimeConfig();
-// const form = reactive({
-//   category_id: undefined,
-//   series_id: undefined,
-// });
 const meta = reactive({
   limit: 10,
   page: 1,
@@ -178,11 +189,12 @@ const modal = reactive({
   open: false,
   type: "add" as "add" | "edit",
 });
-const productsSearchQuery = useDebouncedRef("", 500);
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<ServiceOrder>();
 const state = reactive({
   no_resi: "",
+  category_id: undefined,
+  series_id: undefined,
   product_id: undefined,
   customer_name: "",
   customer_phone: "",
@@ -200,10 +212,18 @@ const params = computed(() => {
   return params.toString();
 });
 
+const seriesParams = computed(() => {
+  const params = new URLSearchParams();
+  params.append("limit", "9999");
+  params.append("category_id", `${state.category_id}`);
+  return params.toString();
+});
+
 const productsParams = computed(() => {
   const params = new URLSearchParams();
   params.append("limit", "9999");
-  // if (productsSearchQuery.value) params.append("product_name", productsSearchQuery.value);
+  params.append("category_id", `${state.category_id}`);
+  params.append("series_id", `${state.series_id}`);
   return params.toString();
 });
 
@@ -219,38 +239,34 @@ const { data, status: onLoadData, refresh } = await useFetch(
   }
 );
 
-// const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
-//   () => `${config.public.apiBase}/categories?limit=9999`,
-//   {
-//     transform: (value: HttpSuccessWithPagination<Category[]>) => {
-//       return value.data.data.map(c => {
-//         return {
-//           label: c.category_name,
-//           value: c.category_id,
-//         };
-//       });
-//     },
-//   }
-// );
+const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
+  () => `${config.public.apiBase}/categories?limit=9999`,
+  {
+    transform: (value: HttpSuccessWithPagination<Category[]>) => {
+      return value.data.data.map(c => {
+        return {
+          label: c.category_name,
+          value: c.category_id,
+        };
+      });
+    },
+  }
+);
 
-// const { data: series, status: onLoadSeries, refresh: refreshSeries } = await useFetch(
-//   () => `${config.public.apiBase}/series`,
-//   {
-//     params: {
-//       category_id: form.category_id,
-//       limit: 9999,
-//     },
-//     transform: (value: HttpSuccessWithPagination<Series[]>) => {
-//       return value.data.data.map(s => {
-//         return {
-//           label: s.series_name,
-//           value: s.series_id,
-//         };
-//       });
-//     },
-//     watch: [() => form.category_id],
-//   }
-// );
+const { data: series, status: onLoadSeries, refresh: refreshSeries } = await useFetch(
+  () => `${config.public.apiBase}/series?${seriesParams.value}`,
+  {
+    transform: (value: HttpSuccessWithPagination<Series[]>) => {
+      return value.data.data.map(s => {
+        return {
+          label: s.series_name,
+          value: s.series_id,
+        };
+      });
+    },
+    watch: [() => seriesParams.value],
+  }
+);
 
 const { data: products, status: onLoadProducts, refresh: refreshProducts } = await useFetch(
   () => `${config.public.apiBase}/products?${productsParams.value}`,
@@ -263,9 +279,18 @@ const { data: products, status: onLoadProducts, refresh: refreshProducts } = awa
         };
       });
     },
-    watch: [() => productsSearchQuery.value],
+    watch: [() => productsParams.value],
   }
 );
+
+watch(() => series.value, (val) => {
+  if (!val || !state.series_id) return;
+  if (!val?.find(s => s.value === state.series_id)) state.series_id = undefined;
+});
+watch(() => products.value, (val) => {
+  if (!val || !state.product_id) return;
+  if (!val?.find(s => s.value === state.product_id)) state.product_id = undefined;
+});
 
 function getDropdownActions(serviceOrder: ServiceOrder) {
   return [
@@ -353,17 +378,19 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 
 async function openModal(serviceOrder?: ServiceOrder) {
   selected.value = serviceOrder;
+  refreshCategories();
 
   Object.assign(state, {
     no_resi: serviceOrder?.no_resi || "",
-    product_id: serviceOrder?.product_id || undefined,
+    category_id: serviceOrder?.product.category?.category_id,
+    series_id: serviceOrder?.product.series?.series_id,
+    product_id: serviceOrder?.product_id,
     customer_name: serviceOrder?.customer_name || "",
     customer_phone: serviceOrder?.customer_phone || "",
-    start_date: serviceOrder?.start_date || undefined,
+    start_date: serviceOrder?.start_date,
     status: serviceOrder?.status || "",
     description: serviceOrder?.description || "",
   });
-  productsSearchQuery.value = "";
 
   modal.type = serviceOrder ? "edit" : "add";
   modal.open = true;
