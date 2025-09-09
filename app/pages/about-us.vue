@@ -45,7 +45,32 @@
         <h1 class="text-5xl text-tone text-center font-semibold">
           Expertise Terbaik Untuk Bisnis Anda
         </h1>
-        <div class="flex gap-6">
+        <UCarousel
+          v-slot="{ item }"
+          :items="businesses"
+          class="w-full not-sm:max-w-xs mx-auto lg:hidden"
+          :ui="{ item: 'sm:basis-1/2' }"
+          dots
+        >
+          <div class="w-full glass border border-accent rounded-xl">
+            <img
+              :src="`/assets/images/illustrations/${item.img}`"
+              :alt="item.img"
+              class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
+            />
+            <div class="space-y-1 p-6">
+              <h4 class="text-xl text-primary font-semibold">
+                {{ item.title }}
+              </h4>
+              <p class="text-tone">
+                <template v-for="industry in item.industries">
+                  {{ industry }}<br />
+                </template>
+              </p>
+            </div>
+          </div>
+        </UCarousel>
+        <div class="not-lg:hidden grid grid-cols-3 gap-6">
           <div
             v-for="business in businesses"
             class="w-full glass border border-accent rounded-xl"
@@ -77,7 +102,7 @@
             Kami percaya bahwa stagnasi bukanlah pilihan. Untuk tetap relevan dan menjadi yang terdepan, kami secara konsisten mengembangkan sayap bisnis kami ke berbagai area kunci. Setiap langkah yang kami ambil dirancang untuk menciptakan nilai lebih, baik bagi Anda maupun pasar.
           </p>
         </div>
-        <div class="flex gap-3">
+        <div class="not-lg:grid not-lg:grid-cols-2 lg:flex gap-3">
           <div
             v-for="strategy in strategies"
             class="space-y-1 glass p-3 border border-accent rounded-xl"
