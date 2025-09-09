@@ -1,6 +1,6 @@
 <template>
   <UPopover>
-    <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
+    <UButton color="neutral" variant="outline" icon="i-lucide-calendar" class="justify-start" block>
       {{
         _model ? df.format(_model.toDate(getLocalTimeZone())) : "Select a date"
       }}
