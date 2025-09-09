@@ -71,8 +71,8 @@ const navItems = ref<NavigationMenuItem[]>([
     ],
   },
   {
-    label: "Service Order",
-    to: localePath("cms-service-order"),
+    label: "Service Orders",
+    to: localePath("cms-service-orders"),
   },
   {
     label: "Sales",
