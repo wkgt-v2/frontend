@@ -85,6 +85,10 @@ const navItems = ref<NavigationMenuItem[]>([
         label: "Activities",
         to: localePath("cms-sales-activities"),
       },
+      {
+        label: "KPI",
+        to: localePath("cms-sales-kpi"),
+      },
     ],
   },
   {

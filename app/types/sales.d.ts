@@ -29,6 +29,27 @@ export interface Activity {
 
 export type ActivityType = "Call" | "Chat" | "Visit" | "Demo" | "Follow Up";
 
+export interface KPI {
+  salesperson_id: number;
+  salesperson_name: string;
+  targetClosing: number;
+  omzetNet: string;
+  totalOrdersApproved: number;
+  averageOrderValue: string;
+  newLeads: number;
+  wonLeads: number;
+  lostLeads: number;
+  totalClosing: number;
+  totalLeads: number;
+  closingRate: string;
+  totalSalesActivities: number;
+  pendingActivities: number;
+  rejectedActivities: number;
+  achievement: string;
+}
+
+export type KPISelf = Omit<KPI, "salesperson_id" | "salesperson_name" | "targetClosing" | "achievement">;
+
 export interface Lead {
   lead_id: number;
   date_in: string;
