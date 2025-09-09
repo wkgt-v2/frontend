@@ -5,4 +5,9 @@ export default {
     contact: "Hubungi Kami",
     services: "Servis",
   },
+  header: {
+    mobile: {
+      choose_language: "Pilih bahasa",
+    },
+  },
 }

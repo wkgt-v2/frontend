@@ -5,8 +5,8 @@
     <div class="absolute inset-0 border-b border-primary overflow-hidden -z-10">
       <Radial class="absolute bottom-0 left-1/2 translate-y-[55%] -translate-x-1/2 size-[960px] -z-10" />
     </div>
-    <div class="grid grid-cols-2 items-center gap-6 py-32">
-      <div class="shrink-0 space-y-6 max-w-[514px] text-tone">
+    <div class="not-lg:space-y-16 not-lg:mx-auto not-lg:text-center lg:grid lg:grid-cols-2 items-center gap-6 py-16 lg:py-32">
+      <div class="shrink-0 space-y-6 max-w-lg text-tone">
         <h1 class="text-5xl font-semibold [&_span]:text-primary">
           Solusi <span>Distribusi Perangkat Keras Komputer</span> untuk Bisnis Anda
         </h1>
@@ -19,7 +19,7 @@
         alt="PC Parts"
         width="678"
         height="680"
-        class="w-full"
+        class="w-full not-lg:max-w-lg"
         loading="lazy"
       />
     </div>

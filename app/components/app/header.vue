@@ -1,6 +1,50 @@
 <template>
   <nav class="fixed top-0 w-full glass shadow-md z-[99]">
-    <div class="container flex flex-col md:flex-row items-center md:justify-between h-16">
+    <div class="lg:hidden container flex items-center justify-between h-16">
+      <NuxtLink :to="localePath('/')">
+        <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
+        <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
+      </NuxtLink>
+      <USlideover side="top" v-model:open="openSlideover">
+        <UButton variant="outline" icon="i-material-symbols:menu" />
+
+        <template #content>
+          <div class="container space-y-2 py-4">
+            <div class="flex items-center justify-between">
+              <NuxtLink :to="localePath('/')">
+                <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
+                <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
+              </NuxtLink>
+              <UButton
+                variant="outline"
+                icon="i-material-symbols:close"
+                class="ml-auto"
+                @click="openSlideover = false"
+              />
+            </div>
+            <UNavigationMenu
+              orientation="vertical"
+              :items="navItems"
+            />
+            <div class="flex items-center justify-between gap-4">
+              <USelect
+                v-model="lang"
+                :items="langOptions"
+                variant="ghost"
+                class="w-fit"
+                :ui="{
+                  base: 'font-medium uppercase',
+                  item: 'font-medium uppercase',
+                }"
+                @change="changeLanguage"
+              />
+              <DarkModeToggler />
+            </div>
+          </div>
+        </template>
+      </USlideover>
+    </div>
+    <div class="not-lg:hidden container flex items-center justify-between h-16">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
         <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
@@ -54,6 +98,7 @@ const langOptions = locales.value.map(l => {
 });
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
+const openSlideover = ref(false);
 
 const navItems = computed(() => {
   return [

@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <div class="flex justify-center gap-16">
+    <div class="flex flex-wrap justify-center gap-16">
       <img
         v-for="client in clients"
         :src="`/assets/images/logo/${client.id}.svg`"

@@ -5,4 +5,9 @@ export default {
     contact: "Contact",
     services: "Services",
   },
+  header: {
+    mobile: {
+      choose_language: "Choose language",
+    },
+  },
 }

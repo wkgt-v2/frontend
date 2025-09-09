@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div v-for="item in items" class="space-y-1 glass p-6 border border-accent rounded-xl">
         <UIcon name="i-material-symbols-handshake-outline-rounded" class="size-5 mx-auto text-primary" mode="svg" />
         <h5 class="text-base text-primary font-semibold">

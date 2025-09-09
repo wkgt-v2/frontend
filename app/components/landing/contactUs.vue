@@ -1,8 +1,8 @@
 <template>
   <div class="container py-16">
-    <div class="relative grid grid-cols-2 items-center gap-6 glass p-6 border border-accent rounded-4xl overflow-y-hidden">
+    <div class="relative grid grid-cols-1 lg:grid-cols-2 items-center gap-6 glass p-6 border border-accent rounded-4xl overflow-hidden">
       <Radial class="absolute -bottom-2/3 left-1/2 -translate-x-1/2 size-[960px] -z-10" />
-      <div class="p-6">
+      <div class="p-6 text-center lg:text-left">
         <h1 class="mb-1 text-5xl text-primary font-semibold">
           Kembangkan Bisnismu Dengan Kami
         </h1>
