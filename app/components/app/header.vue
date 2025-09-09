@@ -14,6 +14,7 @@
             <ULink
               v-for="child in item.children"
               :key="child.label"
+              :to="child.to"
               class="hover:bg-elevated/50 py-1 px-2 text-sm text-left rounded-md"
               @mouseenter="highlightedCategory = child.img"
             >
@@ -80,7 +81,7 @@ const productCategories = computed(() => {
     return {
       label: c.category_name,
       img: c.category_image,
-      to: localeRoute(`/products/${c.category_id}`),
+      to: localeRoute(`/products/${c.category_id}`)?.fullPath,
     };
   }) || [{
     label: "",
