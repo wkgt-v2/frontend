@@ -4,7 +4,7 @@
     <div class="pt-16">
       <slot />
     </div>
-    <!-- <AppFooter /> -->
+    <AppFooter />
   </UApp>
 </template>
 
