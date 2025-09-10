@@ -1,17 +1,40 @@
 <template>
-  <div class="container space-y-8 py-16">
-    <h1 class="text-5xl text-tone font-semibold">
-      Call Center: <a href="tel:021-6125802" class="text-primary">021-6125802</a>
-    </h1>
+  <div
+    class="container space-y-8 py-16"
+    @mousemove="updateRadialPosition"
+  >
+    <Teleport to="body">
+      <div
+        ref="radialRef"
+        class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
+      ></div>
+    </Teleport>
+    <div class="space-y-3 text-center">
+      <h5 class="text-primary font-semibold">
+        SERVICE CENTER
+      </h5>
+      <h1 class="text-5xl text-tone font-semibold">
+        Siap Melayani Di Berbagai Kota
+      </h1>
+    </div>
 
-    <div class="space-y-3">
-      <h5 class="text-base text-tone font-semibold">Lokasi Service Center</h5>
-      <UTable :data="branches" class="flex-1" />
+    <div class="overflow-x-auto">
+      <UTable :columns="column" :data="branches" :ui="{ tr: 'border-accent', th: 'glass' }" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
+
+interface Branch {
+  city: string;
+  province: string;
+  address: string;
+  phone: string;
+  businessHours: string;
+}
+
 const branches = [
   {
     city: "Kota Administrasi Jakarta Pusat",
@@ -84,4 +107,44 @@ const branches = [
     businessHours: "09:00 - 18:00"
   }
 ];
+
+const column: TableColumn<Branch>[] = [
+  {
+    accessorKey: "city",
+    header: "Kota",
+    cell: ({ row }) => `${row.original.city} ${row.original.province}`,
+  },
+  {
+    accessorKey: "address",
+    header: "Alamat",
+  },
+  {
+    accessorKey: "phone",
+    header: "Telepon",
+  },
+  {
+    accessorKey: "businessHours",
+    header: "Jam Operasi",
+  },
+];
+
+const radialRef = useTemplateRef("radialRef");
+
+function updateRadialPosition(e: MouseEvent) {
+  const el = radialRef.value as HTMLDivElement;
+  if (el) {
+    el.style.left = `${e.clientX}px`;
+    el.style.top = `${e.clientY}px`;
+  }
+}
 </script>
+
+<style scoped>
+.eclipse {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #00b8db1a 0%,
+    rgba(0, 184, 219, 0) 100%
+  );
+}
+</style>
