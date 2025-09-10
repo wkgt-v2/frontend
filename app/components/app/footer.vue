@@ -21,7 +21,15 @@
     <div class="bg-inverted text-inverted">
       <div class="container flex flex-col md:flex-row-reverse items-start md:items-center justify-between gap-2 py-2">
         <div class="flex flex-col md:flex-row gap-2 md:gap-6">
-          <UButton size="sm" variant="link" color="neutral" class="p-0 text-inverted">Privacy Policy</UButton>
+          <UButton
+            :to="$localePath('privacy-policy')"
+            size="sm"
+            variant="link"
+            color="neutral"
+            class="p-0 text-inverted"
+          >
+            Privacy Policy
+          </UButton>
           <UButton size="sm" variant="link" color="neutral" class="p-0 text-inverted">Terms of Service</UButton>
         </div>
         <div class="text-sm">Copyright © 2025 Wahana Komputer. All Right Reserved</div>
