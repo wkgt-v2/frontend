@@ -1,7 +1,7 @@
 <template>
   <UApp>
     <AppHeader />
-    <div class="pt-16">
+    <div class="min-h-[calc(100dvh-200px)] pt-16">
       <slot />
     </div>
     <AppFooter />
