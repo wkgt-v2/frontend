@@ -112,6 +112,30 @@
           </div>
         </div>
       </section>
+      <section class="space-y-16 py-16 text-center">
+        <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary">
+          Arah Strategi Kami Dalam Pertumbuhan <span>Masa Depan</span> Bisnis
+        </h1>
+        <UCarousel
+          v-slot="{ item }"
+          :items="timelines"
+          :ui="{
+            container: 'transition-[height]',
+          }"
+          class="w-full max-w-2xl mx-auto"
+          auto-height
+          dots
+        >
+          <div class="w-full glass border border-accent rounded-xl">
+            <div class="space-y-1 p-6">
+              <h4 class="text-xl text-primary font-semibold">
+                {{ item.date }}
+              </h4>
+              <UTimeline :default-value="item.items.length-1" :items="item.items" class="w-full" :ui="{ title: 'text-left' }" />
+            </div>
+          </div>
+        </UCarousel>
+      </section>
     </div>
   </div>
 </template>
@@ -185,6 +209,69 @@ const strategies = [
   {
     icon: "material-symbols-phone-android-outline",
     content: "Mobile Application, dengan mengikuti dinamika perkembangan teknologi",
+  },
+];
+const timelines = [
+  {
+    date: "2023 - 2024",
+    items: [
+      { title: "Engage sebagai distributor produk outdoor antenna Commscope brand" },
+      { title: "Kerjasama Fujitsu Indonesia develop massive data profiling untuk Kejagung" },
+      { title: "Kerjasama Kemenag develop Edusmart Box produk pembelajaran offline" },
+      { title: "Pengadaan hardware melalu e catalog dengan Dinas Pendidikan" },
+      { title: "Pengadaan antenna outdoor untuk IKN bekerja sama dengan Mitratel dan Commscope" },
+      { title: "Development new portfolio berupa aplikasi POS dan ERP : KubikPOS" },
+      { title: "Engage sebagai sole distributor untuk produk networking brand Norden UK" },
+    ],
+  },
+  {
+    date: "2021 - 2022",
+    items: [
+      { title: "Tablet Kubik Genta 10" },
+      { title: "Set Top Box Kubik Arca DVB-T2" },
+      { title: "MOU dengan PGN Com project IOT Platform JARGAS" },
+      { title: "Project Kemendikbudristek Pusat Keunggulan SMK" },
+      { title: "MOU dengan Avirtech Portfolio drone" },
+      { title: "Licensed Distributorship Produk 4G dengan brand ATEL" },
+      { title: "MOU dengan Telkomsat sebagai partner iOT dan LORA" },
+      { title: "MOU dengan PDAM dalam pengadaan smart meter berbasis IoT" },
+      { title: `Pekerjaan Project MA "Digitalisasi Ruang Sidang" Bekerja sama dengan Acer sebagai brand supporting` },
+      { title: "Pengembangan produk enterprise untuk drone berbasis iOT dan AI" },
+      { title: "Project Diknas melalui platform SIPLAH terutama di bidang SMK Pusat Keunggulan" },
+    ],
+  },
+  {
+    date: "2019 - 2020",
+    items: [
+      { title: "Proyek pengadaan melalui e-catalog di Kementerian Pendidikan dan Kebudayaan RI" },
+      { title: "Proyek pengadaan melalui e-catalog di Kementerian Sosial Republik Indonesia" },
+      { title: "Pengembangan product merk local kubik berupa AIO & Tablet" },
+      { title: "Partership dengan NHR taiwan untuk pengembangan IOT platform" },
+      { title: "Proyek E-Drive di Korlantas Kepolisian Republik Indonesia" },
+      { title: "Pengadaan prangkat keras vidio production & broadcasting untuk SMK jurusan animasi" },
+    ],
+  },
+  {
+    date: "2015 - 2018",
+    items: [
+      { title: "Bersama PT. Tugunet Teknologi Indonesia proyek data center Starcloud bekerja sama denganTelkom Sigma." },
+      { title: "Proyek pembaruan payment gateway system PT. POS Indonesia." },
+      { title: "Supporting StarCloud Project Telkom Sigma" },
+      { title: "Proyek Bank Sumut" },
+      { title: "Project Sensor meteran gas dan listrik salah satu gedung di Rasuna Said Jakarta." },
+      { title: "Supporting BRI project managed service BRI Box, kerjasama dengan PT INTI" },
+    ],
+  },
+  {
+    date: "2001 - 2012",
+    items: [
+      { title: " Berpartisipasi dalam pengadaan komputer dan server dalam proyek Menristek" },
+      { title: "Proyek pengadaan komputer Pemda Kubu Raya dan Pontianak" },
+      { title: "Bersama dengan PT. Dwi Daya Tama proyek edukasi daerah pengadaan timur Indonesia" },
+      { title: "Resmi sole distributor produk J&W" },
+      { title: "Resmi sole distributor produk Raidmax." },
+      { title: "Resmi sole distributor produk HIS" },
+    ],
   },
 ];
 </script>
