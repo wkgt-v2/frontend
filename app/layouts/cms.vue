@@ -1,11 +1,13 @@
 <template>
   <UApp>
     <div class="flex" @mousemove="updateRadialPosition">
-      <div
-        ref="radialRef"
-        class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
-        :class="{ hidden: !radialEnabled }"
-      ></div>
+      <Teleport to="body">
+        <div
+          ref="radialRef"
+          class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
+          :class="{ hidden: !radialEnabled }"
+        ></div>
+      </Teleport>
       <CmsSidebar ref="sidebarRef" />
       <div :style="{ width: sidebarWidth }">
         <CmsHeader ref="headerRef" />

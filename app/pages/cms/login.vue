@@ -3,10 +3,12 @@
     class="flex items-center justify-center w-full min-h-dvh bg-[url('/assets/images/pattern/jigsaw.svg')] dark:bg-[url('/assets/images/pattern/jigsaw_dark-mode.svg')] bg-repeat"
     @mousemove="updateRadialPosition"
   >
-    <div
-      ref="radialRef"
-      class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
-    ></div>
+    <Teleport to="body">
+      <div
+        ref="radialRef"
+        class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
+      ></div>
+    </Teleport>
     <div
       class="relative w-96 glass p-6 border border-accent rounded-xl shadow-md z-10"
     >

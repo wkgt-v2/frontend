@@ -126,7 +126,7 @@ const productCategories = computed(() => {
     return {
       label: c.category_name,
       img: c.category_image,
-      to: localeRoute(`/products/${c.category_id}`)?.fullPath,
+      to: localeRoute(`/products/${c.category_name}-${c.category_id}`),
     };
   }) || [{
     label: "",

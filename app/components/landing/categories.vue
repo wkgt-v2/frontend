@@ -8,7 +8,7 @@
       <NuxtLink
         v-for="category in categories"
         :key="category.category_id"
-        :to="$localeRoute(`/products/${category.category_id}`)"
+        :to="$localeRoute(`/products/${category.category_name}-${category.category_id}`)"
         class="space-y-2 text-center"
       >
         <img :src="category.category_image" :alt="category.category_name" class="size-40 mx-auto object-cover" loading="lazy">
@@ -29,7 +29,5 @@
 </template>
 
 <script setup lang="ts">
-import type { Category } from "~/types/product";
-
 const categories = useCategories();
 </script>
