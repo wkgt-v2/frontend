@@ -12,22 +12,24 @@
     <h1 class="text-5xl text-primary text-center font-semibold">
       Produk Kami
     </h1>
-    <div class="grid grid-cols-6 gap-6">
+    <div class="flex flex-wrap justify-center">
       <NuxtLink
         v-for="category in categories"
         :key="category.category_id"
         :to="$localeRoute(`/products/${category.category_name}-${category.category_id}`)"
-        class="w-full glass border border-accent rounded-xl"
+        class="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6 p-1 md:p-2 lg:p-3"
       >
-        <img
-          :src="category.category_image"
-          :alt="category.category_name"
-          class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
-        />
-        <div class="space-y-1 p-6">
-          <h5 class="text-base text-tone font-medium">
-            {{ category.category_name }}
-          </h5>
+        <div class="h-full glass border border-accent rounded-xl">
+          <img
+            :src="category.category_image"
+            :alt="category.category_name"
+            class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
+          />
+          <div class="space-y-1 p-6">
+            <h5 class="text-base text-tone font-medium">
+              {{ category.category_name }}
+            </h5>
+          </div>
         </div>
       </NuxtLink>
     </div>

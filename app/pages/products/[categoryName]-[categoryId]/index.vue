@@ -10,8 +10,31 @@
       ></div>
     </Teleport>
     <UBreadcrumb :items="breadcrumbItems" />
-    <div class="grid grid-cols-5 gap-6">
-      <div class="space-y-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 lg:gap-6">
+      <USlideover side="left" title="Filter">
+        <UButton variant="outline" icon="i-material-symbols:tune" label="Filter" class="w-fit lg:hidden" />
+
+        <template #body>
+          <div class="space-y-4">
+            <UFormField label="Search Product">
+              <UInput v-model="searchQuery" />
+            </UFormField>
+            <UAccordion :items="accordionItems" type="multiple" :default-value="['0']">
+              <template #series>
+                <UCheckboxGroup
+                  v-if="series.length"
+                  v-model="filter.series"
+                  :items="mappedSeries"
+                  variant="table"
+                  class="pb-3"
+                />
+                <div v-else class="text-tone text-center">-no data-</div>
+              </template>
+            </UAccordion>
+          </div>
+        </template>
+      </USlideover>
+      <div class="not-lg:hidden space-y-4">
         <UFormField label="Search Product">
           <UInput v-model="searchQuery" />
         </UFormField>
@@ -28,7 +51,7 @@
           </template>
         </UAccordion>
       </div>
-      <div class="grid grid-cols-4 col-span-4 gap-6 h-fit">
+      <div class="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 col-span-2 xl:col-span-3 2xl:col-span-4 gap-4 lg:gap-6 h-fit">
         <div v-if="onLoadData === 'pending'" class="col-span-4 flex items-center justify-center w-full h-96">
           <UIcon name="i-material-symbols:progress-activity" class="size-16 text-primary animate-spin" />
         </div>
