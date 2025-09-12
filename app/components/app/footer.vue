@@ -31,6 +31,7 @@
             Privacy Policy
           </UButton>
           <UButton
+            :to="$localePath('terms-of-services')"
             size="sm"
             variant="link"
             color="neutral"
