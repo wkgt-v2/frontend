@@ -3,7 +3,7 @@
     <h1 class="text-3xl text-primary text-center font-semibold">
       Kebijakan Privasi
     </h1>
-    <div class="space-y-4 text-sm text-tone">
+    <div class="space-y-4 text-tone">
       <p>
         Selamat datang di rumah Wahana!
       </p>
