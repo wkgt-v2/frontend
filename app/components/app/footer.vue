@@ -26,11 +26,18 @@
             size="sm"
             variant="link"
             color="neutral"
-            class="p-0 text-inverted"
+            class="p-0 text-inverted hover:text-inverted"
           >
             Privacy Policy
           </UButton>
-          <UButton size="sm" variant="link" color="neutral" class="p-0 text-inverted">Terms of Service</UButton>
+          <UButton
+            size="sm"
+            variant="link"
+            color="neutral"
+            class="p-0 text-inverted hover:text-inverted"
+          >
+            Terms of Service
+          </UButton>
         </div>
         <div class="text-sm">Copyright © 2025 Wahana Komputer. All Right Reserved</div>
       </div>
