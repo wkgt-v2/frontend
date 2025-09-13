@@ -18,20 +18,18 @@
               </UBadge>
             </div>
           </div>
-          <p class="text-tone">
-            {{ item.product_description }}
-          </p>
+          <p class="tiptap ProseMirror" v-html="item.product_description"></p>
           <div v-if="item.product_detail" class="space-y-2">
             <h5 class="mb-2 text-lg text-primary font-semibold">
               Detail
             </h5>
-            <div class="whitespace-pre-line" v-html="item.product_detail"></div>
+            <div class="tiptap ProseMirror" v-html="item.product_detail"></div>
           </div>
           <div v-if="item.product_info" class="space-y-2">
             <h5 class="mb-2 text-lg text-primary font-semibold">
               Important Information
             </h5>
-            <div class="whitespace-pre-line" v-html="item.product_info"></div>
+            <div class="tiptap ProseMirror" v-html="item.product_info"></div>
           </div>
         </div>
       </div>
@@ -49,9 +47,7 @@
               <td class="font-semibold align-middle">
                 {{ specification.spec_type }}
               </td>
-              <td class="whitespace-pre-line">
-                {{ specification.spec_value }}
-              </td>
+              <td class="tiptap ProseMirror" v-html="specification.spec_value"></td>
             </tr>
           </tbody>
         </table>
@@ -66,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BreadcrumbItem, TabsItem } from "@nuxt/ui";
+import type { BreadcrumbItem } from "@nuxt/ui";
 import type { HttpSuccess } from "~/types/http";
 import type { Image, Item } from "~/types/product";
 

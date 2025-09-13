@@ -5,7 +5,13 @@
         Edit Product Item
       </h4>
 
-      <UForm :schema="schema" :state="state" class="space-y-6" @submit="handleSubmit">
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-6"
+        @submit="handleSubmit"
+        @error="(e: { errors: FormError[] }) => formErrors = e.errors"
+      >
         <div class="grid grid-cols-2 gap-6">
           <UFormField label="Name" name="product_name">
             <UInput v-model="state.product_name" />
@@ -37,15 +43,24 @@
         </div>
 
         <UFormField label="Description" name="product_description">
-          <Textarea v-model="state.product_description" :rows="4" />
+          <TiptapEditor
+            v-model="state.product_description"
+            :is-error="!!formErrors?.find(e => e.name === 'product_description')"
+          />
         </UFormField>
 
         <div class="grid grid-cols-2 gap-6">
           <UFormField label="Detail" name="product_detail">
-            <Textarea v-model="state.product_detail" :rows="4" />
+            <TiptapEditor
+              v-model="state.product_detail"
+              :is-error="!!formErrors?.find(e => e.name === 'product_detail')"
+            />
           </UFormField>
           <UFormField label="Info" name="product_info">
-            <Textarea v-model="state.product_info" :rows="4" />
+            <TiptapEditor
+              v-model="state.product_info"
+              :is-error="!!formErrors?.find(e => e.name === 'product_info')"
+            />
           </UFormField>
         </div>
 
@@ -68,7 +83,13 @@
             >
               <UInput v-model="specification.key" placeholder="Specification Name" />
               <div class="flex items-start gap-2 col-span-3">
-                <Textarea v-model="specification.value" placeholder="Specification Detail" :rows="4" />
+                <div :class="state.specifications.length > 1 ? 'w-[calc(100%-40px)]' : 'w-full'">
+                  <TiptapEditor
+                    v-model="specification.value"
+                    placeholder="Specification Detail"
+                    :is-error="!!formErrors?.find(e => e.name === 'product_description')"
+                  />
+                </div>
                 <UButton
                   v-if="state.specifications.length > 1"
                   variant="outline"
@@ -109,7 +130,7 @@
 <script setup lang="ts">
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import type { FormError, FormSubmitEvent } from "@nuxt/ui";
 import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
 import type { Category, Item, Series } from "~/types/product";
 
@@ -135,6 +156,7 @@ type Schema = v.InferOutput<typeof schema>;
 
 const { bearer } = useToken();
 const config = useRuntimeConfig();
+const formErrors = ref<FormError[]>();
 const localeRoute = useLocaleRoute();
 const onSubmit = ref(false);
 const route = useRoute();

@@ -17,11 +17,16 @@
     "@iconify-json/simple-icons": "^1.2.44",
     "@nuxt/ui": "^3.3.0",
     "@nuxtjs/i18n": "^10.0.3",
+    "@tiptap/extensions": "^3.4.2",
+    "@tiptap/pm": "^3.4.2",
+    "@tiptap/starter-kit": "^3.4.2",
+    "@tiptap/vue-3": "^3.4.2",
     "nuxt": "^4.0.1",
     "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.7.1",
+    "@tailwindcss/typography": "^0.5.16",
     "eslint": "^9.32.0",
     "typescript": "^5.8.3"
   }

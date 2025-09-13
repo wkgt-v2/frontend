@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: "Geist", sans-serif;
@@ -40,3 +41,169 @@
   --color-tone: var(--color-slate-50);
   --color-accent: var(--color-cyan-800);
 }
+
+/* TipTap Preflight */
+.ProseMirror:focus {
+  @apply outline-none;
+}
+
+.tiptap {
+  @apply text-sm text-tone;
+
+  :first-child {
+    @apply mt-0 outline-none;
+  }
+
+  p {
+    @apply my-4 min-h-5 leading-5;
+  }
+
+  p.email-signature {
+    all: unset;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    @apply px-4 ml-[0.4rem];
+
+    li p {
+      @apply my-[0.2rem];
+    }
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  ul {
+    @apply list-disc;
+
+    ul {
+      @apply list-[circle];
+    }
+
+    ul ul {
+      @apply list-[square];
+    }
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply leading-[1.1] my-4;
+    text-wrap: pretty;
+  }
+
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+
+  h2 {
+    @apply text-[1.2rem] font-semibold;
+  }
+
+  h3 {
+    @apply text-[1.1rem] font-semibold;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply text-sm font-semibold;
+  }
+
+  strong {
+    @apply font-bold;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    @apply bg-[#e9ebed] text-[#49545c] text-[0.85rem] font-normal p-[0.1rem] rounded-sm;
+  }
+
+  pre {
+    @apply bg-inverted my-4 p-[0.75rem] rounded-sm;
+
+    code {
+      @apply text-inverted text-[0.8rem] p-0;
+      background: inherit;
+    }
+  }
+
+  blockquote {
+    @apply mx-0 my-[1.5rem] pl-4 border-l-2 border-[#ccc];
+  }
+
+  hr {
+    @apply mx-0 my-4 border-t border-[#ccc];
+  }
+
+  p.is-editor-empty:first-child::before {
+    @apply content-[attr(data-placeholder)] h-0 text-sm text-tone/60 float-left pointer-events-none;
+  }
+
+  /* Link styles */
+  a {
+    @apply text-blue-500 cursor-pointer underline;
+  }
+
+  img {
+    @apply block h-auto max-w-1/2 mx-auto my-4;
+
+    &.ProseMirror-selectednode {
+      outline: 2px solid #007bff;
+    }
+  }
+
+  img.signature-image {
+    all: unset;
+  }
+
+  video {
+    @apply max-w-1/2 mx-auto my-0;
+
+    &.ProseMirror-selectednode {
+      outline: 2px solid #007bff;
+    }
+  }
+
+  /* Table-specific styling */
+  table {
+    @apply border-collapse m-0 overflow-hidden table-fixed w-full;
+
+    td,
+    th {
+      @apply border border-[#e9ebed] box-border min-w-[1em] px-2 py-1.5 relative align-top;
+
+      > * {
+        @apply mb-0;
+      }
+    }
+
+    th {
+      @apply text-left font-bold bg-[rgba(61,37,20,0.05)];
+    }
+
+    .selectedCell:after {
+      @apply content-[""] absolute inset-0 pointer-events-none z-[2] bg-[rgba(61,37,20,0.08)];
+    }
+
+    .column-resize-handle {
+      @apply w-1 bg-blue-500 absolute right-[-2px] top-0 bottom-[-2px] pointer-events-none;
+    }
+  }
+
+  .tableWrapper {
+    @apply mx-0 my-[1.5rem] overflow-x-auto;
+  }
+
+  &.resize-cursor {
+    @apply cursor-col-resize;
+  }
+}
+/* end TipTap */
