@@ -101,7 +101,7 @@ const breadcrumbItems = computed(() => {
     },
     {
       label: item.value?.product_name || "Product",
-      to: localeRoute(`/products/${item.value?.product_id}`),
+      to: localeRoute(`/products/${route.params.categoryName}-${route.params.categoryId}/${item.value?.product_id}`),
     }
   ] as BreadcrumbItem[];
 });
