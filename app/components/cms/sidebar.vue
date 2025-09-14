@@ -98,6 +98,10 @@ const navItems = ref<NavigationMenuItem[]>([
         label: "Categories",
         to: localePath("cms-blog-categories"),
       },
+      {
+        label: "Articles",
+        to: localePath("cms-blog-articles"),
+      },
     ],
   },
   {
