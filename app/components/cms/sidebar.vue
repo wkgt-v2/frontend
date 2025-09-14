@@ -92,6 +92,15 @@ const navItems = ref<NavigationMenuItem[]>([
     ],
   },
   {
+    label: "Blog",
+    children: [
+      {
+        label: "Categories",
+        to: localePath("cms-blog-categories"),
+      },
+    ],
+  },
+  {
     label: "Settings",
     children: [
       {
