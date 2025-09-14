@@ -7,3 +7,8 @@ export const SERVICE_ORDER_STATUS = [
   { label: "Completed", value: "completed" },
   { label: "Cancelled", value: "cancelled" },
 ];
+export const ORDER_STATUS = [
+  { label: "Pending", value: "Pending" },
+  { label: "Cancelled", value: "Canceled" },
+  { label: "Paid", value: "Paid" },
+];

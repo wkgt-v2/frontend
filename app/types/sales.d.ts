@@ -1,3 +1,6 @@
+import type { User } from ".";
+import type { Item as ProductItem } from "./product";
+
 export interface Activity {
   activity_id: number;
   lead_id: number;
@@ -77,3 +80,35 @@ export interface Lead {
 }
 
 export type LeadStatus = "New" | "Qualified" | "Contacted" | "Follow Up" | "Quotation" | "Negotiation" | "Won" | "Lost";
+
+export interface Order {
+  order_id: number;
+  order_date: string;
+  total_amount: string;
+  status: OrderStatus;
+  salesperson_id: number;
+  lead_id: number;
+  approved_at: string;
+  approved_by: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+  salesperson: Pick<User, "user_id" | "user_username">;
+  lead: Pick<Lead, "lead_id" | "customer_name" | "phone">;
+  items: OrderItem[];
+}
+
+export interface OrderItem {
+  order_item_id: number;
+  order_id: number;
+  product_id: number;
+  quantity: number;
+  price_per_item: string;
+  subtotal: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+  product: ProductItem;
+}
+
+export type OrderStatus = "Pending" | "Paid" | "Canceled";
