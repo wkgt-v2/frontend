@@ -5,5 +5,6 @@
     <LandingCategories />
     <LandingClient />
     <LandingContactUs />
+    <LandingArticles />
   </div>
 </template>
