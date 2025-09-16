@@ -1,58 +1,63 @@
 <template>
-  <div class="container space-y-8 py-8 lg:py-16">
-    <UBreadcrumb :items="breadcrumbItems" />
-    <div v-if="item" class="space-y-16">
-      <div class="grid lg:grid-cols-2 gap-16 lg:gap-6">
-        <ImageGallery :urls="sortedImages.map(i => i.image_url)" />
-        <div class="space-y-8">
-          <div class="space-y-2">
-            <h2 class="text-2xl text-tone font-semibold">
-              {{ item.product_name }}
-            </h2>
-            <div class="flex gap-2">
-              <UBadge v-if="item.category?.category_name" size="lg" variant="outline">
-                {{ item.category.category_name }}
-              </UBadge>
-              <UBadge v-if="item.series?.series_name" size="lg" variant="outline">
-                {{ item.series.series_name }}
-              </UBadge>
+  <div class="container space-y-4 xl:space-y-8 py-8 lg:py-16">
+    <template v-if="item">
+      <UBreadcrumb :items="breadcrumbItems" />
+      <UTabs variant="link" :items="mainTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8', list: 'justify-end' }">
+        <template #overview>
+          <div class="space-y-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-6">
+              <ImageGallery :urls="sortedImages.map(i => i.image_url)" />
+              <div class="space-y-8">
+                <div class="space-y-2">
+                  <h2 class="text-2xl text-tone font-semibold">
+                    {{ item.product_name }}
+                  </h2>
+                  <div class="flex gap-2">
+                    <UBadge v-if="item.category?.category_name" size="lg" variant="outline">
+                      {{ item.category.category_name }}
+                    </UBadge>
+                    <UBadge v-if="item.series?.series_name" size="lg" variant="outline">
+                      {{ item.series.series_name }}
+                    </UBadge>
+                  </div>
+                </div>
+                <p class="tiptap ProseMirror" v-html="item.product_description"></p>
+              </div>
             </div>
+            <UTabs variant="link" :items="subTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8' }">
+              <template #detail>
+                <div v-if="item.product_detail" class="tiptap ProseMirror" v-html="item.product_detail"></div>
+                <div v-else>
+                  -
+                </div>
+              </template>
+              <template #information>
+                <div v-if="item.product_info" class="tiptap ProseMirror" v-html="item.product_info"></div>
+                <div v-else>
+                  -
+                </div>
+              </template>
+            </UTabs>
           </div>
-          <p class="tiptap ProseMirror" v-html="item.product_description"></p>
-          <div v-if="item.product_detail" class="space-y-2">
-            <h5 class="mb-2 text-lg text-primary font-semibold">
-              Detail
-            </h5>
-            <div class="tiptap ProseMirror" v-html="item.product_detail"></div>
-          </div>
-          <div v-if="item.product_info" class="space-y-2">
-            <h5 class="mb-2 text-lg text-primary font-semibold">
-              Important Information
-            </h5>
-            <div class="tiptap ProseMirror" v-html="item.product_info"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-span-2">
-        <h5 class="mb-2 text-lg text-primary font-semibold">
-          Specifications
-        </h5>
-        <table class="table table-fixed w-full">
-          <tbody>
-            <tr
-              v-for="specification in item.specifications"
-              :key="specification.spec_id"
-              class="*:p-4 border-b border-accent hover:bg-slate-200 dark:hover:bg-slate-800"
-            >
-              <td class="font-semibold align-middle">
-                {{ specification.spec_type }}
-              </td>
-              <td class="tiptap ProseMirror" v-html="specification.spec_value"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        </template>
+        <template #specifications>
+          <table class="table table-fixed w-full">
+            <tbody>
+              <tr
+                v-for="specification in item.specifications"
+                :key="specification.spec_id"
+                class="*:p-4 border-b border-accent hover:bg-slate-200 dark:hover:bg-slate-800"
+              >
+                <td class="font-semibold align-middle">
+                  {{ specification.spec_type }}
+                </td>
+                <td class="tiptap ProseMirror" v-html="specification.spec_value"></td>
+              </tr>
+            </tbody>
+          </table>
+        </template>
+      </UTabs>
+    </template>
     <div v-else class="py-16">
       <h4 class="text-xl text-tone text-center font-semibold">
         Data not found
@@ -62,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BreadcrumbItem } from "@nuxt/ui";
+import type { BreadcrumbItem, TabsItem } from "@nuxt/ui";
 import type { HttpSuccess } from "~/types/http";
 import type { Image, Item } from "~/types/product";
 
@@ -78,6 +83,27 @@ const { data: item } = await useFetch(
     },
   }
 );
+
+const mainTabs = [
+  {
+    label: "Overview",
+    slot: "overview" as const,
+  },
+  {
+    label: "Specifications",
+    slot: "specifications" as const,
+  },
+] satisfies TabsItem[];
+const subTabs = [
+  {
+    label: "Detail",
+    slot: "detail" as const,
+  },
+  {
+    label: "Important Information",
+    slot: "information" as const,
+  },
+] satisfies TabsItem[];
 
 const images = ref<Image[]>([]);
 

@@ -1,96 +1,99 @@
 <template>
   <div v-if="item" class="space-y-6 p-6">
-    <div class="grid lg:grid-cols-2 gap-16 lg:gap-6">
-      <ImageGallery :urls="sortedImages.map(i => i.image_url)">
-        <template #action="{ url }">
-          <div class="absolute top-1 right-1 flex flex-col gap-1">
-            <UTooltip text="Set as main image">
-              <UButton
-                size="xs"
-                icon="i-material-symbols:photo-filter"
-                class="rounded-full"
-                @click="setMainImage(url)"
-              />
-            </UTooltip>
-            <UTooltip v-if="images.length > 1" text="Delete image">
-              <UButton
-                size="xs"
-                icon="i-material-symbols:delete-outline"
-                color="error"
-                class="rounded-full"
-                @click="deleteImage(url)"
-              />
-            </UTooltip>
-          </div>
-        </template>
-      </ImageGallery>
-      <div class="space-y-8">
-        <div class="space-y-2">
-          <div class="flex items-start justify-between gap-16">
-            <h2 class="text-2xl text-tone font-semibold">
-              {{ item.product_name }}
-            </h2>
-            <div class="flex gap-2">
-              <UButton
-                v-if="images.length < 10"
-                icon="i-material-symbols:add-photo-alternate-outline"
-                class="whitespace-nowrap"
-                @click="openAddImagesModal"
-              >
-                Add images
-              </UButton>
-              <UButton
-                :to="$localeRoute(`/cms/product/items/${item.product_id}/edit`)"
-                icon="i-material-symbols:visibility-outline"
-                class="whitespace-nowrap"
-              >
-                Edit item
-              </UButton>
+    <div class="flex gap-2">
+      <UButton
+        v-if="images.length < 10"
+        icon="i-material-symbols:add-photo-alternate-outline"
+        class="whitespace-nowrap"
+        @click="openAddImagesModal"
+      >
+        Add images
+      </UButton>
+      <UButton
+        :to="$localeRoute(`/cms/product/items/${item.product_id}/edit`)"
+        icon="i-material-symbols:visibility-outline"
+        class="whitespace-nowrap"
+      >
+        Edit item
+      </UButton>
+    </div>
+    <UTabs variant="link" :items="mainTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8', list: 'justify-end' }">
+      <template #overview>
+        <div class="space-y-16">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-6">
+            <ImageGallery :urls="sortedImages.map(i => i.image_url)">
+              <template #action="{ url }">
+                <div class="absolute top-1 right-1 flex flex-col gap-1">
+                  <UTooltip text="Set as main image">
+                    <UButton
+                      size="xs"
+                      icon="i-material-symbols:photo-filter"
+                      class="rounded-full"
+                      @click="setMainImage(url)"
+                    />
+                  </UTooltip>
+                  <UTooltip v-if="images.length > 1" text="Delete image">
+                    <UButton
+                      size="xs"
+                      icon="i-material-symbols:delete-outline"
+                      color="error"
+                      class="rounded-full"
+                      @click="deleteImage(url)"
+                    />
+                  </UTooltip>
+                </div>
+              </template>
+            </ImageGallery>
+            <div class="space-y-8">
+              <div class="space-y-2">
+                <h2 class="text-2xl text-tone font-semibold">
+                  {{ item.product_name }}
+                </h2>
+                <div class="flex gap-2">
+                  <UBadge v-if="item.category?.category_name" size="lg" variant="outline">
+                    {{ item.category.category_name }}
+                  </UBadge>
+                  <UBadge v-if="item.series?.series_name" size="lg" variant="outline">
+                    {{ item.series.series_name }}
+                  </UBadge>
+                </div>
+              </div>
+              <p class="tiptap ProseMirror" v-html="item.product_description"></p>
             </div>
           </div>
-          <div class="flex gap-2">
-            <UBadge v-if="item.category?.category_name" size="lg" variant="outline">
-              {{ item.category.category_name }}
-            </UBadge>
-            <UBadge v-if="item.series?.series_name" size="lg" variant="outline">
-              {{ item.series.series_name }}
-            </UBadge>
-          </div>
+          <UTabs variant="link" :items="subTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8' }">
+            <template #detail>
+              <div v-if="item.product_detail" class="tiptap ProseMirror" v-html="item.product_detail"></div>
+              <div v-else>
+                -
+              </div>
+            </template>
+            <template #information>
+              <div v-if="item.product_info" class="tiptap ProseMirror" v-html="item.product_info"></div>
+              <div v-else>
+                -
+              </div>
+            </template>
+          </UTabs>
         </div>
-        <p class="tiptap ProseMirror" v-html="item.product_description"></p>
-        <div v-if="item.product_detail" class="space-y-2">
-          <h5 class="mb-2 text-lg text-primary font-semibold">
-            Detail
-          </h5>
-          <div class="tiptap ProseMirror" v-html="item.product_detail"></div>
-        </div>
-        <div v-if="item.product_info" class="space-y-2">
-          <h5 class="mb-2 text-lg text-primary font-semibold">
-            Important Information
-          </h5>
-          <div class="tiptap ProseMirror" v-html="item.product_info"></div>
-        </div>
-      </div>
-    </div>
-    <div class="col-span-2">
-      <h5 class="mb-2 text-lg text-primary font-semibold">
-        Specifications
-      </h5>
-      <table class="table table-fixed w-full">
-        <tbody>
-          <tr
-            v-for="specification in item.specifications"
-            :key="specification.spec_id"
-            class="*:p-4 border-b border-accent hover:bg-slate-200 dark:hover:bg-slate-800"
-          >
-            <td class="font-semibold align-middle">
-              {{ specification.spec_type }}
-            </td>
-            <td class="tiptap ProseMirror" v-html="specification.spec_value"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      </template>
+      <template #specifications>
+        <table class="table table-fixed w-full">
+          <tbody>
+            <tr
+              v-for="specification in item.specifications"
+              :key="specification.spec_id"
+              class="*:p-4 border-b border-accent hover:bg-slate-200 dark:hover:bg-slate-800"
+            >
+              <td class="font-semibold align-middle">
+                {{ specification.spec_type }}
+              </td>
+              <td class="tiptap ProseMirror" v-html="specification.spec_value"></td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </UTabs>
   </div>
   <div v-else class="py-16">
     <h4 class="text-xl text-tone text-center font-semibold">
@@ -151,11 +154,17 @@ const schema = v.object({
 });
 type Schema = v.InferOutput<typeof schema>;
 
-const tabItems = [
+const mainTabs = [
   {
-    label: "Specification",
-    slot: "specification" as const,
+    label: "Overview",
+    slot: "overview" as const,
   },
+  {
+    label: "Specifications",
+    slot: "specifications" as const,
+  },
+] satisfies TabsItem[];
+const subTabs = [
   {
     label: "Detail",
     slot: "detail" as const,
