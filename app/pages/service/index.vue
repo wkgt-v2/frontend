@@ -114,6 +114,12 @@ import type { FetchError } from "ofetch";
 import type { ServiceOrder } from "~/types";
 import type { HttpError, HttpSuccess } from "~/types/http";
 
+const { t } = useI18n();
+
+useHead({
+  title: t("nav.services"),
+});
+
 const form = reactive({
   id: ref(""),
 });

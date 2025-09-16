@@ -84,6 +84,10 @@ const { data: item } = await useFetch(
   }
 );
 
+useHead({
+  title: item.value?.product_name,
+});
+
 const mainTabs = [
   {
     label: "Overview",
@@ -130,6 +134,16 @@ const breadcrumbItems = computed(() => {
 
 const sortedImages = computed(() => {
   return images.value.sort((a, b) => (b.is_main ? 1 : 0) - (a.is_main ? 1 : 0)) || [];
+});
+
+const desc = htmlToPlainText(item.value?.product_description || "");
+const metaDesc = desc.length > 159 ? desc.slice(0, 159 - 1).trimEnd() + "…" : desc;
+useSeoMeta({
+  title: item.value?.product_name,
+  ogTitle: item.value?.product_name,
+  description: metaDesc,
+  ogDescription: metaDesc,
+  ogImage: sortedImages.value[0]?.image_url,
 });
 
 watch(() => item.value, (val) => {

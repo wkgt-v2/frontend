@@ -141,6 +141,12 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
+useHead({
+  title: t("nav.about_us"),
+});
+
 const brands = [
   { key: "amd", label: "AMD" },
   { key: "corsair", label: "CORSAIR" },

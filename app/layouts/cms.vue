@@ -20,6 +20,12 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} | Wahana Komputer` : "Wahana Komputer";
+  },
+});
+
 const frame = ref<number>();
 const headerRef = ref<ComponentPublicInstance>();
 const radialRef = ref<HTMLDivElement>();
