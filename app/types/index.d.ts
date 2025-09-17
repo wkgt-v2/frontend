@@ -8,6 +8,16 @@ export interface Banner {
   deleted_at: null | string;
 }
 
+export interface BannerSchedule {
+  schedule_id: number;
+  banner_id: number;
+  start_date: string;
+  end_date: string;
+  created_at: string;
+  updated_at: string;
+  banner: null | Banner;
+}
+
 export interface RolePermission {
   permission_id: number;
   permission_name: string;
