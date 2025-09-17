@@ -88,8 +88,8 @@ export interface Order {
   status: OrderStatus;
   salesperson_id: number;
   lead_id: number;
-  approved_at: string;
-  approved_by: number;
+  approved_at: null | string;
+  approved_by: null | number;
   created_at: string;
   updated_at: string;
   deleted_at: null | string;

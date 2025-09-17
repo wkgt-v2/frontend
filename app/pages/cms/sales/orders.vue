@@ -73,32 +73,49 @@
   >
     <template #body>
       <div v-if="selected" class="grid grid-cols-2 gap-4">
-        <!-- <div
-          v-for="field in fields"
-          :key="field.key"
-          class="space-y-1 text-sm text-tone"
-        >
-          <div>{{ field.label }}</div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Sales Person</div>
           <div class="font-medium">
-            <template
-              v-if="['omzetNet', 'averageOrderValue'].includes(field.key)"
-            >
-              {{
-                formatPrice(`${selected[field.key as keyof typeof selected]}`)
-              }}
-            </template>
-            <template
-              v-else-if="['closingRate', 'achievement'].includes(field.key)"
-            >
-              {{
-                parseFloat(`${selected[field.key as keyof typeof selected]}`)
-              }}%
-            </template>
-            <template v-else>
-              {{ selected[field.key as keyof typeof selected] }}
-            </template>
+            {{ selected.salesperson.user_username }}
           </div>
-        </div> -->
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Customer Name</div>
+          <div class="font-medium">
+            {{ selected.lead.customer_name }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Order Date</div>
+          <div class="font-medium">
+            {{ selected.order_date }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Status</div>
+          <div class="font-medium">
+            {{ selected.status }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Total Amount</div>
+          <div class="font-medium">
+            {{ formatPrice(selected.total_amount) }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Approved At</div>
+          <div class="font-medium">
+            {{ selected.approved_at || "-" }}
+          </div>
+        </div>
+        <div class="col-span-2 overflow-x-auto">
+          <UTable
+            :columns="itemColumn"
+            :data="selected.items"
+            :ui="{ th: 'py-2 px-3', td: 'py-2 px-3' }"
+          />
+        </div>
       </div>
     </template>
     <template #footer="{ close }">
@@ -111,7 +128,7 @@
 import type { FetchError } from "ofetch";
 import type { TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
-import type { Order, OrderStatus } from "~/types/sales";
+import type { Order, OrderItem, OrderStatus } from "~/types/sales";
 
 interface FilterData {
   status?: OrderStatus;
@@ -151,6 +168,33 @@ const column: TableColumn<Order>[] = [
         td: "w-16 text-right",
       },
     },
+  },
+];
+const itemColumn: TableColumn<OrderItem>[] = [
+  {
+    accessorKey: "product",
+    header: "Product",
+    cell: ({ row }) => row.original.product.product_name,
+  },
+  {
+    accessorKey: "quantity",
+    header: "Quantity",
+    meta: {
+      class: {
+        th: "text-center",
+        td: "text-center",
+      },
+    },
+  },
+  {
+    accessorKey: "price_per_item",
+    header: "Price",
+    cell: ({ row }) => formatPrice(`${row.original.price_per_item}`),
+  },
+  {
+    accessorKey: "subtotal",
+    header: "Subtotal",
+    cell: ({ row }) => formatPrice(`${row.original.subtotal}`),
   },
 ];
 
