@@ -34,7 +34,7 @@ onMounted(() => {
   if (model.value) {
     const date = new Date(model.value);
     const [month, day, year] = [
-      date.getMonth(),
+      date.getMonth() + 1,
       date.getDate(),
       date.getFullYear(),
     ];
