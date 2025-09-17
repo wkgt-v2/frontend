@@ -103,8 +103,7 @@ import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
-import type { Activity, Lead } from "~/types/sales";
-import type { User } from "~/types";
+import type { Activity } from "~/types/sales";
 
 const column: TableColumn<Activity>[] = [
   {
@@ -197,14 +196,6 @@ const params = computed(() => {
   return params.toString();
 });
 
-const leadsParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  if (state.salesperson_id) params.append("salesperson_id", `${state.salesperson_id}`);
-  return params.toString();
-
-});
-
 const { data: activities, status: onLoadData, refresh: refreshActivities } = await useFetch(
   () => `${config.public.apiBase}/sales-activities?${params.value}`,
   {
@@ -217,36 +208,10 @@ const { data: activities, status: onLoadData, refresh: refreshActivities } = awa
   }
 );
 
-const { data: users, status: onLoadUsers, refresh: refreshUsers } = await useFetch(
-  `${config.public.apiBase}/users?limit=9999`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<User[]>) => {
-      return value.data.data.map(u => {
-        return {
-          label: u.user_username,
-          value: u.user_id,
-        };
-      });
-    },
-  }
-);
-
-const { data: leads, status: onLoadLeads, refresh: refreshLeads } = await useFetch(
-  () => `${config.public.apiBase}/leads?${leadsParams.value}`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<Lead[]>) => {
-      return value.data.data.map(l => {
-        return {
-          label: l.customer_name,
-          value: l.lead_id,
-        };
-      });
-    },
-    watch: [() => leadsParams.value],
-  }
-);
+const { users, onLoadUsers, refreshUsers } = useOptsUsers();
+const { leads, onLoadLeads } = useOptsLeads(toRef(() => {
+  return { salesperson_id: state.salesperson_id };
+}));
 
 function getDropdownActions(activity: Activity) {
   return [

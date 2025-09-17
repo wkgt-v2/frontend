@@ -131,8 +131,8 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormError, FormSubmitEvent } from "@nuxt/ui";
-import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
-import type { Category, Item, Series } from "~/types/product";
+import type { HttpError, HttpSuccess } from "~/types/http";
+import type { Item } from "~/types/product";
 
 const schema = v.object({
   product_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
@@ -183,34 +183,10 @@ const { data: product } = await useFetch(
   }
 );
 
-const { data: categories, status: onLoadCategories } = await useFetch(
-  `${config.public.apiBase}/categories?limit=9999`,
-  {
-    transform: (value: HttpSuccessWithPagination<Category[]>) => {
-      return value.data.data.map(c => {
-        return {
-          label: c.category_name,
-          value: c.category_id,
-        }
-      });
-    },
-  }
-);
-
-const { data: series, status: onLoadSeries } = await useFetch(
-  () => `${config.public.apiBase}/series?limit=9999&category_id=${state.category_id || '' }`,
-  {
-    transform: (value: HttpSuccessWithPagination<Series[]>) => {
-      return value.data.data.map(s => {
-        return {
-          label: s.series_name,
-          value: s.series_id,
-        }
-      });
-    },
-    watch: [() => state.category_id],
-  }
-);
+const { categories, onLoadCategories } = useOptsCategories();
+const { series, onLoadSeries } = useOptsSeries(toRef(() => {
+  return { category_id: state.category_id };
+}));
 
 watch(() => product.value, (val) => {
   if (!val) return;

@@ -118,7 +118,6 @@ import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { ServiceOrder } from "~/types";
-import type { Category, Item, Series } from "~/types/product";
 
 const column: TableColumn<ServiceOrder>[] = [
   {
@@ -208,22 +207,10 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
-  if (searchQuery.value) params.append("category_name", searchQuery.value);
-  return params.toString();
-});
-
-const seriesParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  params.append("category_id", `${state.category_id}`);
-  return params.toString();
-});
-
-const productsParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  params.append("category_id", `${state.category_id}`);
-  params.append("series_id", `${state.series_id}`);
+  if (searchQuery.value) {
+    params.append("no_resi", searchQuery.value);
+    params.append("description", searchQuery.value);
+  }
   return params.toString();
 });
 
@@ -239,49 +226,13 @@ const { data, status: onLoadData, refresh } = await useFetch(
   }
 );
 
-const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
-  () => `${config.public.apiBase}/categories?limit=9999`,
-  {
-    transform: (value: HttpSuccessWithPagination<Category[]>) => {
-      return value.data.data.map(c => {
-        return {
-          label: c.category_name,
-          value: c.category_id,
-        };
-      });
-    },
-  }
-);
-
-const { data: series, status: onLoadSeries, refresh: refreshSeries } = await useFetch(
-  () => `${config.public.apiBase}/series?${seriesParams.value}`,
-  {
-    transform: (value: HttpSuccessWithPagination<Series[]>) => {
-      return value.data.data.map(s => {
-        return {
-          label: s.series_name,
-          value: s.series_id,
-        };
-      });
-    },
-    watch: [() => seriesParams.value],
-  }
-);
-
-const { data: products, status: onLoadProducts, refresh: refreshProducts } = await useFetch(
-  () => `${config.public.apiBase}/products?${productsParams.value}`,
-  {
-    transform: (value: HttpSuccessWithPagination<Item[]>) => {
-      return value.data.data.map(i => {
-        return {
-          label: i.product_name,
-          value: i.product_id,
-        };
-      });
-    },
-    watch: [() => productsParams.value],
-  }
-);
+const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
+const { series, onLoadSeries } = useOptsSeries(toRef(() => {
+  return { category_id: state.category_id };
+}));
+const { products, onLoadProducts } = useOptsProducts(toRef(() => {
+  return { category_id: state.category_id, series_id: state.series_id };
+}));
 
 watch(() => series.value, (val) => {
   if (!val || !state.series_id) return;

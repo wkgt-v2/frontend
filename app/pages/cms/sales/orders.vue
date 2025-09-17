@@ -234,9 +234,7 @@ import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
-import type { Lead, Order, OrderStatus } from "~/types/sales";
-import type { User } from "~/types";
-import type { Category, Item, Series } from "~/types/product";
+import type { Order, OrderStatus } from "~/types/sales";
 
 interface FilterData {
   status?: OrderStatus;
@@ -432,28 +430,6 @@ const params = computed(() => {
   return params.toString();
 });
 
-const leadsParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  if (state.salesperson_id) params.append("salesperson_id", `${state.salesperson_id}`);
-  return params.toString();
-});
-
-const seriesParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  params.append("category_id", `${itemState.category_id}`);
-  return params.toString();
-});
-
-const productsParams = computed(() => {
-  const params = new URLSearchParams();
-  params.append("limit", "9999");
-  params.append("category_id", `${itemState.category_id}`);
-  params.append("series_id", `${itemState.series_id}`);
-  return params.toString();
-});
-
 const { data: orders, status: onLoadData, refresh: refreshOrders } = await useFetch(
   () => `${config.public.apiBase}/orders?${params.value}`,
   {
@@ -466,80 +442,18 @@ const { data: orders, status: onLoadData, refresh: refreshOrders } = await useFe
   }
 );
 
-const { data: users, status: onLoadUsers, refresh: refreshUsers } = await useFetch(
-  `${config.public.apiBase}/users?limit=9999`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<User[]>) => {
-      return value.data.data.map(u => {
-        return {
-          label: u.user_username,
-          value: u.user_id,
-        };
-      });
-    },
-  }
-);
+const { users, onLoadUsers, refreshUsers } = useOptsUsers();
+const { leads, onLoadLeads } = useOptsLeads(toRef(() => {
+  return { salesperson_id: state.salesperson_id };
+}));
 
-const { data: leads, status: onLoadLeads, refresh: refreshLeads } = await useFetch(
-  () => `${config.public.apiBase}/leads?${leadsParams.value}`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<Lead[]>) => {
-      return value.data.data.map(l => {
-        return {
-          label: l.customer_name,
-          value: l.lead_id,
-        };
-      });
-    },
-    watch: [() => leadsParams.value],
-  }
-);
-
-const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
-  () => `${config.public.apiBase}/categories?limit=9999`,
-  {
-    transform: (value: HttpSuccessWithPagination<Category[]>) => {
-      return value.data.data.map(c => {
-        return {
-          label: c.category_name,
-          value: c.category_id,
-        };
-      });
-    },
-  }
-);
-
-const { data: series, status: onLoadSeries, refresh: refreshSeries } = await useFetch(
-  () => `${config.public.apiBase}/series?${seriesParams.value}`,
-  {
-    transform: (value: HttpSuccessWithPagination<Series[]>) => {
-      return value.data.data.map(s => {
-        return {
-          label: s.series_name,
-          value: s.series_id,
-        };
-      });
-    },
-    watch: [() => seriesParams.value],
-  }
-);
-
-const { data: products, status: onLoadProducts, refresh: refreshProducts } = await useFetch(
-  () => `${config.public.apiBase}/products?${productsParams.value}`,
-  {
-    transform: (value: HttpSuccessWithPagination<Item[]>) => {
-      return value.data.data.map(i => {
-        return {
-          label: i.product_name,
-          value: i.product_id,
-        };
-      });
-    },
-    watch: [() => productsParams.value],
-  }
-);
+const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
+const { series, onLoadSeries } = useOptsSeries(toRef(() => {
+  return { category_id: itemState.category_id };
+}));
+const { products, onLoadProducts } = useOptsProducts(toRef(() => {
+  return { category_id: itemState.category_id, series_id: itemState.series_id };
+}));
 
 watch(() => series.value, (val) => {
   if (!val || !itemState.series_id) return;

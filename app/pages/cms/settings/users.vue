@@ -85,8 +85,8 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
-import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
-import type { User, UserRole } from "~/types";
+import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
+import type { User } from "~/types";
 
 const column: TableColumn<User>[] = [
   {
@@ -182,20 +182,7 @@ const { data: users, status: onLoadData, refresh: refreshUsers } = await useFetc
   }
 );
 
-const { data: roles, status: onLoadRoles, refresh: refreshRoles } = await useFetch(
-  `${config.public.apiBase}/roles?limit=9999`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<UserRole[]>) => {
-      return value.data.data.map(r => {
-        return {
-          label: r.role_nama,
-          value: r.role_id,
-        };
-      });
-    },
-  }
-);
+const { roles, onLoadRoles, refreshRoles } = useOptsRoles();
 
 function getDropdownActions(user: User) {
   return [

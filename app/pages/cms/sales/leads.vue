@@ -102,7 +102,6 @@ import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Lead } from "~/types/sales";
-import type { User } from "~/types";
 import { LEAD_STATUS } from "~/utils";
 
 const column: TableColumn<Lead>[] = [
@@ -224,20 +223,7 @@ const { data: leads, status: onLoadData, refresh: refreshLeads } = await useFetc
   }
 );
 
-const { data: users, status: onLoadUsers, refresh: refreshUsers } = await useFetch(
-  `${config.public.apiBase}/users?limit=9999`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<User[]>) => {
-      return value.data.data.map(u => {
-        return {
-          label: u.user_username,
-          value: u.user_id,
-        };
-      });
-    },
-  }
-);
+const { users, onLoadUsers, refreshUsers } = useOptsUsers();
 
 function getDropdownActions(lead: Lead) {
   return [

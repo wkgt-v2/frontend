@@ -79,8 +79,8 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
-import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
-import type { Category, Series } from "~/types/product";
+import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
+import type { Series } from "~/types/product";
 
 const column: TableColumn<Series>[] = [
   {
@@ -161,19 +161,7 @@ const { data: series, status: onLoadData, refresh: refreshSeries } = await useFe
   }
 );
 
-const { data: categories, status: onLoadCategories, refresh: refreshCategories } = await useFetch(
-  `${config.public.apiBase}/categories`,
-  {
-    transform: (value: HttpSuccessWithPagination<Category[]>) => {
-      return value.data.data.map(c => {
-        return {
-          label: c.category_name,
-          value: c.category_id,
-        };
-      });
-    },
-  }
-);
+const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
 
 function getDropdownActions(series: Series) {
   return [
