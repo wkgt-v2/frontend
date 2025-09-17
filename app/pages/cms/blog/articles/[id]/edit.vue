@@ -71,17 +71,14 @@ import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/
 import type { BlogArticle, BlogCategory } from "~/types/blog";
 
 const schema = v.object({
-  blog_category_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  title: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  blog_category_id: vRequiredSelect(),
+  title: vRequired(),
   slug: v.pipe(
     v.string(),
     v.nonEmpty("This field is required."),
     v.regex(/^[a-z0-9-]+$/, "Use only lowercase letters, numbers, and dashes. No spaces."),
   ),
-  content: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  content: vRequired(),
 });
 type Schema = v.InferOutput<typeof schema>;
 

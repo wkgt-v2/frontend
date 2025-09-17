@@ -152,27 +152,15 @@ const column: TableColumn<ServiceOrder>[] = [
 ];
 
 const schema = v.object({
-  no_resi: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  series_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  product_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  customer_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  customer_phone: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  start_date: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
-  status: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  description: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  no_resi: vRequired(),
+  category_id: vRequiredSelect(),
+  series_id: vRequiredSelect(),
+  product_id: vRequiredSelect(),
+  customer_name: vRequired(),
+  customer_phone: vRequired(),
+  start_date: vRequiredStringSelect(),
+  status: vRequired(),
+  description: vRequired(),
 });
 type Schema = v.InferOutput<typeof schema>;
 

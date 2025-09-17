@@ -99,7 +99,7 @@ const column: TableColumn<BlogCategory>[] = [
 ];
 
 const schema = v.object({
-  blog_category_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  blog_category_name: vRequired(),
   blog_category_slug: v.pipe(
     v.string(),
     v.nonEmpty("This field is required."),

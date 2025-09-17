@@ -64,8 +64,8 @@ definePageMeta({
 });
 
 const schema = v.object({
-  user_username: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  user_password: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  user_username: vRequired(),
+  user_password: vRequired(),
 });
 
 type Schema = v.InferOutput<typeof schema>;

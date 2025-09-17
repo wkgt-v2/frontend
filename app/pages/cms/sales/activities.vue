@@ -139,22 +139,10 @@ const column: TableColumn<Activity>[] = [
 ];
 
 const schema = v.object({
-  salesperson_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  lead_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  activity_type: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
-  follow_up_date: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
+  salesperson_id: vRequiredSelect(),
+  lead_id: vRequiredSelect(),
+  activity_type: vRequiredStringSelect(),
+  follow_up_date: vRequiredStringSelect(),
   proof_photos: v.pipe(
     v.array(v.file()),
     v.filterItems((item) => ALLOWED_FILE_TYPES.includes(item.type)),

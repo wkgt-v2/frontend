@@ -113,7 +113,7 @@ const column: TableColumn<UserRole>[] = [
 ];
 
 const schema = v.object({
-  role_nama: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  role_nama: vRequired(),
   role_permission: v.pipe(v.array(v.string()), v.minLength(1, "Must be at least 1 selected permission")),
 });
 type Schema = v.InferOutput<typeof schema>;

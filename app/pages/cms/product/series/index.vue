@@ -112,12 +112,9 @@ const column: TableColumn<Series>[] = [
 ];
 
 const schema = v.object({
-  series_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  series_code: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
+  series_name: vRequired(),
+  series_code: vRequired(),
+  category_id: vRequiredSelect(),
 });
 type Schema = v.InferOutput<typeof schema>;
 

@@ -152,25 +152,16 @@ const column: TableColumn<Lead>[] = [
 ];
 
 const schema = v.object({
-  date_in: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
-  lead_source: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  customer_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  contact_person: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  phone: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  address: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  area: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  status: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
-  salesperson_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
+  date_in: vRequiredStringSelect(),
+  lead_source: vRequired(),
+  customer_name: vRequired(),
+  contact_person: vRequired(),
+  phone: vRequired(),
+  address: vRequired(),
+  area: vRequired(),
+  category: vRequired(),
+  status: vRequiredStringSelect(),
+  salesperson_id: vRequiredSelect(),
 });
 type Schema = v.InferOutput<typeof schema>;
 

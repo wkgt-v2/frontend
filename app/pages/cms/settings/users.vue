@@ -118,7 +118,7 @@ const column: TableColumn<User>[] = [
 ];
 
 const schema = v.object({
-  user_username: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  user_username: vRequired(),
   user_email: v.pipe(v.string(), v.email("Value is not a valid email."), v.nonEmpty("This field is required.")),
   user_password: v.pipe(
     v.string(),
@@ -132,10 +132,7 @@ const schema = v.object({
       v.minLength(8, "Password must be at least 8 characters.")
     )
   ]),
-  role_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
+  role_id: vRequiredSelect(),
 });
 type Schema = v.InferOutput<typeof schema>;
 

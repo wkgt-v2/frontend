@@ -326,42 +326,18 @@ const itemColumn: TableColumn<OrderItemPlaceholder>[] = [
 
 const itemSchema = v.object({
   id: v.pipe(v.number(), v.toMinValue(1)),
-  category_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  series_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  product_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  product_name: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
+  category_id: vRequiredSelect(),
+  series_id: vRequiredSelect(),
+  product_id: vRequiredSelect(),
+  product_name: vRequiredStringSelect(),
   quantity: v.pipe(v.number(), v.minValue(1, "At least 1 quantity.")),
   price: v.pipe(v.number(), v.minValue(1, "Price can't be zero."), ),
 });
 const schema = v.object({
-  salesperson_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  lead_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  order_date: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
-  status: v.pipe(
-    v.union([v.string(), v.nullish(v.string())]),
-    v.string("This field is required.")
-  ),
+  salesperson_id: vRequiredSelect(),
+  lead_id: vRequiredSelect(),
+  order_date: vRequiredStringSelect(),
+  status: vRequiredStringSelect(),
 });
 type Schema = v.InferOutput<typeof schema>;
 type ItemSchema = v.InferOutput<typeof itemSchema>;

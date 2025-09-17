@@ -150,19 +150,13 @@ const schema = v.object({
     v.filterItems((item) => ALLOWED_FILE_TYPES.includes(item.type)),
     v.minLength(1, "Select at least one image."),
   ),
-  product_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  product_code: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  product_description: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  product_detail: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  product_info: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
-  series_id: v.pipe(
-    v.union([v.number(), v.nullish(v.number())]),
-    v.number("This field is required.")
-  ),
+  product_name: vRequired(),
+  product_code: vRequired(),
+  product_description: vRequired(),
+  product_detail: vRequired(),
+  product_info: vRequired(),
+  category_id: vRequiredSelect(),
+  series_id: vRequiredSelect(),
   // specifications: [{ key: "", value: "" }],
   marketplace_tokopedia: v.pipe(v.string(), v.url("Please enter a valid URL.")),
   marketplace_shopee: v.pipe(v.string(), v.url("Please enter a valid URL.")),

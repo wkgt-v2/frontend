@@ -118,8 +118,8 @@ const column: TableColumn<Category>[] = [
 ];
 
 const schema = v.object({
-  category_name: v.pipe(v.string(), v.nonEmpty("This field is required.")),
-  category_code: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  category_name: vRequired(),
+  category_code: vRequired(),
   category_image: v.pipe(
     v.file("Please select an image file."),
     v.mimeType(
@@ -127,7 +127,7 @@ const schema = v.object({
       "Please select a JPG, JPEG, PNG or WebP file."
     )
   ),
-  category_description: v.pipe(v.string(), v.nonEmpty("This field is required.")),
+  category_description: vRequired(),
   // category_instruction: v.pipe(v.string()),
   // category_main: v.pipe(v.boolean()),
 });
