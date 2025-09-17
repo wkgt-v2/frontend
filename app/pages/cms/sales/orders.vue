@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <CmsOrdersForm ref="form" :selected="selected" />
+  <CmsOrdersForm ref="form" :selected="selected" @refresh="refreshOrders" />
 
   <UModal
     title="Filter"
