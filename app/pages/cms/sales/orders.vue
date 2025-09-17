@@ -1,9 +1,7 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex justify-between gap-8">
-      <UFormField label="Search Order">
-        <UInput v-model="searchQuery" />
-      </UFormField>
+      <UButton icon="i-material-symbols:tune" @click="openFilter">Filter</UButton>
       <div class="flex items-end justify-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
@@ -46,6 +44,17 @@
   >
     <template #body>
       <div class="space-y-6">
+        <UFormField label="Sales Person" name="salesperson_id">
+          <USelectMenu
+            v-model="_filter.salesperson_id"
+            :items="users"
+            value-key="value"
+            :loading="onLoadUsers === 'pending'"
+          />
+        </UFormField>
+        <UFormField label="Status" name="status">
+          <USelectMenu v-model="_filter.status" :items="ORDER_STATUS" value-key="value" />
+        </UFormField>
         <div class="grid grid-cols-2 gap-4">
           <UFormField
             label="Start Date"
@@ -62,6 +71,7 @@
     </template>
     <template #footer="{ close }">
       <UButton label="Cancel" variant="outline" @click="close" />
+      <UButton label="Reset" variant="outline" @click="resetFilter" />
       <UButton label="Apply Filter" @click="applyFilter" />
     </template>
   </UModal>
@@ -222,7 +232,6 @@ const meta = reactive({
   page: 1,
   total: 0,
 });
-const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Order>();
 const showDetails = ref(false);
 const showFilter = ref(false);
@@ -251,6 +260,8 @@ const { data: orders, status: onLoadData, refresh: refreshOrders } = await useFe
   }
 );
 
+const { users, onLoadUsers, refreshUsers } = useOptsUsers();
+
 function applyFilter() {
   Object.assign(errors, {
     start_date: "",
@@ -273,6 +284,8 @@ function applyFilter() {
   }
 
   Object.assign(filter, {
+    salesperson_id: _filter.salesperson_id,
+    status: _filter.status,
     start_date: _filter.start_date,
     end_date: _filter.end_date,
   });
@@ -347,5 +360,22 @@ function parseStatus(order: Order): { label: string; color: "success" | "error" 
     default:
       return { label: "Pending", color: "neutral" };
   }
+}
+
+function openFilter() {
+  refreshUsers();
+  Object.assign(_filter, { ...filter });
+  showFilter.value = true;
+}
+
+function resetFilter() {
+  Object.assign(filter, {
+    status: undefined,
+    salesperson_id: undefined,
+    start_date: undefined,
+    end_date: undefined,
+  });
+
+  showFilter.value = false;
 }
 </script>
