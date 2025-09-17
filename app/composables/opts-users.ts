@@ -14,7 +14,7 @@ export const useOptsUsers = (state?: Ref<Record<string, any>>) => {
   });
 
   const { data: users, status: onLoadUsers, refresh: refreshUsers } = useFetch(
-    () => `${useRuntimeConfig().public.apiBase}/series?${params.value}`,
+    () => `${useRuntimeConfig().public.apiBase}/users?${params.value}`,
     {
       headers: { ...bearer },
       transform: (value: HttpSuccessWithPagination<User[]>) => {

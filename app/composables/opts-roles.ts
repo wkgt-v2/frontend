@@ -14,7 +14,7 @@ export const useOptsRoles = (state?: Ref<Record<string, any>>) => {
   });
 
   const { data: roles, status: onLoadRoles, refresh: refreshRoles } = useFetch(
-    () => `${useRuntimeConfig().public.apiBase}/series?${params.value}`,
+    () => `${useRuntimeConfig().public.apiBase}/roles?${params.value}`,
     {
       headers: { ...bearer },
       transform: (value: HttpSuccessWithPagination<UserRole[]>) => {
