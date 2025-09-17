@@ -71,6 +71,15 @@ const navItems = ref<NavigationMenuItem[]>([
     ],
   },
   {
+    label: "Marketing",
+    children: [
+      {
+        label: "Banners",
+        to: localePath("cms-marketing-banners"),
+      },
+    ],
+  },
+  {
     label: "Service Orders",
     to: localePath("cms-service-orders"),
   },

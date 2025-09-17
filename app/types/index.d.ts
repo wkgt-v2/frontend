@@ -1,3 +1,13 @@
+export interface Banner {
+  banner_id: number;
+  banner_title: string;
+  banner_image: string;
+  banner_url: null | string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+}
+
 export interface RolePermission {
   permission_id: number;
   permission_name: string;
