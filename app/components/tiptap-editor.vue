@@ -102,6 +102,22 @@
               @click="editor.chain().focus().toggleOrderedList().run()"
             />
           </UTooltip>
+          <UTooltip text="Increase list indent">
+            <UButton
+              icon="i-material-symbols:format-indent-increase"
+              variant="soft"
+              :disabled="!editor.can().sinkListItem('listItem')"
+              @click="editor.chain().focus().sinkListItem('listItem').run()"
+            />
+          </UTooltip>
+          <UTooltip text="Decrease list indent">
+            <UButton
+              icon="i-material-symbols:format-indent-decrease"
+              variant="soft"
+              :disabled="!editor.can().liftListItem('listItem')"
+              @click="editor.chain().focus().liftListItem('listItem').run()"
+            />
+          </UTooltip>
           <UTooltip text="Horizontal Rule">
             <UButton
               icon="i-material-symbols:horizontal-rule"
