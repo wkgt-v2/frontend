@@ -97,14 +97,6 @@ import type { TableColumn } from "@nuxt/ui";
 import type { HttpSuccess } from "~/types/http";
 import type { KPI } from "~/types/sales";
 
-const RANGE_FILTER = [
-  { label: "Weekly", value: "weekly" },
-  { label: "Monthly", value: "monthly" },
-  { label: "Last week", value: "last_week" },
-  { label: "Last month", value: "last_month" },
-  { label: "Date range", value: "range" },
-];
-
 const column: TableColumn<KPI>[] = [
   {
     accessorKey: "salesperson_name",
@@ -206,7 +198,7 @@ const fields = [
   },
   {
     key: "omzetNet",
-    label: "Omzet Net",
+    label: "Revenue",
   },
   {
     key: "totalOrdersApproved",

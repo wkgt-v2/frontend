@@ -12,3 +12,10 @@ export const ORDER_STATUS = [
   { label: "Cancelled", value: "Canceled" },
   { label: "Paid", value: "Paid" },
 ];
+export const RANGE_FILTER = [
+  { label: "Weekly", value: "weekly" },
+  { label: "Monthly", value: "monthly" },
+  { label: "Last week", value: "last_week" },
+  { label: "Last month", value: "last_month" },
+  { label: "Date range", value: "range" },
+];

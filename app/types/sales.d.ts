@@ -10,8 +10,8 @@ export interface Activity {
   follow_up_date: string;
   audit_status: "pending" | "approved" | "rejected";
   audit_notes: null | string;
-  audited_at: string;
-  audited_by: number;
+  audited_at: null | string;
+  audited_by: null | number;
   created_at: string;
   updated_at: string;
   deleted_at: null | string;
