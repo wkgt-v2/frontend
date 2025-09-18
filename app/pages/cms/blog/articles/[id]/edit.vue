@@ -15,7 +15,7 @@
         <UFormField label="Title" name="title">
           <UInput v-model="state.title" />
         </UFormField>
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-2 gap-6">
           <UFormField label="Slug" name="slug">
             <UInput v-model="state.slug" />
           </UFormField>

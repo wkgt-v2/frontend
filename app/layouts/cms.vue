@@ -8,9 +8,84 @@
           :class="{ hidden: !radialEnabled }"
         ></div>
       </Teleport>
-      <CmsSidebar ref="sidebarRef" />
-      <div :style="{ width: sidebarWidth }">
-        <CmsHeader ref="headerRef" />
+      <div class="not-lg:hidden shrink-0 space-y-4 w-80 h-dvh glass py-4 px-6 border-r border-accent">
+        <NuxtLink :to="$localePath('/')" class="block">
+          <img
+            src="/assets/images/logo.png"
+            alt="Logo"
+            class="h-10 select-none dark:hidden"
+          />
+          <img
+            src="/assets/images/logo_dark-mode.png"
+            alt="Logo"
+            class="h-10 select-none hidden dark:block"
+          />
+        </NuxtLink>
+        <div class="h-[calc(100dvh-136px)] -mx-6 p-6 overflow-y-auto">
+          <UNavigationMenu :items="navItems" orientation="vertical" />
+        </div>
+        <UDropdownMenu
+          :items="dropdownItems"
+          :content="{
+            align: 'start',
+            side: 'bottom',
+            sideOffset: 8
+          }"
+          :ui="{
+            content: 'w-48'
+          }"
+        >
+          <UButton variant="ghost" :label="user.user_username" trailing-icon="i-material-symbols-person-outline" block />
+        </UDropdownMenu>
+      </div>
+      <div class="w-full lg:w-[calc(100%-320px)]">
+        <header
+          ref="header"
+          class="flex items-center h-[72px] glass px-6 border-b border-accent"
+        >
+          <USlideover side="left" v-model:open="openSlideover">
+            <UButton variant="outline" icon="i-material-symbols:menu" class="lg:hidden" />
+
+            <template #content>
+              <div class="space-y-4 h-dvh p-4">
+                <div class="flex items-center justify-between">
+                  <NuxtLink :to="localePath('/')">
+                    <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
+                    <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
+                  </NuxtLink>
+                  <UButton
+                    variant="outline"
+                    icon="i-material-symbols:close"
+                    class="ml-auto"
+                    @click="openSlideover = false"
+                  />
+                </div>
+                <div class="h-[calc(100dvh-136px)] -mx-6 p-6 overflow-y-auto">
+                  <UNavigationMenu :items="navItems" orientation="vertical" />
+                </div>
+                <UDropdownMenu
+                  :items="dropdownItems"
+                  :content="{
+                    align: 'start',
+                    side: 'bottom',
+                    sideOffset: 8
+                  }"
+                  :ui="{
+                    content: 'w-48'
+                  }"
+                >
+                  <UButton
+                    variant="ghost"
+                    :label="user.user_username"
+                    trailing-icon="i-material-symbols-person-outline"
+                    block
+                  />
+                </UDropdownMenu>
+              </div>
+            </template>
+          </USlideover>
+          <DarkModeToggler class="ml-auto" />
+        </header>
         <main class="overflow-auto" :style="{ maxHeight: contentHeight }">
           <slot />
         </main>
@@ -20,22 +95,146 @@
 </template>
 
 <script setup lang="ts">
+import type { DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
+
 useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} | Wahana Komputer` : "Wahana Komputer";
   },
 });
 
+const localePath = useLocalePath();
+
+const dropdownItems = ref<DropdownMenuItem[]>([
+  {
+    label: "Logout",
+    icon: "material-symbols:power-settings-new-outline",
+    onSelect() {
+      token.value = null;
+      location.href = localePath("cms-login");
+    },
+  },
+]);
+const navItems = ref<NavigationMenuItem[]>([
+  {
+    label: "Dashboard",
+    to: localePath("cms-dashboard"),
+    onSelect: () => openSlideover.value = false,
+  },
+  {
+    label: "Product",
+    children: [
+      {
+        label: "Categories",
+        to: localePath("cms-product-categories"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Series",
+        to: localePath("cms-product-series"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Items",
+        to: localePath("cms-product-items"),
+        onSelect: () => openSlideover.value = false,
+      },
+    ],
+  },
+  {
+    label: "Marketing",
+    children: [
+      {
+        label: "Banners",
+        to: localePath("cms-marketing-banners"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Banner Schedules",
+        to: localePath("cms-marketing-banner-schedules"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Social Media",
+        to: localePath("cms-marketing-socials"),
+        onSelect: () => openSlideover.value = false,
+      },
+    ],
+  },
+  {
+    label: "Service Orders",
+    to: localePath("cms-service-orders"),
+    onSelect: () => openSlideover.value = false,
+  },
+  {
+    label: "Sales",
+    children: [
+      {
+        label: "Leads",
+        to: localePath("cms-sales-leads"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Activities",
+        to: localePath("cms-sales-activities"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Orders",
+        to: localePath("cms-sales-orders"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "KPI",
+        to: localePath("cms-sales-kpi"),
+        onSelect: () => openSlideover.value = false,
+      },
+    ],
+  },
+  {
+    label: "Blog",
+    children: [
+      {
+        label: "Categories",
+        to: localePath("cms-blog-categories"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Articles",
+        to: localePath("cms-blog-articles"),
+        onSelect: () => openSlideover.value = false,
+      },
+    ],
+  },
+  {
+    label: "Settings",
+    children: [
+      {
+        label: "Users",
+        to: localePath("cms-settings-users"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
+        label: "Roles",
+        to: localePath("cms-settings-roles"),
+        onSelect: () => openSlideover.value = false,
+      },
+    ],
+  },
+]);
+
 const frame = ref<number>();
-const headerRef = ref<ComponentPublicInstance>();
+const headerRef = useTemplateRef("header");
+const openSlideover = ref(false);
 const radialRef = ref<HTMLDivElement>();
 const route = useRoute();
-const sidebarRef = ref<ComponentPublicInstance>();
+const { token } = useToken();
+const user = useUser();
 
 const contentHeight = computed(() => {
   let headerHeight = 72;
   if (headerRef.value) {
-    headerHeight = headerRef.value.$el.offsetHeight;
+    headerHeight = headerRef.value.offsetHeight;
   }
   return `calc(100dvh - ${headerHeight}px)`;
 });
@@ -44,13 +243,6 @@ const radialEnabled = computed(() => {
   /* remove suffix `___locale` */
   const pathName = (route.name as string).replace(/___\w+$/, "");
   return routes.includes(pathName);
-});
-const sidebarWidth = computed(() => {
-  let sidebarWidth = 72;
-  if (sidebarRef.value) {
-    sidebarWidth = sidebarRef.value.$el.offsetWidth;
-  }
-  return `calc(100% - ${sidebarWidth}px)`;
 });
 
 function updateRadialPosition(e: MouseEvent) {

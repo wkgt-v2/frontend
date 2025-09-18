@@ -1,10 +1,10 @@
 <template>
   <div class="space-y-6 p-6">
-    <div class="flex justify-between gap-8">
+    <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
       <UFormField label="Search Banner">
         <UInput v-model="searchQuery" />
       </UFormField>
-      <div class="flex items-end justify-end gap-4 *:h-fit">
+      <div class="flex items-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
             <UButton :loading="onLoadData === 'pending'" @click="refreshBanners()">

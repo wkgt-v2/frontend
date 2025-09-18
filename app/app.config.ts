@@ -19,6 +19,11 @@ export default defineAppConfig({
         placeholder: "min-h-5",
       },
     },
+    table: {
+      slots: {
+        th: "whitespace-nowrap",
+      },
+    },
     textarea: {
       slots: {
         root: "w-full",

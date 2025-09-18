@@ -13,7 +13,7 @@
             <div class="flex items-center justify-between">
               <NuxtLink :to="localePath('/')">
                 <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-                <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
+                <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
               </NuxtLink>
               <UButton
                 variant="outline"

@@ -5,7 +5,7 @@
   <div v-else class="space-y-6 p-6">
     <template v-if="data">
       <UButton icon="i-material-symbols:tune" @click="openFilter">Filter</UButton>
-      <div class="grid grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
         <NuxtLink class="space-y-6 glass p-6 text-tone rounded-2xl border-accent">
           <div class="flex items-center gap-2">
             <UIcon name="i-material-symbols:person-add" mode="svg" class="size-6" />
@@ -51,7 +51,7 @@
             {{ data.totalApprovedOrders }}
           </h1>
         </NuxtLink>
-        <NuxtLink class="col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
+        <NuxtLink class="sm:col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
           <div class="flex items-center gap-2">
             <UIcon name="i-material-symbols:payments-outline" mode="svg" class="size-6" />
             <h4 class="text-lg">Total Revenue</h4>
@@ -62,7 +62,7 @@
         </NuxtLink>
       </div>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 2xl:grid-cols-2 gap-8">
         <NuxtLink class="space-y-6 glass p-6 text-tone rounded-2xl border-accent">
           <div class="flex items-center gap-2">
             <UIcon name="i-material-symbols:event-note-outline" mode="svg" class="size-6" />
@@ -77,14 +77,14 @@
           </div>
           <UTable :columns="columnsOrders" :data="data.pendingOrders" />
         </NuxtLink>
-        <NuxtLink class="col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
+        <NuxtLink class="2xl:col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
           <div class="flex items-center gap-2">
             <UIcon name="i-material-symbols:leaderboard-outline" mode="svg" class="size-6" />
             <h4 class="text-lg">Top Performers</h4>
           </div>
           <UTable :columns="columnKPI" :data="data.top5Performers" />
         </NuxtLink>
-        <NuxtLink class="col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
+        <NuxtLink class="2xl:col-span-2 space-y-6 glass p-6 text-tone rounded-2xl border-accent">
           <div class="flex items-center gap-2">
             <UIcon name="i-material-symbols:sentiment-dissatisfied-outline" mode="svg" class="size-6" />
             <h4 class="text-lg">Below Average performers</h4>

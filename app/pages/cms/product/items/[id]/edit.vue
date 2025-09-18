@@ -12,7 +12,7 @@
         @submit="handleSubmit"
         @error="(e: { errors: FormError[] }) => formErrors = e.errors"
       >
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6">
           <UFormField label="Name" name="product_name">
             <UInput v-model="state.product_name" />
           </UFormField>
@@ -21,7 +21,7 @@
           </UFormField>
         </div>
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6">
           <UFormField label="Category" name="category_id">
             <USelectMenu
               v-model="state.category_id"
@@ -49,7 +49,7 @@
           />
         </UFormField>
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <UFormField label="Detail" name="product_detail">
             <TiptapEditor
               v-model="state.product_detail"
@@ -64,7 +64,7 @@
           </UFormField>
         </div>
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6">
           <UFormField label="Tokopedia URL" name="marketplace_tokopedia">
             <UInput v-model="state.marketplace_tokopedia" />
           </UFormField>
@@ -79,10 +79,10 @@
             <div
               v-for="(specification, index) in state.specifications"
               :key="index"
-              class="grid grid-cols-4 items-start gap-2"
+              class="grid grid-cols-1 lg:grid-cols-4 items-start gap-2"
             >
               <UInput v-model="specification.key" placeholder="Specification Name" />
-              <div class="flex items-start gap-2 col-span-3">
+              <div class="flex items-start gap-2 lg:col-span-3">
                 <div :class="state.specifications.length > 1 ? 'w-[calc(100%-40px)]' : 'w-full'">
                   <TiptapEditor
                     v-model="specification.value"
