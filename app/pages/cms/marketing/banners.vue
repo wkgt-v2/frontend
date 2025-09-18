@@ -88,7 +88,7 @@ import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
-import type { Banner } from "~/types";
+import type { Banner } from "~/types/marketing";
 
 const column: TableColumn<Banner>[] = [
   {

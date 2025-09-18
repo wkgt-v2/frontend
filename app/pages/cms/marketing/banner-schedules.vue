@@ -121,7 +121,7 @@ import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
-import type { Banner, BannerSchedule } from "~/types";
+import type { Banner, BannerSchedule } from "~/types/marketing";
 
 interface FilterData {
   banner_id?: number;
