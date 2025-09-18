@@ -14,7 +14,7 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.58",
     "@iconify-json/material-symbols": "^1.2.32",
-    "@iconify-json/simple-icons": "^1.2.44",
+    "@iconify-json/fa7-brands": "^1.2.0",
     "@nuxt/ui": "^3.3.0",
     "@nuxtjs/i18n": "^10.0.3",
     "@tiptap/extensions": "^3.4.2",

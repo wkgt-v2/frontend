@@ -81,6 +81,10 @@ const navItems = ref<NavigationMenuItem[]>([
         label: "Banner Schedules",
         to: localePath("cms-marketing-banner-schedules"),
       },
+      {
+        label: "Social Media",
+        to: localePath("cms-marketing-socials"),
+      },
     ],
   },
   {
