@@ -34,7 +34,7 @@
     <UButton
       size="lg"
       trailing-icon="i-material-symbols-arrow-right-alt-rounded"
-      :to="$localePath('products')"
+      :to="$localePath('blog')"
     >
       Lihat Semua Artikel
     </UButton>
