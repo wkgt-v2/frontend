@@ -235,7 +235,10 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
     await $fetch(`${config.public.apiBase}/social-medias${selected.value ? "/" + selected.value.sm_id : ""}`, {
       headers: { ...bearer },
       method: selected.value ? "PUT" : "POST",
-      body: e.data,
+      body: {
+        ...e.data,
+        sm_type: "social_media"
+      },
     });
 
     toast.add({
