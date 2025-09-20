@@ -53,7 +53,7 @@
           />
         </UFormField>
         <UFormField label="Status" name="status">
-          <USelectMenu v-model="_filter.status" :items="ORDER_STATUS" value-key="value" />
+          <USelectMenu v-model="_filter.status" :items="OPTS_ORDER_STATUS" value-key="value" />
         </UFormField>
         <div class="grid grid-cols-2 gap-4">
           <UFormField

@@ -88,7 +88,7 @@
           <Datepicker v-model="state.start_date" />
         </UFormField>
         <UFormField label="Status" name="status">
-          <USelect v-model="state.status" :items="SERVICE_ORDER_STATUS" />
+          <USelect v-model="state.status" :items="OPTS_SERVICE_ORDER_STATUS" />
         </UFormField>
         <UFormField label="Description" name="description">
           <Textarea v-model="state.description" :rows="4" />

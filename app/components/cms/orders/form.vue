@@ -29,7 +29,7 @@
           <Datepicker v-model="state.order_date" />
         </UFormField>
         <UFormField label="Status" name="status">
-          <USelectMenu v-model="state.status" :items="ORDER_STATUS" value-key="value" />
+          <USelectMenu v-model="state.status" :items="OPTS_ORDER_STATUS" value-key="value" />
         </UFormField>
         <UFormField label="Items" name="items" :error="errors.items">
           <div class="space-y-2">

@@ -106,7 +106,7 @@
           <USelectMenu
             v-model="state.range"
             value-key="value"
-            :items="RANGE_FILTER"
+            :items="OPTS_DATE_RANGE"
           />
         </UFormField>
         <div v-if="state.range === 'range'" class="grid grid-cols-2 gap-4">
