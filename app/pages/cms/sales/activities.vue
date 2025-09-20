@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Activity">
+      <UFormField label="Search Activity by Customer Name">
         <UInput v-model="searchQuery" />
       </UFormField>
       <div class="flex items-end gap-4 *:h-fit">
@@ -45,7 +45,7 @@
   >
     <template #body>
       <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
-        <UFormField label="Sales Person" name="salesperson_id">
+        <UFormField v-if="isSuperadmin" label="Sales Person" name="salesperson_id">
           <USelectMenu
             v-model="state.salesperson_id"
             :items="users"
@@ -105,6 +105,8 @@ import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Activity } from "~/types/sales";
 
+const isSuperadmin = useSuperadmin();
+
 const column: TableColumn<Activity>[] = [
   {
     accessorKey: "activity_id",
@@ -114,7 +116,18 @@ const column: TableColumn<Activity>[] = [
   {
     accessorKey: "salesperson",
     header: "Sales Person",
+    meta: {
+      class: {
+        th: isSuperadmin ? "" : "hidden",
+        td: isSuperadmin ? "" : "hidden",
+      },
+    },
     cell: ({ row }) => row.original.salesperson?.user_username || "-",
+  },
+  {
+    accessorKey: "lead",
+    header: "Customer Name",
+    cell: ({ row }) => row.original.lead.customer_name,
   },
   {
     accessorKey: "activity_type",
@@ -174,13 +187,15 @@ const state = reactive({
   proof_photos: [] as File[],
 });
 const toast = useToast();
+const uid = useUid();
 
 const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
-  if (route.query.lead_id) params.append("lead_id", `${route.query.lead_id}`);
   if (searchQuery.value) params.append("customer_name", searchQuery.value);
+  if (!isSuperadmin) params.append("salesperson_id", `${uid.value}`);
+  if (route.query.lead_id) params.append("lead_id", `${route.query.lead_id}`);
   return params.toString();
 });
 
@@ -317,7 +332,7 @@ async function openModal(activity?: Activity) {
   }
 
   Object.assign(state, {
-    salesperson_id: activity?.salesperson_id || undefined,
+    salesperson_id: isSuperadmin ? (activity?.salesperson_id || undefined) : uid.value,
     lead_id: activity?.lead_id || undefined,
     activity_type: activity?.activity_type || undefined,
     follow_up_date: activity?.follow_up_date || undefined,

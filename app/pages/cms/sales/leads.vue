@@ -69,7 +69,7 @@
         <UFormField label="Status" name="status">
           <USelect v-model="state.status" :items="LEAD_STATUS" />
         </UFormField>
-        <UFormField label="Sales Person" name="salesperson_id">
+        <UFormField v-if="isSuperadmin" label="Sales Person" name="salesperson_id">
           <USelectMenu
             v-model="state.salesperson_id"
             :items="users"
@@ -104,6 +104,8 @@ import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Lead } from "~/types/sales";
 import { LEAD_STATUS } from "~/utils";
 
+const isSuperadmin = useSuperadmin();
+
 const column: TableColumn<Lead>[] = [
   {
     accessorKey: "lead_id",
@@ -117,6 +119,12 @@ const column: TableColumn<Lead>[] = [
   {
     accessorKey: "salesperson",
     header: "Sales Person",
+    meta: {
+      class: {
+        th: isSuperadmin ? "" : "hidden",
+        td: isSuperadmin ? "" : "hidden",
+      },
+    },
     cell: ({ row }) => row.original.salesperson?.user_username || "-",
   },
   {
@@ -193,12 +201,14 @@ const state = reactive({
   salesperson_id: undefined,
 });
 const toast = useToast();
+const uid = useUid();
 
 const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   if (searchQuery.value) params.append("customer_name", searchQuery.value);
+  if (!isSuperadmin) params.append("salesperson_id", `${uid.value}`);
   return params.toString();
 });
 
@@ -321,7 +331,7 @@ function openModal(lead?: Lead) {
     area: lead?.area || "",
     category: lead?.category || "",
     status: lead?.status || undefined,
-    salesperson_id: lead?.salesperson_id || undefined,
+    salesperson_id: isSuperadmin ? (lead?.salesperson_id || undefined) : uid.value,
   });
 
   modal.type = lead ? "edit" : "add";

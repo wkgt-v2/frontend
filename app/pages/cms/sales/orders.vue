@@ -44,7 +44,7 @@
   >
     <template #body>
       <div class="space-y-6">
-        <UFormField label="Sales Person" name="salesperson_id">
+        <UFormField v-if="isSuperadmin" label="Sales Person" name="salesperson_id">
           <USelectMenu
             v-model="_filter.salesperson_id"
             :items="users"
@@ -147,10 +147,18 @@ interface FilterData {
   end_date?: string;
 }
 
+const isSuperadmin = useSuperadmin();
+
 const column: TableColumn<Order>[] = [
   {
     accessorKey: "salesperson",
     header: "Sales Person",
+    meta: {
+      class: {
+        th: isSuperadmin ? "" : "hidden",
+        td: isSuperadmin ? "" : "hidden",
+      },
+    },
     cell: ({ row }) => row.original.salesperson?.user_username || "-",
   },
   {
@@ -236,11 +244,13 @@ const selected = ref<Order>();
 const showDetails = ref(false);
 const showFilter = ref(false);
 const toast = useToast();
+const uid = useUid();
 
 const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  if (!isSuperadmin) params.append("salesperson_id", `${uid.value}`);
   if (filter.status) params.append("status", `${filter.status}`);
   if (filter.salesperson_id) params.append("salesperson_id", `${filter.salesperson_id}`);
   if (filter.start_date) params.append("start_date", `${filter.start_date}`);

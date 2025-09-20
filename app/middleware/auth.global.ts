@@ -30,6 +30,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         user.value = data.value.data;
       } else return redirectToLogin();
     }
+
+    /* Restrict non-superadmin routing */
+    if (!useSuperadmin()) {
+      const unrestrictedRoute = ["cms-dashboard", "cms-sales"];
+      if (!unrestrictedRoute.some(r => pathName.startsWith(r))) {
+        return localePath("cms-dashboard");
+      }
+    }
   }
 
   if (!categories.value) {

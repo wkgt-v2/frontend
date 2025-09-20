@@ -104,6 +104,123 @@ useHead({
 });
 
 const localePath = useLocalePath();
+const nav = {
+  dashboard: {
+    label: "Dashboard",
+    to: localePath("cms-dashboard"),
+    onSelect: closeSlideover,
+  },
+  product: {
+    label: "Product",
+    children: [
+      {
+        label: "Categories",
+        to: localePath("cms-product-categories"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Series",
+        to: localePath("cms-product-series"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Items",
+        to: localePath("cms-product-items"),
+        onSelect: closeSlideover,
+      },
+    ],
+  },
+  marketing: {
+    label: "Marketing",
+    children: [
+      {
+        label: "Banners",
+        to: localePath("cms-marketing-banners"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Banner Schedules",
+        to: localePath("cms-marketing-banner-schedules"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Brands",
+        to: localePath("cms-marketing-brands"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Clients",
+        to: localePath("cms-marketing-clients"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Social Media",
+        to: localePath("cms-marketing-socials"),
+        onSelect: closeSlideover,
+      },
+    ],
+  },
+  serviceOrders: {
+    label: "Service Orders",
+    to: localePath("cms-service-orders"),
+    onSelect: closeSlideover,
+  },
+  sales: {
+    label: "Sales",
+    children: [
+      {
+        label: "Leads",
+        to: localePath("cms-sales-leads"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Activities",
+        to: localePath("cms-sales-activities"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Orders",
+        to: localePath("cms-sales-orders"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "KPI",
+        to: localePath("cms-sales-kpi"),
+        onSelect: closeSlideover,
+      },
+    ],
+  },
+  blog: {
+    label: "Blog",
+    children: [
+      {
+        label: "Categories",
+        to: localePath("cms-blog-categories"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Articles",
+        to: localePath("cms-blog-articles"),
+        onSelect: closeSlideover,
+      },
+    ],
+  },
+  settings: {
+    label: "Settings",
+    children: [
+      {
+        label: "Users",
+        to: localePath("cms-settings-users"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Roles",
+        to: localePath("cms-settings-roles"),
+        onSelect: closeSlideover,
+      },
+    ],
+  },
+};
 
 const dropdownItems = ref<DropdownMenuItem[]>([
   {
@@ -115,122 +232,17 @@ const dropdownItems = ref<DropdownMenuItem[]>([
     },
   },
 ]);
-const navItems = ref<NavigationMenuItem[]>([
-  {
-    label: "Dashboard",
-    to: localePath("cms-dashboard"),
-    onSelect: () => openSlideover.value = false,
-  },
-  {
-    label: "Product",
-    children: [
-      {
-        label: "Categories",
-        to: localePath("cms-product-categories"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Series",
-        to: localePath("cms-product-series"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Items",
-        to: localePath("cms-product-items"),
-        onSelect: () => openSlideover.value = false,
-      },
-    ],
-  },
-  {
-    label: "Marketing",
-    children: [
-      {
-        label: "Banners",
-        to: localePath("cms-marketing-banners"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Banner Schedules",
-        to: localePath("cms-marketing-banner-schedules"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Brands",
-        to: localePath("cms-marketing-brands"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Clients",
-        to: localePath("cms-marketing-clients"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Social Media",
-        to: localePath("cms-marketing-socials"),
-        onSelect: () => openSlideover.value = false,
-      },
-    ],
-  },
-  {
-    label: "Service Orders",
-    to: localePath("cms-service-orders"),
-    onSelect: () => openSlideover.value = false,
-  },
-  {
-    label: "Sales",
-    children: [
-      {
-        label: "Leads",
-        to: localePath("cms-sales-leads"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Activities",
-        to: localePath("cms-sales-activities"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Orders",
-        to: localePath("cms-sales-orders"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "KPI",
-        to: localePath("cms-sales-kpi"),
-        onSelect: () => openSlideover.value = false,
-      },
-    ],
-  },
-  {
-    label: "Blog",
-    children: [
-      {
-        label: "Categories",
-        to: localePath("cms-blog-categories"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Articles",
-        to: localePath("cms-blog-articles"),
-        onSelect: () => openSlideover.value = false,
-      },
-    ],
-  },
-  {
-    label: "Settings",
-    children: [
-      {
-        label: "Users",
-        to: localePath("cms-settings-users"),
-        onSelect: () => openSlideover.value = false,
-      },
-      {
-        label: "Roles",
-        to: localePath("cms-settings-roles"),
-        onSelect: () => openSlideover.value = false,
-      },
-    ],
-  },
+const navItems = ref<NavigationMenuItem[]>(useSuperadmin() ? [
+  nav.dashboard,
+  nav.product,
+  nav.marketing,
+  nav.serviceOrders,
+  nav.sales,
+  nav.blog,
+  nav.settings,
+] : [
+  nav.dashboard,
+  nav.sales,
 ]);
 
 const frame = ref<number>();
@@ -249,11 +261,16 @@ const contentHeight = computed(() => {
   return `calc(100dvh - ${headerHeight}px)`;
 });
 const radialEnabled = computed(() => {
-  const routes = ["cms-dashboard"];
+  const superadmin = useSuperadmin() ? [] : ["cms-sales-kpi"];
+  const routes = ["cms-dashboard", ...superadmin];
   /* remove suffix `___locale` */
   const pathName = (route.name as string).replace(/___\w+$/, "");
   return routes.includes(pathName);
 });
+
+function closeSlideover() {
+  openSlideover.value = false;
+}
 
 function updateRadialPosition(e: MouseEvent) {
   if (!radialEnabled.value) return;

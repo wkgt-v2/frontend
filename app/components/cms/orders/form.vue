@@ -7,7 +7,7 @@
   >
     <template #body>
       <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
-        <UFormField label="Sales Person" name="salesperson_id">
+        <UFormField v-if="isSuperadmin" label="Sales Person" name="salesperson_id">
           <USelectMenu
             v-model="state.salesperson_id"
             :items="users"
@@ -159,6 +159,8 @@ const props = defineProps<{
 
 const emit = defineEmits(["refresh"]);
 
+const isSuperadmin = useSuperadmin();
+
 const itemColumn: TableColumn<OrderItemPlaceholder>[] = [
   {
     accessorKey: "product_name",
@@ -236,6 +238,7 @@ const state = reactive<StateProps>({
   items: [],
 });
 const toast = useToast();
+const uid = useUid();
 
 const { users, onLoadUsers, refreshUsers } = useOptsUsers();
 const { leads, onLoadLeads } = useOptsLeads(toRef(() => {
@@ -355,7 +358,7 @@ async function openModal(order?: Order) {
   }) || [];
   Object.assign(state, {
     lead_id: order?.lead_id,
-    salesperson_id: order?.salesperson_id,
+    salesperson_id: isSuperadmin ? (order?.salesperson_id || undefined) : uid.value,
     order_date: order?.order_date,
     status: order?.status,
     items,
