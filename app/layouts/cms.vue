@@ -155,6 +155,11 @@ const navItems = ref<NavigationMenuItem[]>([
         onSelect: () => openSlideover.value = false,
       },
       {
+        label: "Brands",
+        to: localePath("cms-marketing-brands"),
+        onSelect: () => openSlideover.value = false,
+      },
+      {
         label: "Social Media",
         to: localePath("cms-marketing-socials"),
         onSelect: () => openSlideover.value = false,

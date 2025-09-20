@@ -18,6 +18,16 @@ export interface BannerSchedule {
   banner: null | Banner;
 }
 
+export interface Brand {
+  sm_id: number;
+  sm_name: string;
+  sm_icon: string;
+  sm_url: string;
+  sm_type: "brand",
+  created_at: string;
+  updated_at: string;
+}
+
 export interface SocialMedia {
   sm_id: number;
   sm_name: string;
