@@ -31,12 +31,19 @@
       </section>
       <section class="py-16">
         <div class="flex flex-wrap justify-center gap-16">
-          <img
+          <NuxtLink
             v-for="brand in brands"
-            :src="`/assets/images/logo/${brand.key}.svg`"
-            :alt="`${brand.label}'s Logo'`"
-            class="h-12"
-          />
+            :key="brand.sm_id"
+            :to="brand.sm_url"
+            target="_blank"
+          >
+            <img
+              :src="brand.sm_icon"
+              :alt="brand.sm_name"
+              class="h-12"
+              loading="lazy"
+            />
+          </NuxtLink>
         </div>
       </section>
       <section class="relative space-y-16 py-16">
@@ -141,24 +148,23 @@
 </template>
 
 <script setup lang="ts">
+import type { HttpSuccessWithPagination } from "~/types/http";
+import type { Brand } from "~/types/marketing";
+
 const { t } = useI18n();
 
 useHead({
   title: t("nav.about_us"),
 });
 
-const brands = [
-  { key: "amd", label: "AMD" },
-  { key: "corsair", label: "CORSAIR" },
-  { key: "norden", label: "NORDEN" },
-  { key: "acer", label: "Acer" },
-  { key: "black-magic-design", label: "Blackmagic Design" },
-  { key: "asrock", label: "ASRock" },
-  { key: "kubik", label: "KUBIK Green Power" },
-  { key: "toa", label: "TOA" },
-  { key: "msi", label: "MSI" },
-  { key: "commscope", label: "COMMSCOPE" },
-];
+const { data: brands } = await useFetch(
+  `${useRuntimeConfig().public.apiBase}/social-medias?sm_type=brand`,
+  {
+    transform: (value: HttpSuccessWithPagination<Brand[]>) => {
+      return value.data.data;
+    },
+  }
+);
 const businesses = [
   {
     img: "pcb.jpg",
