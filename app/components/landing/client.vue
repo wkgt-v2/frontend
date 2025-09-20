@@ -11,34 +11,33 @@
     </div>
 
     <div class="flex flex-wrap justify-center gap-16">
-      <img
+      <NuxtLink
         v-for="client in clients"
-        :src="`/assets/images/logo/${client.id}.svg`"
-        :alt="`${client.name}'s logo'`"
-        class="h-[72px]"
-      />
+        :key="client.sm_id"
+        :to="client.sm_url"
+        target="_blank"
+      >
+        <img
+          :src="client.sm_icon"
+          :alt="client.sm_name"
+          class="h-[72px]"
+          loading="lazy"
+        />
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const clients = [
-  {
-    id: "kimia-farma",
-    name: "Kimia Farma",
-  },
-  {
-    id: "kemensos",
-    name: "Kementerian Sosial Republik Indonesia",
-  },
-  {
-    id: "metranet",
-    name: "Metranet",
-  },
-  {
-    id: "mitratel",
-    name: "Mitratel",
-  },
-];
-</script>
+import type { HttpSuccessWithPagination } from "~/types/http";
+import type { Client } from "~/types/marketing";
 
+const { data: clients } = await useFetch(
+  `${useRuntimeConfig().public.apiBase}/social-medias?sm_type=client`,
+  {
+    transform: (value: HttpSuccessWithPagination<Client[]>) => {
+      return value.data.data;
+    },
+  }
+);
+</script>
