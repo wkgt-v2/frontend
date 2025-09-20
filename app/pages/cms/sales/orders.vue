@@ -180,6 +180,11 @@ const column: TableColumn<Order>[] = [
     header: "Status",
   },
   {
+    accessorKey: "approved_at",
+    header: "Approved",
+    cell: ({ row }) => row.original.approved_at ? "Yes" : "-",
+  },
+  {
     id: "action",
     meta: {
       class: {
@@ -303,34 +308,74 @@ function applyFilter() {
   showFilter.value = false;
 }
 
+async function approveOrder(order: Order) {
+  try {
+    await $fetch(`${config.public.apiBase}/orders/${order.order_id}/approve`, {
+      headers: { ...bearer },
+      method: "PUT",
+    });
+
+    toast.add({
+      title: "Order approved successfully!",
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    setTimeout(() => {
+      refreshOrders();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: "Failed to approve order!",
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+}
+
 function getDropdownActions(order: Order) {
-  return [
-    [
-      {
-        label: "View details",
-        icon: "i-material-symbols:visibility-outline",
-        onSelect() {
-          selected.value = order;
-          showDetails.value = true;
-        },
+  const actions = [
+    {
+      label: "View details",
+      icon: "i-material-symbols:visibility-outline",
+      onSelect() {
+        selected.value = order;
+        showDetails.value = true;
       },
-      {
-        label: "Edit",
-        icon: "i-material-symbols-edit-square-outline",
-        onSelect() {
-          selected.value = order;
-          formRef.value?.openModal(order);
-        },
+    },
+    {
+      label: "Edit",
+      icon: "i-material-symbols-edit-square-outline",
+      onSelect() {
+        selected.value = order;
+        formRef.value?.openModal(order);
       },
-      {
-        label: "Delete",
-        icon: "i-material-symbols-delete-outline",
-        onSelect() {
-          handleDelete(order);
-        },
+    },
+    {
+      label: "Delete",
+      icon: "i-material-symbols-delete-outline",
+      onSelect() {
+        handleDelete(order);
       },
-    ],
+    },
   ];
+
+  if (isSuperadmin) {
+    if (!order.approved_at) {
+      actions.unshift({
+        label: "Approve",
+        icon: "i-material-symbols:check-circle-outline",
+        onSelect() {
+          approveOrder(order)
+        },
+      })
+    }
+  }
+
+  return [actions];
 }
 
 async function handleDelete(order: Order) {
