@@ -128,6 +128,78 @@
       </UForm>
     </template>
   </UModal>
+
+  <UModal
+    title="Activity Details"
+    v-model:open="modal.showDetails"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div v-if="selected" class="grid sm:grid-cols-2 gap-4">
+        <div class="space-y-1 text-sm text-tone">
+          <div>Sales Person</div>
+          <div class="font-medium">
+            {{ selected.salesperson.user_username }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Customer Name</div>
+          <div class="font-medium">
+            {{ selected.lead.customer_name }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Activity Type</div>
+          <div class="font-medium">
+            {{ selected.activity_type }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Follow-Up Date</div>
+          <div class="font-medium">
+            {{ selected.follow_up_date }}
+          </div>
+        </div>
+        <div class="sm:col-span-2 space-y-1 text-sm text-tone">
+          <div>Notes</div>
+          <div class="font-medium">
+            {{ selected.activity_notes || "-" }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Follow-Up Date</div>
+          <div class="font-medium">
+            {{ selected.follow_up_date }}
+          </div>
+        </div>
+        <div class="space-y-1 text-sm text-tone">
+          <div>Audit Status</div>
+          <div class="font-medium capitalize">
+            {{ selected.audit_status }}
+          </div>
+        </div>
+        <div class="sm:col-span-2 space-y-1 text-sm text-tone">
+          <div>Audit Notes</div>
+          <div class="font-medium">
+            {{ selected.audit_notes || "-" }}
+          </div>
+        </div>
+        <div class="sm:col-span-2 space-y-1 text-sm text-tone">
+          <div>Photos</div>
+          <img
+            v-for="photo in selected.photos"
+            :key="photo.photo_id"
+            :src="photo.photo_url"
+            :alt="photo.photo_url"
+            class="w-full rounded-md object-contain"
+          />
+        </div>
+      </div>
+    </template>
+    <template #footer="{ close }">
+      <UButton label="Close" variant="outline" @click="close" />
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -217,6 +289,7 @@ const modal = reactive({
   onSubmit: false,
   open: false,
   showAudit: false,
+  showDetails: false,
   type: "add" as "add" | "edit",
 });
 const route = useRoute();
@@ -296,6 +369,14 @@ async function auditActivity(e: FormSubmitEvent<AuditSchema>) {
 
 function getDropdownActions(activity: Activity) {
   const actions = [
+    {
+      label: "View details",
+      icon: "i-material-symbols:visibility-outline",
+      onSelect() {
+        selected.value = activity;
+        modal.showDetails = true;
+      },
+    },
     {
       label: "Edit",
       icon: "i-material-symbols-edit-square-outline",
