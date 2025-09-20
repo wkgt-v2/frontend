@@ -14,8 +14,19 @@
           Pusat Elektronika Harco Mangga Dua Block A Lt. III No. 155, Jalan Mangga Dua Raya - Jakarta Pusat.
         </div>
       </div>
-      <div>
-        <!-- social media here -->
+      <div class="flex flex-wrap md:justify-end gap-3 w-60">
+        <ClientOnly>
+          <UTooltip v-for="social in socials" :key="social.sm_id" :text="social.sm_name" :delay-duration="0">
+            <UButton
+              :to="social.sm_url"
+              target="_blank"
+              variant="link"
+              size="xl"
+              class="h-fit p-0"
+              :icon="social.sm_icon"
+            />
+          </UTooltip>
+        </ClientOnly>
       </div>
     </div>
     <div class="bg-inverted text-inverted">
@@ -45,3 +56,18 @@
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+import type { HttpSuccessWithPagination } from "~/types/http";
+import type { SocialMedia } from "~/types/marketing";
+
+
+const { data: socials } = await useFetch(
+  `${useRuntimeConfig().public.apiBase}/social-medias?sm_type=social_media`,
+  {
+    transform: (value: HttpSuccessWithPagination<SocialMedia[]>) => {
+      return value.data.data;
+    },
+  }
+);
+</script>
