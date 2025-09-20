@@ -96,6 +96,38 @@
       </UForm>
     </template>
   </UModal>
+
+  <UModal
+    title="Audit Activity"
+    v-model:open="modal.showAudit"
+    :close="{ class: `${modal.onSubmit ? 'hidden' : ''}` }"
+    :dismissible="!modal.onSubmit"
+  >
+    <template #body>
+      <UForm :schema="auditSchema" :state="auditState" class="space-y-6" @submit="auditActivity">
+        <UFormField label="Audit Status" name="audit_status">
+          <USelect v-model="auditState.audit_status" :items="OPTS_ACTIVITY_AUDIT_STATUS" />
+        </UFormField>
+        <UFormField label="Audit Notes" name="audit_notes">
+          <Textarea v-model="auditState.audit_notes" :rows="2" />
+        </UFormField>
+
+        <div class="flex justify-end gap-4">
+          <UButton
+            variant="outline"
+            :class="{ 'pointer-events-none': modal.onSubmit }"
+            :disabled="modal.onSubmit"
+            @click="modal.open = false"
+          >
+            Cancel
+          </UButton>
+          <UButton type="submit" :loading="modal.onSubmit">
+            Submit
+          </UButton>
+        </div>
+      </UForm>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -104,6 +136,7 @@ import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
 import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Activity } from "~/types/sales";
+import { OPTS_ACTIVITY_AUDIT_STATUS } from "~/utils";
 
 const isSuperadmin = useSuperadmin();
 
@@ -162,8 +195,17 @@ const schema = v.object({
     v.minLength(1, "Select at least one image."),
   ),
 });
+const auditSchema = v.object({
+  audit_status: vRequired(),
+  audit_notes: v.string(),
+});
 type Schema = v.InferOutput<typeof schema>;
+type AuditSchema = v.InferOutput<typeof auditSchema>;
 
+const auditState = reactive({
+  audit_status: undefined,
+  audit_notes: "",
+});
 const { bearer } = useToken();
 const config = useRuntimeConfig();
 const meta = reactive({
@@ -174,6 +216,7 @@ const meta = reactive({
 const modal = reactive({
   onSubmit: false,
   open: false,
+  showAudit: false,
   type: "add" as "add" | "edit",
 });
 const route = useRoute();
@@ -216,25 +259,77 @@ const { leads, onLoadLeads } = useOptsLeads(toRef(() => {
   return { salesperson_id: state.salesperson_id };
 }));
 
+async function auditActivity(e: FormSubmitEvent<AuditSchema>) {
+  if (modal.onSubmit || !selected.value) return;
+  modal.onSubmit = true;
+
+  try {
+    await $fetch(`${config.public.apiBase}/sales-activities/${selected.value.activity_id}/audit`, {
+      headers: { ...bearer },
+      method: "PUT",
+      body: e.data,
+    });
+
+    toast.add({
+      title: `Activity audited successfully!`,
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    modal.showAudit = false;
+    setTimeout(() => {
+      refreshActivities();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: `Failed to audit activity!`,
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+
+  modal.onSubmit = false;
+}
+
 function getDropdownActions(activity: Activity) {
-  return [
-    [
-      {
-        label: "Edit",
-        icon: "i-material-symbols-edit-square-outline",
-        onSelect() {
-          openModal(activity);
-        },
+  const actions = [
+    {
+      label: "Edit",
+      icon: "i-material-symbols-edit-square-outline",
+      onSelect() {
+        openModal(activity);
       },
-      {
-        label: "Delete",
-        icon: "i-material-symbols-delete-outline",
-        onSelect() {
-          handleDelete(activity);
-        },
+    },
+    {
+      label: "Delete",
+      icon: "i-material-symbols-delete-outline",
+      onSelect() {
+        handleDelete(activity);
       },
-    ],
+    },
   ];
+
+  if (isSuperadmin) {
+    if (activity.audit_status === "pending") {
+      actions.unshift({
+        label: "Audit",
+        icon: "i-material-symbols:fact-check-outline",
+        onSelect() {
+          Object.assign(auditState, {
+            audit_status: undefined,
+            audit_notes: "",
+          });
+          selected.value = activity;
+          modal.showAudit = true;
+        },
+      })
+    }
+  }
+
+  return [actions];
 }
 
 async function handleDelete(activity: Activity) {

@@ -19,3 +19,7 @@ export const OPTS_DATE_RANGE = [
   { label: "Last month", value: "last_month" },
   { label: "Date range", value: "range" },
 ];
+export const OPTS_ACTIVITY_AUDIT_STATUS = [
+  { label: "Approved", value: "approved" },
+  { label: "Rejected", value: "rejected" },
+];
