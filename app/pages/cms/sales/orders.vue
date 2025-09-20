@@ -82,7 +82,7 @@
     :ui="{ footer: 'justify-end' }"
   >
     <template #body>
-      <div v-if="selected" class="grid grid-cols-2 gap-4">
+      <div v-if="selected" class="grid sm:grid-cols-2 gap-4">
         <div class="space-y-1 text-sm text-tone">
           <div>Sales Person</div>
           <div class="font-medium">
@@ -119,7 +119,7 @@
             {{ selected.approved_at || "-" }}
           </div>
         </div>
-        <div class="col-span-2 overflow-x-auto">
+        <div class="sm:col-span-2 overflow-x-auto">
           <UTable
             :columns="itemColumn"
             :data="selected.items"
