@@ -3,10 +3,10 @@
     <Radial class="absolute -top-1/5 left-1/2 -translate-x-1/2 size-[764px] -z-10" />
     <div class="space-y-[30px] max-w-[835px] mx-auto">
       <h1 class="text-5xl text-primary font-semibold">
-        Dipercaya Oleh Client Kami
+        {{ $t("landing.client.title") }}
       </h1>
       <p class="text-sm text-tone text-center">
-        Berpengalaman lebih dari satu dekade dalam menyediakan produk berkualitas dan layanan menyeluruh, kami menjadi mitra andal bagi vendor dan klien di seluruh Indonesia.
+        {{ $t("landing.client.subtitle") }}
       </p>
     </div>
 

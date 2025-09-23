@@ -2,7 +2,7 @@
   <div class="relative container space-y-16 py-16 text-center">
     <Radial class="absolute top-12 -right-1/3 size-[764px] -z-10" />
     <h1 class="text-5xl text-primary font-semibold">
-      Produk Kami
+      {{ $t("landing.categories.title") }}
     </h1>
     <div class="flex flex-wrap justify-center">
       <NuxtLink
@@ -25,7 +25,7 @@
       trailing-icon="i-material-symbols-arrow-right-alt-rounded"
       :to="$localePath('products')"
     >
-      Lihat Katalog
+      {{ $t("landing.categories.cta") }}
     </UButton>
   </div>
 </template>

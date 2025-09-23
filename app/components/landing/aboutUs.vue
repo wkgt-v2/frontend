@@ -3,10 +3,10 @@
     <Radial class="absolute top-12 -left-1/5 size-[764px] -z-10" />
     <div class="space-y-[30px] max-w-[835px] mx-auto">
       <h1 class="text-5xl text-primary font-semibold">
-        Bersama Wahana Komputer
+        {{ $t("landing.about_us.title") }}
       </h1>
       <p class="text-sm text-tone text-center">
-        Sebagai distributor yang berfokus pada kedisiplinan dan konsistensi, kami telah membantu berbagai proyek pemerintah dan swasta dengan solusi teknologi yang tepat.
+        {{ $t("landing.about_us.subtitle") }}
       </p>
     </div>
 
@@ -27,24 +27,27 @@
       trailing-icon="i-material-symbols-arrow-right-alt-rounded"
       :to="$localePath('about-us')"
     >
-      Tentang Kami
+      {{ $t("landing.about_us.cta") }}
     </UButton>
   </div>
 </template>
 
 <script setup lang="ts">
-const items = [
-  {
-    title: "Pengalaman Teruji",
-    description: "Kami fokus membangun hubungan yang kuat dengan vendor dan klien, memastikan solusi teknologi yang berkesinambungan.",
-  },
-  {
-    title: "Kemitraan Jangka Panjang",
-    description: "Kami fokus membangun hubungan yang kuat dengan vendor dan klien, memastikan solusi teknologi yang berkesinambungan.",
-  },
-  {
-    title: "Komitmen Penuh",
-    description: "Disiplin, fokus, dan konsistensi adalah nilai inti kami untuk selalu memberikan yang terbaik.",
-  },
-];
+const { t } = useI18n();
+const items = computed(() => {
+  return [
+    {
+      title: t("landing.about_us.item1.title"),
+      description: t("landing.about_us.item1.description"),
+    },
+    {
+      title: t("landing.about_us.item2.title"),
+      description: t("landing.about_us.item2.description"),
+    },
+    {
+      title: t("landing.about_us.item3.title"),
+      description: t("landing.about_us.item3.description"),
+    },
+  ];
+});
 </script>
