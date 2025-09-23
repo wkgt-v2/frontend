@@ -1,7 +1,7 @@
 <template>
   <div v-if="articles" class="relative container space-y-16 py-16 text-center">
     <h1 class="text-5xl text-primary font-semibold">
-      Artikel Terbaru
+      {{ $t("landing.articles.title") }}
     </h1>
     <UCarousel
       v-slot="{ item }"
@@ -25,7 +25,7 @@
             :to="$localeRoute(`/blog/${item.blog_article_id}`)"
             variant="link"
           >
-            Read more
+            {{ $t("landing.articles.read_more") }}
           </UButton>
         </div>
       </div>
@@ -36,7 +36,7 @@
       trailing-icon="i-material-symbols-arrow-right-alt-rounded"
       :to="$localePath('blog')"
     >
-      Lihat Semua Artikel
+      {{ $t("landing.articles.cta") }}
     </UButton>
   </div>
 </template>

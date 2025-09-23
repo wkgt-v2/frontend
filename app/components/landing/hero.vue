@@ -7,11 +7,9 @@
     </div>
     <div class="not-lg:space-y-16 not-lg:mx-auto not-lg:text-center lg:grid lg:grid-cols-2 items-center gap-6 py-16 lg:py-32">
       <div class="shrink-0 space-y-6 max-w-lg text-tone">
-        <h1 class="text-5xl font-semibold [&_span]:text-primary">
-          Solusi <span>Distribusi Perangkat Keras Komputer</span> untuk Bisnis Anda
-        </h1>
+        <h1 class="text-5xl font-semibold [&_span]:text-primary" v-html="title"></h1>
         <p class="text-tone">
-          Berpengalaman lebih dari satu dekade dalam menyediakan produk berkualitas dan layanan menyeluruh, kami menjadi mitra andal bagi vendor dan klien di seluruh Indonesia.
+          {{ $t("landing.hero.subtitle") }}
         </p>
       </div>
       <img
@@ -25,3 +23,11 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+
+const title = computed(() => {
+  return t("landing.hero.title").replace("_-", "<span>").replace("-_", "</span>");
+});
+</script>

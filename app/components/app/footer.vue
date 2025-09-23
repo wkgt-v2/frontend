@@ -7,7 +7,7 @@
           <img src="/assets/images/logo.png" alt="Logo" class="h-8 dark:hidden">
           <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-8 hidden dark:block">
           <div class="text-sm text-tone font-semibold">
-            Solusi Perangkat Keras Komputer Untuk Bisnis Anda.
+            {{ $t("footer.label") }}
           </div>
         </div>
         <div class="text-sm text-tone leading-tight">
@@ -39,7 +39,7 @@
             color="neutral"
             class="p-0 text-inverted hover:text-inverted"
           >
-            Privacy Policy
+            {{ $t("footer.privacy_policy") }}
           </UButton>
           <UButton
             :to="$localePath('terms-of-services')"
@@ -48,10 +48,12 @@
             color="neutral"
             class="p-0 text-inverted hover:text-inverted"
           >
-            Terms of Service
+            {{ $t("footer.terms_of_service") }}
           </UButton>
         </div>
-        <div class="text-sm">Copyright © 2025 Wahana Komputer. All Right Reserved</div>
+        <div class="text-sm">
+          {{ $t("footer.copyright") }}
+        </div>
       </div>
     </div>
   </footer>
