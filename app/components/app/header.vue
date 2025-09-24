@@ -90,7 +90,8 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
-const categories = useCategories();
+const { categories, refreshCategories } = useCategories();
+refreshCategories();
 const { locale, locales, setLocale, t } = useI18n();
 const lang = ref(locale.value);
 const langOptions = locales.value.map(l => {

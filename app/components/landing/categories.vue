@@ -31,5 +31,6 @@
 </template>
 
 <script setup lang="ts">
-const categories = useCategories();
+const { categories, refreshCategories } = useCategories();
+refreshCategories();
 </script>

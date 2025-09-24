@@ -37,7 +37,9 @@
 </template>
 
 <script setup lang="ts">
-const categories = useCategories();
+const { categories, refreshCategories } = useCategories();
+refreshCategories();
+
 const radialRef = useTemplateRef("radialRef");
 
 function updateRadialPosition(e: MouseEvent) {
