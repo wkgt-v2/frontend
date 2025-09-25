@@ -16,7 +16,7 @@
 
         <template #body>
           <div class="space-y-4">
-            <UFormField label="Search Product">
+            <UFormField :label="$t('product.search')">
               <UInput v-model="searchQuery" />
             </UFormField>
             <UAccordion :items="accordionItems" type="multiple" :default-value="['0']">
@@ -28,14 +28,16 @@
                   variant="table"
                   class="pb-3"
                 />
-                <div v-else class="text-tone text-center">-no data-</div>
+                <div v-else class="text-tone text-center">
+                  {{ $t("product.no_data") }}
+                </div>
               </template>
             </UAccordion>
           </div>
         </template>
       </USlideover>
       <div class="not-lg:hidden space-y-4">
-        <UFormField label="Search Product">
+        <UFormField :label="$t('product.search')">
           <UInput v-model="searchQuery" />
         </UFormField>
         <UAccordion :items="accordionItems" type="multiple" :default-value="['0']">
@@ -47,7 +49,9 @@
               variant="table"
               class="pb-3"
             />
-            <div v-else class="text-tone text-center">-no data-</div>
+              <div v-else class="text-tone text-center">
+                {{ $t("product.no_data") }}
+              </div>
           </template>
         </UAccordion>
       </div>
@@ -81,7 +85,9 @@
           <div v-else class="col-span-4 flex items-center justify-center w-full h-96">
             <div class="text-center">
               <UIcon name="i-material-symbols:do-not-disturb-on-outline" class="size-24 text-primary" />
-              <div class="text-tone">No Data</div>
+              <div class="text-tone">
+                {{ $t("product.no_data") }}
+              </div>
             </div>
           </div>
         </template>
@@ -101,17 +107,11 @@ import { Teleport } from "vue";
 import type { HttpSuccessWithPagination } from "~/types/http";
 import type { Item, Series } from "~/types/product";
 
-const accordionItems = [
-  {
-    label: "Series",
-    slot: "series" as const,
-  },
-] satisfies AccordionItem[];
-
 const config = useRuntimeConfig();
 const filter = reactive({
   series: [] as string[],
 });
+const { t } = useI18n();
 const localeRoute = useLocaleRoute();
 const meta = reactive({
   limit: 12,
@@ -122,6 +122,15 @@ const radialRef = useTemplateRef("radialRef");
 const route = useRoute();
 const searchQuery = useDebouncedRef("", 500);
 const series = ref<Series[]>([]);
+
+const accordionItems = computed<AccordionItem[]>(() => {
+  return [
+    {
+      label: t("product.series"),
+      slot: "series" as const,
+    },
+  ];
+});
 
 const mappedSeries = computed(() => {
   return series.value.map(s => {
@@ -198,6 +207,7 @@ function updateRadialPosition(e: MouseEvent) {
 
 onMounted(() => {
   getSeries(1);
+  refreshItems();
 });
 </script>
 

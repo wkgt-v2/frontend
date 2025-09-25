@@ -25,7 +25,7 @@
               </div>
             </div>
             <UTabs variant="link" :items="subTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8' }">
-              <template #detail>
+              <template #details>
                 <div v-if="item.product_detail" class="tiptap ProseMirror" v-html="item.product_detail"></div>
                 <div v-else>
                   -
@@ -60,7 +60,7 @@
     </template>
     <div v-else class="py-16">
       <h4 class="text-xl text-tone text-center font-semibold">
-        Data not found
+        {{ $t("product.data_not_found") }}
       </h4>
     </div>
   </div>
@@ -72,6 +72,7 @@ import type { HttpSuccess } from "~/types/http";
 import type { Image, Item } from "~/types/product";
 
 const config = useRuntimeConfig();
+const { t } = useI18n();
 const localeRoute = useLocaleRoute();
 const route = useRoute();
 
@@ -88,26 +89,30 @@ useHead({
   title: item.value?.product_name,
 });
 
-const mainTabs = [
-  {
-    label: "Overview",
-    slot: "overview" as const,
-  },
-  {
-    label: "Specifications",
-    slot: "specifications" as const,
-  },
-] satisfies TabsItem[];
-const subTabs = [
-  {
-    label: "Detail",
-    slot: "detail" as const,
-  },
-  {
-    label: "Important Information",
-    slot: "information" as const,
-  },
-] satisfies TabsItem[];
+const mainTabs = computed<TabsItem[]>(() => {
+  return [
+    {
+      label: t("product.overview"),
+      slot: "overview" as const,
+    },
+    {
+      label: t("product.specifications"),
+      slot: "specifications" as const,
+    },
+  ];
+});
+const subTabs = computed<TabsItem[]>(() => {
+  return [
+    {
+      label: t("product.details"),
+      slot: "details" as const,
+    },
+    {
+      label: t("product.important_information"),
+      slot: "information" as const,
+    },
+  ];
+});
 
 const images = ref<Image[]>([]);
 

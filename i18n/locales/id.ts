@@ -150,4 +150,14 @@ export default {
       },
     },
   },
+  product: {
+    search: "Cari Produk",
+    series: "Seri",
+    overview: "Overview",
+    specifications: "Spesifikasi",
+    details: "Detail",
+    important_information: "Informasi Penting",
+    no_data: "Tidak ada data",
+    data_not_found: "Data tidak ditemukan",
+  },
 }

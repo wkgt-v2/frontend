@@ -150,4 +150,14 @@ export default {
       },
     },
   },
+  product: {
+    search: "Search Product",
+    series: "Series",
+    overview: "Overview",
+    specifications: "Specifications",
+    details: "Details",
+    important_information: "Important Information",
+    no_data: "No data",
+    data_not_found: "Data not found",
+  },
 }
