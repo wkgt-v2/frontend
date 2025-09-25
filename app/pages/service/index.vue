@@ -3,30 +3,30 @@
     <div class="space-y-8">
       <div class="space-y-3">
         <h5 class="text-base text-primary font-semibold">
-          CEK PERBAIKAN
+          {{ $t("service.subtitle") }}
         </h5>
         <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary">
-          Cek Status Perbaikan.
+          {{ $t("service.title") }}
         </h1>
       </div>
       <p class="max-w-lg text-base text-tone">
-        Perkiraan tanggal penyelesaian hanyalah referensi dan tidak selalu ditampilkan. Tanggal penyelesaian dapat berubah berdasarkan pada kondisi perbaikan.
+        {{ $t("service.content1") }}
         <br />
         <br />
-        Anda dapat mengetahui status perbaikan produk Anda dengan memasukkan Nomor Perbaikan yang tertera pada form perbaikan yang Anda terima saat menyerahkan Produk Anda untuk diperbaiki di WAHANA Service Center ataupun dengan cara memasukan Serial Number dari produk Anda.
+        {{ $t("service.content2") }}
         <br />
         <br />
-        Dalam hal ini Anda tidak dapat mengetahui status perbaikan produk Anda, jika produk Anda perbaiki belum mendapatkan Nomor Perbaikan dari WAHANA Service Center terkait. Untuk Nomor Perbaikan, silahkan cek pada form tanda terima penyerahan perbaikan produk Anda. Contoh Nomor Perbaikan (IDXXXXXXXX).
+        {{ $t("service.content3") }}
       </p>
       <div class="flex w-full max-w-lg items-end gap-4">
         <div class="space-y-1 w-full">
           <label for="id_perbaikan" class="text-base text-tone">
-            Nomor ID Perbaikan
+            {{ $t("service.field_label") }}
           </label>
           <UInput name="id_perbaikan" size="lg" variant="subtle" placeholder="IDXXXXXXXX" v-model="form.id" />
         </div>
         <UButton size="lg" class="whitespace-nowrap" :loading="onCheck" @click="checkStatus">
-          Cek Status
+          {{ $t("service.button_label") }}
         </UButton>
       </div>
     </div>
@@ -40,12 +40,12 @@
     />
   </div>
 
-  <UModal title="Data Perbaikan" v-model:open="showModal" :ui="{ footer: 'justify-end' }">
+  <UModal :title="$t('service.repair_details')" v-model:open="showModal" :ui="{ footer: 'justify-end' }">
     <template #body>
       <div v-if="serviceOrder" class="space-y-4">
         <div class="space-y-1">
           <h6 class="text-sm text-primary">
-            No. Resi
+            {{ $t("service.receipt_number") }}
           </h6>
           <div class="text-tone">
             {{ serviceOrder.no_resi }}
@@ -54,7 +54,7 @@
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-1">
             <h6 class="text-sm text-primary">
-              Customer Name
+              {{ $t("service.customer_name") }}
             </h6>
             <div class="text-tone">
               {{ serviceOrder.customer_name }}
@@ -62,7 +62,7 @@
           </div>
           <div class="space-y-1">
             <h6 class="text-sm text-primary">
-              Customer Phone
+              {{ $t("service.customer_phone") }}
             </h6>
             <div class="text-tone">
               {{ maskPhoneNumber(serviceOrder.customer_phone) }}
@@ -72,7 +72,7 @@
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-1">
             <h6 class="text-sm text-primary">
-              Start Date
+              {{ $t("service.start_date") }}
             </h6>
             <div class="text-tone">
               {{ serviceOrder.start_date }}
@@ -80,7 +80,7 @@
           </div>
           <div class="space-y-1">
             <h6 class="text-sm text-primary">
-              Status
+              {{ $t("service.status") }}
             </h6>
             <div class="text-tone">
               <UBadge :label="parseStatus(serviceOrder).label" :color="parseStatus(serviceOrder).color" />
@@ -89,7 +89,7 @@
         </div>
         <div class="space-y-1">
           <h6 class="text-sm text-primary">
-            Product
+            {{ $t("service.product") }}
           </h6>
           <div class="text-tone">
             {{ serviceOrder.product.category.category_name }} - {{ serviceOrder.product.product_name }}
@@ -97,14 +97,14 @@
         </div>
         <div class="space-y-1">
           <h6 class="text-sm text-primary">
-            Description
+            {{ $t("service.description") }}
           </h6>
           <div class="text-tone" v-html="serviceOrder.description"></div>
         </div>
       </div>
     </template>
     <template #footer="{ close }">
-      <UButton label="Tutup" @click="close" />
+      <UButton :label="$t('service.close')" @click="close" />
     </template>
   </UModal>
 </template>
@@ -140,7 +140,7 @@ async function checkStatus() {
     console.log(error)
     const e = error as FetchError<HttpError>;
     toast.add({
-      title: "Failed to get service data!",
+      title: t("service.error_title"),
       description: e.data?.message,
       color: "error",
       icon: "i-heroicons-exclamation-circle",
@@ -153,13 +153,13 @@ async function checkStatus() {
 function parseStatus(serviceOrder: ServiceOrder): { label: string; color: "info" | "success" | "error" | "neutral"; } {
   switch (serviceOrder.status) {
     case "in_progress":
-      return { label: "In Progress", color: "info" };
+      return { label: t("service.in_progress"), color: "info" };
     case "completed":
-      return { label: "Completed", color: "success" };
+      return { label: t("service.completed"), color: "success" };
     case "cancelled":
-      return { label: "Cancelled", color: "error" };
+      return { label: t("service.cancelled"), color: "error" };
     default:
-      return { label: "Pending", color: "neutral" };
+      return { label: t("service.pending"), color: "neutral" };
   }
 }
 </script>
