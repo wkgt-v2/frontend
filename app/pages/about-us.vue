@@ -4,16 +4,9 @@
       <section class="flex items-center -mt-16 min-h-dvh">
         <div class="space-y-32 py-32">
           <div class="shrink-0 space-y-6 text-tone text-center">
-            <h1 class="text-5xl font-semibold [&_span]:text-primary">
-              Pengalaman Lebih Dari <span>Satu Dekade</span>
-            </h1>
+            <h1 class="text-5xl font-semibold [&_span]:text-primary" v-html="parseI18n($t('about_us.section1.title'))"></h1>
             <p class="text-tone">
-              bermula dari sebuah toko komputer di Harco Mangga Dua Computer Center
-              Jakarta dipertengahan tahun 2000 sebagai toko komputer ritel, terus
-              tumbuh dan berkembang secara kreatif dalam bisnis komputer dan
-              perlengkapan serta komponen komputer. Dalam perjalannya, Wahana
-              melebarkan sayapnya dalam bidang distribusi dan mengerjakan proyek
-              baik dari pemerintah maupun swasta dari tahun 2010.
+              {{ $t("about_us.section1.content") }}
             </p>
           </div>
           <div class="relative">
@@ -50,7 +43,7 @@
         <Radial class="absolute top-1/2 -left-[400px] -translate-y-1/2 size-[960px] -z-10" />
         <Radial class="absolute top-[300px] -right-[500px] size-[960px] -z-10" />
         <h1 class="text-5xl text-tone text-center font-semibold">
-          Expertise Terbaik Untuk Bisnis Anda
+          {{ $t("about_us.section2.title") }}
         </h1>
         <UCarousel
           v-slot="{ item }"
@@ -102,11 +95,9 @@
       </section>
       <section class="space-y-16 py-16 text-center">
         <div class="space-y-8">
-          <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary">
-            Arah Strategi Kami Dalam Pertumbuhan <span>Masa Depan</span> Bisnis
-          </h1>
+          <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary" v-html="parseI18n($t('about_us.section3.title'))"></h1>
           <p class="text-tone">
-            Kami percaya bahwa stagnasi bukanlah pilihan. Untuk tetap relevan dan menjadi yang terdepan, kami secara konsisten mengembangkan sayap bisnis kami ke berbagai area kunci. Setiap langkah yang kami ambil dirancang untuk menciptakan nilai lebih, baik bagi Anda maupun pasar.
+            {{ $t("about_us.section3.content") }}
           </p>
         </div>
         <div class="not-lg:grid not-lg:grid-cols-2 lg:flex gap-3">
@@ -120,9 +111,7 @@
         </div>
       </section>
       <section class="space-y-16 py-16 text-center">
-        <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary">
-          Arah Strategi Kami Dalam Pertumbuhan <span>Masa Depan</span> Bisnis
-        </h1>
+        <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary" v-html="parseI18n($t('about_us.section4.title'))"></h1>
         <UCarousel
           v-slot="{ item }"
           :items="timelines"
@@ -165,125 +154,131 @@ const { data: brands } = await useFetch(
     },
   }
 );
-const businesses = [
-  {
-    img: "pcb.jpg",
-    title: "Produk & Solusi Teknologi",
-    industries: [
-      "Consumer Goods and Services",
-      "Intel and AMD Products",
-      "Multimedia products",
-      "Scurity Products",
-      "IoT and AI Products"
-    ],
-  },
-  {
-    img: "factory.jpg",
-    title: "Pasar Bisnis dan Industri",
-    industries: [
-      "industries & Technology Markets",
-      "B2B Services",
-      "Finance",
-      "Media",
-      "Machinery",
-      "Trade",
-    ],
-  },
-  {
-    img: "handshake.jpg",
-    title: "Kapabilitas Riset Bisnis",
-    industries: [
-      "Research Network",
-      "Brand Intelligence",
-      "Benchmarking",
-      "Global Data",
-      "Trends",
-    ],
-  },
-];
-const strategies = [
-  {
-    icon: "material-symbols-devices-outline",
-    content: "Merek lokal untuk produk AIO, Server dan Notebook",
-  },
-  {
-    icon: "material-symbols-build-outline",
-    content: "Managed Service sebagai pelebaran sayap bisnis",
-  },
-  {
-    icon: "material-symbols-broadcast-on-personal-outline",
-    content: "IoT dan turunannya baik sebagai platform dan produk independen",
-  },
-  {
-    icon: "material-symbols-globe-asia",
-    content: "Tap on internet retail dan B2B business sebagai solusi baru untuk marketing dan sales",
-  },
-  {
-    icon: "material-symbols-phone-android-outline",
-    content: "Mobile Application, dengan mengikuti dinamika perkembangan teknologi",
-  },
-];
-const timelines = [
-  {
-    date: "2023 - 2024",
-    items: [
-      { title: "Engage sebagai distributor produk outdoor antenna Commscope brand" },
-      { title: "Kerjasama Fujitsu Indonesia develop massive data profiling untuk Kejagung" },
-      { title: "Kerjasama Kemenag develop Edusmart Box produk pembelajaran offline" },
-      { title: "Pengadaan hardware melalu e catalog dengan Dinas Pendidikan" },
-      { title: "Pengadaan antenna outdoor untuk IKN bekerja sama dengan Mitratel dan Commscope" },
-      { title: "Development new portfolio berupa aplikasi POS dan ERP : KubikPOS" },
-      { title: "Engage sebagai sole distributor untuk produk networking brand Norden UK" },
-    ],
-  },
-  {
-    date: "2021 - 2022",
-    items: [
-      { title: "Tablet Kubik Genta 10" },
-      { title: "Set Top Box Kubik Arca DVB-T2" },
-      { title: "MOU dengan PGN Com project IOT Platform JARGAS" },
-      { title: "Project Kemendikbudristek Pusat Keunggulan SMK" },
-      { title: "MOU dengan Avirtech Portfolio drone" },
-      { title: "Licensed Distributorship Produk 4G dengan brand ATEL" },
-      { title: "MOU dengan Telkomsat sebagai partner iOT dan LORA" },
-      { title: "MOU dengan PDAM dalam pengadaan smart meter berbasis IoT" },
-      { title: `Pekerjaan Project MA "Digitalisasi Ruang Sidang" Bekerja sama dengan Acer sebagai brand supporting` },
-      { title: "Pengembangan produk enterprise untuk drone berbasis iOT dan AI" },
-      { title: "Project Diknas melalui platform SIPLAH terutama di bidang SMK Pusat Keunggulan" },
-    ],
-  },
-  {
-    date: "2019 - 2020",
-    items: [
-      { title: "Proyek pengadaan melalui e-catalog di Kementerian Pendidikan dan Kebudayaan RI" },
-      { title: "Proyek pengadaan melalui e-catalog di Kementerian Sosial Republik Indonesia" },
-      { title: "Pengembangan product merk local kubik berupa AIO & Tablet" },
-      { title: "Partership dengan NHR taiwan untuk pengembangan IOT platform" },
-      { title: "Proyek E-Drive di Korlantas Kepolisian Republik Indonesia" },
-      { title: "Pengadaan prangkat keras vidio production & broadcasting untuk SMK jurusan animasi" },
-    ],
-  },
-  {
-    date: "2015 - 2018",
-    items: [
-      { title: "Bersama PT. Tugunet Teknologi Indonesia proyek data center Starcloud bekerja sama denganTelkom Sigma." },
-      { title: "Proyek pembaruan payment gateway system PT. POS Indonesia." },
-      { title: "Supporting StarCloud Project Telkom Sigma" },
-      { title: "Proyek Bank Sumut" },
-      { title: "Project Sensor meteran gas dan listrik salah satu gedung di Rasuna Said Jakarta." },
-      { title: "Supporting BRI project managed service BRI Box, kerjasama dengan PT INTI" },
-    ],
-  },
-  {
-    date: "2001 - 2012",
-    items: [
-      { title: " Berpartisipasi dalam pengadaan komputer dan server dalam proyek Menristek" },
-      { title: "Proyek pengadaan komputer Pemda Kubu Raya dan Pontianak" },
-      { title: "Bersama dengan PT. Dwi Daya Tama proyek edukasi daerah pengadaan timur Indonesia" },
-      { title: "Resmi sole distributor produk J&W" },
-      { title: "Resmi sole distributor produk Raidmax." },
-      { title: "Resmi sole distributor produk HIS" },
-    ],
-  },
-];
+const businesses = computed(() => {
+  return [
+    {
+      img: "pcb.jpg",
+      title: t("about_us.section2.business1.title"),
+      industries: [
+        t("about_us.section2.business1.industry1"),
+        t("about_us.section2.business1.industry2"),
+        t("about_us.section2.business1.industry3"),
+        t("about_us.section2.business1.industry4"),
+        t("about_us.section2.business1.industry5"),
+      ],
+    },
+    {
+      img: "pcb.jpg",
+      title: t("about_us.section2.business2.title"),
+      industries: [
+        t("about_us.section2.business2.industry1"),
+        t("about_us.section2.business2.industry2"),
+        t("about_us.section2.business2.industry3"),
+        t("about_us.section2.business2.industry4"),
+        t("about_us.section2.business2.industry5"),
+        t("about_us.section2.business2.industry6"),
+      ],
+    },
+    {
+      img: "pcb.jpg",
+      title: t("about_us.section2.business3.title"),
+      industries: [
+        t("about_us.section2.business3.industry1"),
+        t("about_us.section2.business3.industry2"),
+        t("about_us.section2.business3.industry3"),
+        t("about_us.section2.business3.industry4"),
+        t("about_us.section2.business3.industry5"),
+      ],
+    },
+  ];
+});
+const strategies = computed(() => {
+  return [
+    {
+      icon: "material-symbols-devices-outline",
+      content: t("about_us.section3.strategy1"),
+    },
+    {
+      icon: "material-symbols-build-outline",
+      content: t("about_us.section3.strategy2"),
+    },
+    {
+      icon: "material-symbols-broadcast-on-personal-outline",
+      content: t("about_us.section3.strategy3"),
+    },
+    {
+      icon: "material-symbols-globe-asia",
+      content: t("about_us.section3.strategy4"),
+    },
+    {
+      icon: "material-symbols-phone-android-outline",
+      content: t("about_us.section3.strategy5"),
+    },
+  ];
+});
+const timelines = computed(() => {
+  return [
+    {
+      date: "2023 - 2024",
+      items: [
+        { title: t("about_us.section4.timeline1.item1") },
+        { title: t("about_us.section4.timeline1.item2") },
+        { title: t("about_us.section4.timeline1.item3") },
+        { title: t("about_us.section4.timeline1.item4") },
+        { title: t("about_us.section4.timeline1.item5") },
+        { title: t("about_us.section4.timeline1.item6") },
+        { title: t("about_us.section4.timeline1.item7") },
+      ],
+    },
+    {
+      date: "2021 - 2022",
+      items: [
+        { title: t("about_us.section4.timeline2.item1") },
+        { title: t("about_us.section4.timeline2.item2") },
+        { title: t("about_us.section4.timeline2.item3") },
+        { title: t("about_us.section4.timeline2.item4") },
+        { title: t("about_us.section4.timeline2.item5") },
+        { title: t("about_us.section4.timeline2.item6") },
+        { title: t("about_us.section4.timeline2.item7") },
+        { title: t("about_us.section4.timeline2.item8") },
+        { title: t("about_us.section4.timeline2.item9") },
+        { title: t("about_us.section4.timeline2.item10") },
+        { title: t("about_us.section4.timeline2.item11") },
+      ],
+    },
+    {
+      date: "2019 - 2020",
+      items: [
+        { title: t("about_us.section4.timeline3.item1") },
+        { title: t("about_us.section4.timeline3.item2") },
+        { title: t("about_us.section4.timeline3.item3") },
+        { title: t("about_us.section4.timeline3.item4") },
+        { title: t("about_us.section4.timeline3.item5") },
+        { title: t("about_us.section4.timeline3.item6") },
+      ],
+    },
+    {
+      date: "2015 - 2018",
+      items: [
+        { title: t("about_us.section4.timeline4.item1") },
+        { title: t("about_us.section4.timeline4.item2") },
+        { title: t("about_us.section4.timeline4.item3") },
+        { title: t("about_us.section4.timeline4.item4") },
+        { title: t("about_us.section4.timeline4.item5") },
+        { title: t("about_us.section4.timeline4.item6") },
+      ],
+    },
+    {
+      date: "2001 - 2012",
+      items: [
+        { title: t("about_us.section4.timeline5.item1") },
+        { title: t("about_us.section4.timeline5.item2") },
+        { title: t("about_us.section4.timeline5.item3") },
+        { title: t("about_us.section4.timeline5.item4") },
+        { title: t("about_us.section4.timeline5.item5") },
+        { title: t("about_us.section4.timeline5.item6") },
+      ],
+    },
+  ];
+});
 </script>

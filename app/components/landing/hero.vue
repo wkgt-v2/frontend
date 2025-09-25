@@ -7,7 +7,7 @@
     </div>
     <div class="not-lg:space-y-16 not-lg:mx-auto not-lg:text-center lg:grid lg:grid-cols-2 items-center gap-6 py-16 lg:py-32">
       <div class="shrink-0 space-y-6 max-w-lg text-tone">
-        <h1 class="text-5xl font-semibold [&_span]:text-primary" v-html="title"></h1>
+        <h1 class="text-5xl font-semibold [&_span]:text-primary" v-html="parseI18n($t('landing.hero.title'))"></h1>
         <p class="text-tone">
           {{ $t("landing.hero.subtitle") }}
         </p>
@@ -24,10 +24,3 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const { t } = useI18n();
-
-const title = computed(() => {
-  return t("landing.hero.title").replace("_-", "<span>").replace("-_", "</span>");
-});
-</script>
