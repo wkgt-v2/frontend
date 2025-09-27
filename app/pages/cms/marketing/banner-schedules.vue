@@ -52,13 +52,13 @@
           label="Start Date"
           name="start_date"
         >
-          <Datepicker v-model="state.start_date" />
+          <Datepicker v-model="state.start_date" enable-time-picker />
         </UFormField>
         <UFormField
           label="End Date"
           name="end_date"
         >
-          <Datepicker v-model="state.end_date" />
+          <Datepicker v-model="state.end_date" enable-time-picker />
         </UFormField>
 
         <div class="flex justify-end gap-4">
@@ -116,7 +116,6 @@
 </template>
 
 <script setup lang="ts">
-import { CalendarDateTime, getLocalTimeZone } from "@internationalized/date";
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormSubmitEvent, TableColumn } from "@nuxt/ui";
@@ -266,17 +265,6 @@ function applyFilter() {
   showFilter.value = false;
 }
 
-function getConvertedEndDate(iso: string) {
-  const date = new Date(iso);
-  const [month, day, year] = [
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getFullYear(),
-  ];
-  return new CalendarDateTime(year, month, day, 23, 59, 59)
-    .toDate(getLocalTimeZone()).toISOString();
-}
-
 function getDropdownActions(schedule: BannerSchedule) {
   return [
     [
@@ -331,13 +319,11 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 
   modal.onSubmit = true;
 
-  const body = { ...e.data };
-  body.end_date = getConvertedEndDate(body.end_date);
   try {
     await $fetch(`${config.public.apiBase}/banner-schedules${selected.value ? "/" + selected.value.schedule_id : ""}`, {
       headers: { ...bearer },
       method: selected.value ? "PUT" : "POST",
-      body,
+      body: e.data,
     });
 
     toast.add({

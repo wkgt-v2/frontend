@@ -1,44 +1,74 @@
 <template>
-  <UPopover>
+  <UPopover v-model:open="open">
     <UButton color="neutral" variant="outline" icon="i-lucide-calendar" class="justify-start" block>
-      {{
-        _model ? df.format(_model.toDate(getLocalTimeZone())) : "Select a date"
-      }}
+      {{ label }}
     </UButton>
 
     <template #content>
-      <UCalendar v-model="_model" class="p-2" />
+      <VueDatePicker
+        v-model="internalDate"
+        :enable-time-picker="enableTimePicker"
+        :dark="colorMode.value === 'dark'"
+        minutes-grid-increment="1"
+        inline
+        auto-apply
+        teleport
+        time-picker-inline
+      />
     </template>
   </UPopover>
 </template>
 
 <script setup lang="ts">
-import {
-  CalendarDate,
-  DateFormatter,
-  getLocalTimeZone,
-} from "@internationalized/date";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import "~/assets/css/vue-datepicker.css";
 
-const df = new DateFormatter("en-US", {
-  dateStyle: "medium",
+const props = withDefaults(defineProps<{
+  enableTimePicker?: boolean;
+}>(), {
+  enableTimePicker: false,
 });
 
-const _model = ref<CalendarDate>();
+const colorMode = useColorMode();
+
 const model = defineModel<string | undefined>();
+const open = ref(false);
 
-watch(() => _model.value, (val) => {
-  if (val) model.value = val.toDate(getLocalTimeZone()).toISOString();
+const internalDate = computed<Date | null>({
+  get() {
+    if (!model.value) return null;
+    const d = new Date(model.value);
+    return isNaN(d.getTime()) ? null : d;
+  },
+  set(d) {
+    if (!d) {
+      model.value = undefined;
+      return;
+    }
+    if (!props.enableTimePicker) {
+      const utcMidnight = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0));
+      model.value = utcMidnight.toISOString();
+    } else {
+      model.value = d.toISOString();
+    }
+  }
 });
 
-onMounted(() => {
-  if (model.value) {
-    const date = new Date(model.value);
-    const [month, day, year] = [
-      date.getMonth() + 1,
-      date.getDate(),
-      date.getFullYear(),
-    ];
-    _model.value = new CalendarDate(year, month, day);
+const label = computed(() => {
+  if (internalDate.value) {
+    return internalDate.value.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour12: false,
+      ...(props.enableTimePicker ? { hour: "2-digit", minute: "2-digit" } : {}),
+    });
   }
+  return "Select a date";
+});
+
+watch(() => model.value, () => {
+  if (!props.enableTimePicker) open.value = false;
 });
 </script>
