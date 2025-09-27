@@ -135,7 +135,9 @@ const column: TableColumn<ServiceOrder>[] = [
   {
     accessorKey: "product",
     header: "Product",
-    cell: ({ row }) => `${row.original.product.product_code} - ${row.original.product.product_name}`,
+    cell: ({ row }) => (
+      row.original.product ? `${row.original.product.product_code} - ${row.original.product.product_name}` : "-"
+    ),
   },
   {
     accessorKey: "status",
