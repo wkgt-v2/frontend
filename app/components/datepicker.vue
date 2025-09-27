@@ -21,8 +21,6 @@
 
 <script setup lang="ts">
 import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-import "~/assets/css/vue-datepicker.css";
 
 const props = withDefaults(defineProps<{
   enableTimePicker?: boolean;

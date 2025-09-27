@@ -160,10 +160,20 @@ const nav = {
       },
     ],
   },
-  serviceOrders: {
-    label: "Service Orders",
-    to: localePath("cms-service-orders"),
-    onSelect: closeSlideover,
+  service: {
+    label: "Service",
+    children: [
+      {
+        label: "Orders",
+        to: localePath("cms-service-orders"),
+        onSelect: closeSlideover,
+      },
+      {
+        label: "Centers",
+        to: localePath("cms-service-centers"),
+        onSelect: closeSlideover,
+      },
+    ],
   },
   sales: {
     label: "Sales",
@@ -236,7 +246,7 @@ const navItems = ref<NavigationMenuItem[]>(useSuperadmin() ? [
   nav.dashboard,
   nav.product,
   nav.marketing,
-  nav.serviceOrders,
+  nav.service,
   nav.sales,
   nav.blog,
   nav.settings,

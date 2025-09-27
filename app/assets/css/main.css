@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 @plugin "@tailwindcss/typography";
+@import "@vuepic/vue-datepicker/dist/main.css";
+@import "~/assets/css/vue-datepicker.css";
 
 @theme {
   --font-sans: "Geist", sans-serif;

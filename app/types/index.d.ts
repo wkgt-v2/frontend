@@ -4,6 +4,19 @@ export interface RolePermission {
   permission_group: string;
 }
 
+export interface ServiceCenter {
+  headquarter_id: number;
+  province: string;
+  city: string;
+  address: string;
+  phone: string;
+  open_hour: string;
+  closed_hour: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+}
+
 export interface ServiceOrder {
   service_order_id: number;
   no_resi: string;
