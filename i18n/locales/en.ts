@@ -188,4 +188,12 @@ export default {
     error_load_articles: "Failed to get articles!",
     article_not_found: "Article not found",
   },
+  service_center: {
+    title: "Ready to Serve in Various Cities",
+    subtitle: "SERVICE CENTER",
+    city: "City",
+    address: "Address",
+    phone: "Phone",
+    operating_hours: "Operating Hours",
+  },
 }

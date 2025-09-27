@@ -202,7 +202,6 @@ const params = computed(() => {
 const { data: serviceCenters, status: onLoadData, refresh: refreshServiceCenters } = await useFetch(
   () => `${config.public.apiBase}/headquarters?${params.value}`,
   {
-    headers: { ...bearer },
     transform: (value: HttpSuccessWithPagination<ServiceCenter[]>) => {
       meta.total = value.data.totalData;
       return value.data.data;

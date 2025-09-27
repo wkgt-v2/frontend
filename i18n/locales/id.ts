@@ -188,4 +188,12 @@ export default {
     error_load_articles: "Gagal mendapatkan artikel!",
     article_not_found: "Artikel tidak ditemukan",
   },
+  service_center: {
+    title: "Siap Melayani Di Berbagai Kota",
+    subtitle: "PUSAT PELAYANAN",
+    city: "Kota",
+    address: "Alamat",
+    phone: "Telepon",
+    operating_hours: "Jam Operasional",
+  },
 }
