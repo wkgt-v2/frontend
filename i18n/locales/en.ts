@@ -183,4 +183,9 @@ export default {
     cancelled: "Cancelled",
     pending: "Pending",
   },
+  blog: {
+    load_more: "Load more",
+    error_load_articles: "Failed to get articles!",
+    article_not_found: "Article not found",
+  },
 }

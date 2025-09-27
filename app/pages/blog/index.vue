@@ -32,7 +32,7 @@
         :loading="onLoad"
         @click="handleLoadMore"
       >
-        Load more
+        {{ $t("blog.load_more") }}
       </UButton>
     </div>
   </div>
@@ -49,6 +49,7 @@ const meta = reactive({
   limit: 10,
   page: 1,
 });
+const { t } = useI18n();
 const onLoad = ref(false);
 const searchQuery = useDebouncedRef("", 500);
 const toast = useToast();
@@ -73,7 +74,7 @@ async function getArticles() {
     console.log(error)
     const e = error as FetchError<HttpError>;
     toast.add({
-      title: "Failed to get articles!",
+      title: t("blog.error_load_articles"),
       description: e.data?.message,
       color: "error",
       icon: "i-heroicons-exclamation-circle",

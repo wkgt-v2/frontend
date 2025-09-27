@@ -15,7 +15,7 @@
       <div class="tiptap ProseMirror" v-html="article.content"></div>
     </template>
     <h4 v-else class="text-xl text-tone text-center font-semibold">
-      Article not found
+      {{ $t("blog.article_not_found") }}
     </h4>
   </div>
 </template>

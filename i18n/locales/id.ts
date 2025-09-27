@@ -183,4 +183,9 @@ export default {
     cancelled: "Dibatalkan",
     pending: "Tertunda",
   },
+  blog: {
+    load_more: "Muat lebih banyak",
+    error_load_articles: "Gagal mendapatkan artikel!",
+    article_not_found: "Artikel tidak ditemukan",
+  },
 }
