@@ -162,6 +162,13 @@ const columnsActivities: TableColumn<Omit<Activity, "photos">>[] = [
   {
     accessorKey: "follow_up_date",
     header: "Follow-Up Date",
+    cell: ({ row }) => {
+      return new Date(row.original.follow_up_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
   },
   {
     accessorKey: "audit_status",
@@ -185,6 +192,13 @@ const columnsOrders: TableColumn<Omit<Order, "items">>[] = [
   {
     accessorKey: "order_date",
     header: "Order Date",
+    cell: ({ row }) => {
+      return new Date(row.original.order_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
   },
   {
     accessorKey: "total_amount",

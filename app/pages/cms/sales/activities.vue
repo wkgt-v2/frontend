@@ -241,6 +241,15 @@ const column: TableColumn<Activity>[] = [
   {
     accessorKey: "follow_up_date",
     header: "Follow-Up Date",
+    cell: ({ row }) => {
+      return row.original.follow_up_date
+        ? new Date(row.original.follow_up_date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        : "-";
+    },
   },
   {
     accessorKey: "audit_status",

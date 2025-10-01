@@ -169,6 +169,13 @@ const column: TableColumn<Order>[] = [
   {
     accessorKey: "order_date",
     header: "Order Date",
+    cell: ({ row }) => {
+      return new Date(row.original.order_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
   },
   {
     accessorKey: "total_amount",

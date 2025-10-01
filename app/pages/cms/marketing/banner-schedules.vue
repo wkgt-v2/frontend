@@ -137,10 +137,30 @@ const column: TableColumn<BannerSchedule>[] = [
   {
     accessorKey: "start_date",
     header: "Start Date",
+    cell: ({ row }) => {
+      return new Date(row.original.start_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
   },
   {
     accessorKey: "end_date",
     header: "End Date",
+    cell: ({ row }) => {
+      return new Date(row.original.end_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
   },
   {
     id: "action",
