@@ -43,47 +43,50 @@
           ref="header"
           class="flex items-center h-[72px] glass px-6 border-b border-accent"
         >
-          <USlideover side="left" v-model:open="openSlideover">
-            <UButton variant="outline" icon="i-material-symbols:menu" class="lg:hidden" />
+          <div class="flex items-center gap-4">
+            <USlideover side="left" v-model:open="openSlideover">
+              <UButton variant="outline" icon="i-material-symbols:menu" class="lg:hidden" />
 
-            <template #content>
-              <div class="space-y-4 h-dvh p-4">
-                <div class="flex items-center justify-between">
-                  <NuxtLink :to="localePath('/')">
-                    <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-                    <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
-                  </NuxtLink>
-                  <UButton
-                    variant="outline"
-                    icon="i-material-symbols:close"
-                    class="ml-auto"
-                    @click="openSlideover = false"
-                  />
+              <template #content>
+                <div class="space-y-4 h-dvh p-4">
+                  <div class="flex items-center justify-between">
+                    <NuxtLink :to="localePath('/')">
+                      <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
+                      <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
+                    </NuxtLink>
+                    <UButton
+                      variant="outline"
+                      icon="i-material-symbols:close"
+                      class="ml-auto"
+                      @click="openSlideover = false"
+                    />
+                  </div>
+                  <div class="h-[calc(100dvh-136px)] -mx-6 p-6 overflow-y-auto">
+                    <UNavigationMenu :items="navItems" orientation="vertical" />
+                  </div>
+                  <UDropdownMenu
+                    :items="dropdownItems"
+                    :content="{
+                      align: 'start',
+                      side: 'bottom',
+                      sideOffset: 8
+                    }"
+                    :ui="{
+                      content: 'w-48'
+                    }"
+                  >
+                    <UButton
+                      variant="ghost"
+                      :label="user.user_username"
+                      trailing-icon="i-material-symbols-person-outline"
+                      block
+                    />
+                  </UDropdownMenu>
                 </div>
-                <div class="h-[calc(100dvh-136px)] -mx-6 p-6 overflow-y-auto">
-                  <UNavigationMenu :items="navItems" orientation="vertical" />
-                </div>
-                <UDropdownMenu
-                  :items="dropdownItems"
-                  :content="{
-                    align: 'start',
-                    side: 'bottom',
-                    sideOffset: 8
-                  }"
-                  :ui="{
-                    content: 'w-48'
-                  }"
-                >
-                  <UButton
-                    variant="ghost"
-                    :label="user.user_username"
-                    trailing-icon="i-material-symbols-person-outline"
-                    block
-                  />
-                </UDropdownMenu>
-              </div>
-            </template>
-          </USlideover>
+              </template>
+            </USlideover>
+            <UBreadcrumb :items="breadcrumbItems" :ui="{ linkLabel: 'lg:text-xl capitalize' }" />
+          </div>
           <DarkModeToggler class="ml-auto" />
         </header>
         <main class="overflow-auto" :style="{ maxHeight: contentHeight }">
@@ -95,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
+import type { BreadcrumbItem, DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
 
 useHead({
   titleTemplate: (titleChunk) => {
@@ -104,6 +107,7 @@ useHead({
 });
 
 const localePath = useLocalePath();
+const localeRoute = useLocaleRoute();
 const nav = {
   dashboard: {
     label: "Dashboard",
@@ -262,6 +266,28 @@ const radialRef = ref<HTMLDivElement>();
 const route = useRoute();
 const { token } = useToken();
 const user = useUser();
+
+const breadcrumbItems = computed(() => {
+  const items: BreadcrumbItem[] = [];
+  let path = "/cms";
+  route.path.split("/").forEach(p => {
+    let label = p;
+    if (p) {
+      if (p !== "cms") {
+        if (!items.length && p !== "dashboard") {
+          items.push({ label: "Home", to: localePath("cms-dashboard") });
+        }
+
+        path += `/${p}`;
+        if (/\/cms\/blog\/articles\/[0-9]+$/.test(path)) label = "article";
+        if (/\/cms\/product\/items\/[0-9]+$/.test(path)) label = "item";
+        const to = items.length === 1 ? undefined : localeRoute(path);
+        items.push({ label, to });
+      }
+    }
+  });
+  return items;
+});
 
 const contentHeight = computed(() => {
   let headerHeight = 72;
