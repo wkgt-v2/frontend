@@ -196,4 +196,13 @@ export default {
     phone: "Phone",
     operating_hours: "Operating Hours",
   },
+  contact_us: {
+    title: "Start Building Hardware With Us For _-Your Business-_.",
+    subtitle: "CONTACT US",
+    address: "Address",
+    opening_hours: "Opening Hours",
+    email: "Email",
+    call_center: "Call Center",
+    service_center_location: "Service Center Location",
+  },
 }

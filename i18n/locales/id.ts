@@ -196,4 +196,13 @@ export default {
     phone: "Telepon",
     operating_hours: "Jam Operasional",
   },
+  contact_us: {
+    title: "Mulai Bangun Perangkat Keras Bersama Kami Untuk _-Bisnis Anda-_.",
+    subtitle: "HUBUNGI KAMI",
+    address: "Alamat",
+    opening_hours: "Jam Buka",
+    email: "Email",
+    call_center: "Pusat Panggilan",
+    service_center_location: "Lokasi Service Center",
+  },
 }

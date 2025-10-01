@@ -3,11 +3,9 @@
     <div class="grid lg:grid-cols-2 gap-8">
       <div class="flex flex-col justify-center gap-3">
         <h5 class="text-primary font-semibold">
-          CONTACT US
+          {{ $t("contact_us.subtitle") }}
         </h5>
-        <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary">
-          Mulai Bangun Perangkat Keras Bersama Kami Untuk <span>Bisnis Anda</span>.
-        </h1>
+        <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary" v-html="parseI18n($t('contact_us.title'))"></h1>
       </div>
       <div class="space-y-8">
         <div class="grid md:grid-cols-2 gap-8">
@@ -15,7 +13,7 @@
             <UIcon name="i-material-symbols:pin-drop-outline" mode="svg" class="shrink-0 size-5 text-primary" />
             <div class="space-y-1">
               <h5 class="text-primary font-semibold">
-                Alamat Kami
+                {{ $t("contact_us.address") }}
               </h5>
               <p class="text-tone">
                 Pusat Elektronika Harco Mangga Dua Block A Lt. III No. 155, Jalan Mangga Dua Raya - Jakarta Pusat.
@@ -26,7 +24,7 @@
             <UIcon name="i-material-symbols:schedule-outline" mode="svg" class="shrink-0 size-5 text-primary" />
             <div class="space-y-1">
               <h5 class="text-primary font-semibold">
-                Jam Buka
+                {{ $t("contact_us.opening_hours") }}
               </h5>
               <p class="text-tone">
                 Senin - Sabtu<br />
@@ -41,7 +39,7 @@
             <UIcon name="i-material-symbols:mail-outline" mode="svg" class="shrink-0 size-5 text-primary" />
             <div class="space-y-1">
               <h5 class="text-primary font-semibold">
-                Email
+                {{ $t("contact_us.email") }}
               </h5>
               <p class="text-tone">
                 <a href="mailto:info@wahana-online.com">info@wahana-online.com</a>
@@ -52,7 +50,7 @@
             <UIcon name="i-material-symbols:call-outline" mode="svg" class="shrink-0 size-5 text-primary" />
             <div class="space-y-1">
               <h5 class="text-primary font-semibold">
-                Call Center
+                {{ $t("contact_us.call_center") }}
               </h5>
               <p class="text-tone">
                 021-6125802
@@ -71,7 +69,9 @@
             </template>
             Whatsapp
           </UButton>
-          <UButton size="lg" :to="$localePath('/service/location')">Lokasi Service Center</UButton>
+          <UButton size="lg" :to="$localePath('/service/location')">
+            {{ $t("contact_us.service_center_location") }}
+          </UButton>
         </div>
       </div>
     </div>
