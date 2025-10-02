@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="text-sm text-tone leading-tight">
-          Pusat Elektronika Harco Mangga Dua Block A Lt. III No. 155, Jalan Mangga Dua Raya - Jakarta Pusat.
+          {{ getCompanySettings("company_address") }}
         </div>
       </div>
       <div class="flex flex-wrap md:justify-end gap-3 w-60">
@@ -63,7 +63,7 @@
 import type { HttpSuccessWithPagination } from "~/types/http";
 import type { SocialMedia } from "~/types/marketing";
 
-
+const { getCompanySettings } = useCompanySettings();
 const { data: socials } = await useFetch(
   `${useRuntimeConfig().public.apiBase}/social-medias?sm_type=social_media`,
   {

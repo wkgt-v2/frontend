@@ -16,7 +16,7 @@
                 {{ $t("contact_us.address") }}
               </h5>
               <p class="text-tone">
-                Pusat Elektronika Harco Mangga Dua Block A Lt. III No. 155, Jalan Mangga Dua Raya - Jakarta Pusat.
+                {{ getCompanySettings("company_address") }}
               </p>
             </div>
           </div>
@@ -26,10 +26,8 @@
               <h5 class="text-primary font-semibold">
                 {{ $t("contact_us.opening_hours") }}
               </h5>
-              <p class="text-tone">
-                Senin - Sabtu<br />
-                Jam 09.00 - 18.00<br />
-                Hari Minggu & tanggal merah tutup
+              <p class="block text-tone whitespace-pre-line">
+                {{ getCompanySettings("company_opening_hours") }}
               </p>
             </div>
           </div>
@@ -42,7 +40,9 @@
                 {{ $t("contact_us.email") }}
               </h5>
               <p class="text-tone">
-                <a href="mailto:info@wahana-online.com">info@wahana-online.com</a>
+                <a :href="`mailto:${getCompanySettings('company_email')}`">
+                  {{ getCompanySettings("company_email") }}
+                </a>
               </p>
             </div>
           </div>
@@ -53,7 +53,7 @@
                 {{ $t("contact_us.call_center") }}
               </h5>
               <p class="text-tone">
-                021-6125802
+                  {{ getCompanySettings("company_call_center") }}
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@
         <div class="flex gap-6">
           <UButton
             size="lg"
-            to="https://wa.me/6285281987121"
+            :to="`https://wa.me/${getCompanySettings('company_whatsapp_number')}`"
             target="_blank"
           >
             <template #leading>
@@ -76,7 +76,7 @@
       </div>
     </div>
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2572.2403127532466!2d106.82756952539509!3d-6.139185447621377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5f9ba767e65%3A0xb78f0a7312c6b7d0!2sWahana%20Komputer!5e0!3m2!1sen!2sid!4v1755416984361!5m2!1sen!2sid"
+      :src="getCompanySettings('company_gmap_embed_url')"
       width="1216"
       height="468"
       class="w-full border-0 rounded-2xl"
@@ -93,4 +93,6 @@ const { t } = useI18n();
 useHead({
   title: t("nav.contact"),
 });
+
+const { getCompanySettings } = useCompanySettings();
 </script>

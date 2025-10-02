@@ -2,6 +2,7 @@ import type { User } from "~/types";
 import type { HttpSuccess } from "~/types/http";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  const { companySettings } = useCompanySettings();
   const config = useRuntimeConfig();
   const localePath = useLocalePath();
   const path = to.path;
@@ -36,5 +37,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return localePath("cms-dashboard");
       }
     }
+  }
+
+  if (!companySettings.value) {
+    /* TODO: remove headers */
+    const { data } = await useFetch<HttpSuccess<Record<string, string>>>(
+      `${config.public.apiBase}/company-settings/format`,
+      { headers: { ...bearer } },
+    );
+    console.log(data.value)
+    if (data.value) companySettings.value = data.value.data;
   }
 });
