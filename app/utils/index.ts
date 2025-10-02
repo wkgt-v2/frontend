@@ -23,3 +23,11 @@ export const OPTS_ACTIVITY_AUDIT_STATUS = [
   { label: "Approved", value: "approved" },
   { label: "Rejected", value: "rejected" },
 ];
+export const OPTS_COMPANY_SETTINGS = [
+  { label: "Company Address", value: "company_address" },
+  { label: "Company Email", value: "company_email" },
+  { label: "Company Opening Hours", value: "company_opening_hours" },
+  { label: "Company Call Center", value: "company_call_center" },
+  { label: "Company WhatsApp Number", value: "company_whatsapp_number" },
+  { label: "Company Google Map Embed URL", value: "company_gmap_embed_url" },
+];

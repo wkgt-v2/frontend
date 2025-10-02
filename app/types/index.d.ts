@@ -1,3 +1,12 @@
+export interface CompanySetting {
+  company_setting_id: number;
+  company_setting_name: string;
+  company_setting_value: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null | string;
+}
+
 export interface RolePermission {
   permission_id: number;
   permission_name: string;

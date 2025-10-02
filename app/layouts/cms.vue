@@ -232,6 +232,11 @@ const nav = {
         to: localePath("cms-settings-roles"),
         onSelect: closeSlideover,
       },
+      {
+        label: "Company",
+        to: localePath("cms-settings-company"),
+        onSelect: closeSlideover,
+      },
     ],
   },
 };
