@@ -1,9 +1,12 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Item">
-        <UInput v-model="searchQuery" />
-      </UFormField>
+      <div class="flex items-end gap-4">
+        <UFormField label="Search by name">
+          <UInput v-model="searchQuery" />
+        </UFormField>
+        <UButton icon="i-material-symbols:tune" @click="openFilter" />
+      </div>
       <div class="flex items-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
@@ -39,6 +42,40 @@
       </ClientOnly>
     </div>
   </div>
+
+  <UModal
+    title="Filter"
+    v-model:open="showFilter"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div class="space-y-6">
+        <UFormField label="Category" name="category_id">
+          <USelectMenu
+            v-model="_filter.category_id"
+            value-key="value"
+            :items="categories"
+            :loading="onLoadCategories === 'pending'"
+          />
+        </UFormField>
+        <UFormField label="Series" name="series_id">
+          <USelectMenu
+            v-model="_filter.series_id"
+            :items="series"
+            value-key="value"
+            :placeholder="`${!_filter.category_id ? 'Please choose product category first' : ''}`"
+            :disabled="!_filter.category_id"
+            :loading="onLoadSeries === 'pending'"
+          />
+        </UFormField>
+      </div>
+    </template>
+    <template #footer="{ close }">
+      <UButton label="Cancel" variant="outline" @click="close" />
+      <UButton label="Reset" variant="outline" @click="resetFilter" />
+      <UButton label="Apply Filter" @click="applyFilter" />
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -85,7 +122,15 @@ const columns: TableColumn<Item>[] = [
   },
 ];
 
+const _filter = reactive({
+  category_id: undefined as undefined | number,
+  series_id: undefined as undefined | number,
+});
 const config = useRuntimeConfig();
+const filter = reactive({
+  category_id: undefined as undefined | number,
+  series_id: undefined as undefined | number,
+});
 const localeRoute = useLocaleRoute();
 const meta = reactive({
   limit: 10,
@@ -93,6 +138,7 @@ const meta = reactive({
   total: 0,
 });
 const searchQuery = useDebouncedRef("", 500);
+const showFilter = ref(false);
 const toast = useToast();
 const { bearer } = useToken();
 
@@ -101,6 +147,8 @@ const params = computed(() => {
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   if (searchQuery.value) params.append("product_name", searchQuery.value);
+  if (filter.category_id) params.append("category_id", `${filter.category_id}`);
+  if (filter.series_id) params.append("series_id", `${filter.series_id}`);
   return params.toString();
 });
 
@@ -114,6 +162,18 @@ const { data: items, status: onLoadData, refresh: refreshItems } = await useFetc
     watch: [() => params.value],
   }
 );
+
+const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
+const { series, onLoadSeries } = useOptsSeries(toRef(() => {
+  return { category_id: _filter.category_id };
+}));
+
+watch(() => _filter.category_id, () => _filter.series_id = undefined);
+
+function applyFilter() {
+  Object.assign(filter, { ..._filter });
+  showFilter.value = false;
+}
 
 function getDropdownActions(item: Item) {
   return [
@@ -174,5 +234,18 @@ async function handleDelete(item: Item) {
       duration: 0,
     });
   }
+}
+
+function openFilter() {
+  refreshCategories();
+  Object.assign(_filter, { ...filter });
+  showFilter.value = true;
+}
+
+function resetFilter() {
+  Object.assign(_filter, {
+    category_id: undefined,
+    series_id: undefined,
+  });
 }
 </script>

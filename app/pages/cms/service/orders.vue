@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Service Order">
+      <UFormField label="Search by no. resi">
         <UInput v-model="searchQuery" />
       </UFormField>
       <div class="flex items-end gap-4 *:h-fit">
@@ -197,10 +197,7 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
-  if (searchQuery.value) {
-    params.append("no_resi", searchQuery.value);
-    params.append("description", searchQuery.value);
-  }
+  if (searchQuery.value) params.append("no_resi", searchQuery.value);
   return params.toString();
 });
 

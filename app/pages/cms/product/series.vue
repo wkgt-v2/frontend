@@ -1,9 +1,12 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Series">
-        <UInput v-model="searchQuery" />
-      </UFormField>
+      <div class="flex items-end gap-4">
+        <UFormField label="Search by name">
+          <UInput v-model="searchQuery" />
+        </UFormField>
+        <UButton icon="i-material-symbols:tune" @click="openFilter" />
+      </div>
       <div class="flex items-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
@@ -73,6 +76,30 @@
       </UForm>
     </template>
   </UModal>
+
+  <UModal
+    title="Filter"
+    v-model:open="showFilter"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div class="space-y-6">
+        <UFormField label="Category" name="category_id">
+          <USelectMenu
+            v-model="_filter.category_id"
+            value-key="value"
+            :items="categories"
+            :loading="onLoadCategories === 'pending'"
+          />
+        </UFormField>
+      </div>
+    </template>
+    <template #footer="{ close }">
+      <UButton label="Cancel" variant="outline" @click="close" />
+      <UButton label="Reset" variant="outline" @click="resetFilter" />
+      <UButton label="Apply Filter" @click="applyFilter" />
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -118,7 +145,13 @@ const schema = v.object({
 });
 type Schema = v.InferOutput<typeof schema>;
 
+const _filter = reactive({
+  category_id: undefined as undefined | number,
+});
 const config = useRuntimeConfig();
+const filter = reactive({
+  category_id: undefined as undefined | number,
+});
 const meta = reactive({
   limit: 10,
   page: 1,
@@ -131,6 +164,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Series>();
+const showFilter = ref(false);
 const state = reactive({
   series_name: "",
   series_code: "",
@@ -144,6 +178,7 @@ const params = computed(() => {
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   if (searchQuery.value) params.append("series_name", searchQuery.value);
+  if (filter.category_id) params.append("category_id", `${filter.category_id}`);
   return params.toString();
 });
 
@@ -159,6 +194,11 @@ const { data: series, status: onLoadData, refresh: refreshSeries } = await useFe
 );
 
 const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
+
+function applyFilter() {
+  Object.assign(filter, { ..._filter });
+  showFilter.value = false;
+}
 
 function getDropdownActions(series: Series) {
   return [
@@ -245,6 +285,12 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
   }
 }
 
+function openFilter() {
+  refreshCategories();
+  Object.assign(_filter, { ...filter });
+  showFilter.value = true;
+}
+
 function openModal(series?: Series) {
   selected.value = series;
   refreshCategories();
@@ -257,5 +303,11 @@ function openModal(series?: Series) {
 
   modal.type = series ? "edit" : "add";
   modal.open = true;
+}
+
+function resetFilter() {
+  Object.assign(_filter, {
+    category_id: undefined,
+  });
 }
 </script>

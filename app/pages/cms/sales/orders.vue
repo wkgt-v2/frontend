@@ -317,13 +317,7 @@ function applyFilter() {
     }
   }
 
-  Object.assign(filter, {
-    salesperson_id: _filter.salesperson_id,
-    status: _filter.status,
-    start_date: _filter.start_date,
-    end_date: _filter.end_date,
-  });
-
+  Object.assign(filter, { ..._filter });
   showFilter.value = false;
 }
 
@@ -443,13 +437,11 @@ function openFilter() {
 }
 
 function resetFilter() {
-  Object.assign(filter, {
+  Object.assign(_filter, {
     status: undefined,
     salesperson_id: undefined,
     start_date: undefined,
     end_date: undefined,
   });
-
-  showFilter.value = false;
 }
 </script>

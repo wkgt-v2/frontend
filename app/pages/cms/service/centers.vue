@@ -211,11 +211,7 @@ const { data: serviceCenters, status: onLoadData, refresh: refreshServiceCenters
 );
 
 function applyFilter() {
-  Object.assign(filter, {
-    province: _filter.province,
-    city: _filter.city,
-  });
-
+  Object.assign(filter, { ..._filter });
   showFilter.value = false;
 }
 
@@ -326,12 +322,9 @@ function openModal(serviceCenter?: ServiceCenter) {
 }
 
 function resetFilter() {
-  Object.assign(filter, {
-    banner_id: undefined,
-    start_date: undefined,
-    end_date: undefined,
+  Object.assign(_filter, {
+    province: "",
+    city: "",
   });
-
-  showFilter.value = false;
 }
 </script>

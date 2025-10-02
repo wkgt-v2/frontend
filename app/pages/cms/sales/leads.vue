@@ -1,9 +1,12 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Lead by Customer Name">
-        <UInput v-model="searchQuery" />
-      </UFormField>
+      <div class="flex items-end gap-4">
+        <UFormField label="Search by customer name">
+          <UInput v-model="searchQuery" />
+        </UFormField>
+        <UButton icon="i-material-symbols:tune" @click="openFilter" />
+      </div>
       <div class="flex items-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
@@ -94,6 +97,44 @@
       </UForm>
     </template>
   </UModal>
+
+  <UModal
+    title="Filter"
+    v-model:open="showFilter"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div class="space-y-6">
+        <UFormField v-if="isSuperadmin" label="Sales person" name="salesperson_id">
+          <USelectMenu
+            v-model="_filter.salesperson_id"
+            value-key="value"
+            :items="users"
+            :loading="onLoadUsers === 'pending'"
+          />
+        </UFormField>
+        <UFormField label="Status" name="status">
+          <USelectMenu
+            v-model="_filter.status"
+            :items="['New', 'Qualified', 'Contacted', 'Follow Up', 'Quotation', 'Negotiation', 'Won', 'Lost']"
+          />
+        </UFormField>
+        <div class="grid grid-cols-2 gap-4">
+          <UFormField label="Start Date" name="start_date">
+            <Datepicker v-model="_filter.start_date" />
+          </UFormField>
+          <UFormField label="End Date" name="end_date">
+            <Datepicker v-model="_filter.end_date" />
+          </UFormField>
+        </div>
+      </div>
+    </template>
+    <template #footer="{ close }">
+      <UButton label="Cancel" variant="outline" @click="close" />
+      <UButton label="Reset" variant="outline" @click="resetFilter" />
+      <UButton label="Apply Filter" @click="applyFilter" />
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -181,8 +222,20 @@ const schema = v.object({
 });
 type Schema = v.InferOutput<typeof schema>;
 
+const _filter = reactive({
+  status: "",
+  salesperson_id: undefined as undefined | number,
+  start_date: undefined as undefined | string,
+  end_date: undefined as undefined | string,
+});
 const { bearer } = useToken();
 const config = useRuntimeConfig();
+const filter = reactive({
+  status: "",
+  salesperson_id: undefined as undefined | number,
+  start_date: undefined as undefined | string,
+  end_date: undefined as undefined | string,
+});
 const localeRoute = useLocaleRoute();
 const meta = reactive({
   limit: 10,
@@ -196,6 +249,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Lead>();
+const showFilter = ref(false);
 const state = reactive({
   date_in: undefined,
   lead_source: "",
@@ -216,7 +270,14 @@ const params = computed(() => {
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   if (searchQuery.value) params.append("customer_name", searchQuery.value);
-  if (!isSuperadmin) params.append("salesperson_id", `${uid.value}`);
+  if (!isSuperadmin) {
+    params.append("salesperson_id", `${uid.value}`);
+  } else {
+    if (filter.salesperson_id) params.append("salesperson_id", `${filter.salesperson_id}`);
+  }
+  if (filter.status) params.append("status", `${filter.status}`);
+  if (filter.start_date) params.append("start_date", `${filter.start_date}`);
+  if (filter.end_date) params.append("end_date", `${filter.end_date}`);
   return params.toString();
 });
 
@@ -233,6 +294,11 @@ const { data: leads, status: onLoadData, refresh: refreshLeads } = await useFetc
 );
 
 const { users, onLoadUsers, refreshUsers } = useOptsUsers();
+
+function applyFilter() {
+  Object.assign(filter, { ..._filter });
+  showFilter.value = false;
+}
 
 function getDropdownActions(lead: Lead) {
   return [
@@ -325,6 +391,12 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
   modal.onSubmit = false;
 }
 
+function openFilter() {
+  if (isSuperadmin) refreshUsers();
+  Object.assign(_filter, { ...filter });
+  showFilter.value = true;
+}
+
 function openModal(lead?: Lead) {
   selected.value = lead;
   refreshUsers();
@@ -344,5 +416,14 @@ function openModal(lead?: Lead) {
 
   modal.type = lead ? "edit" : "add";
   modal.open = true;
+}
+
+function resetFilter() {
+  Object.assign(_filter, {
+    status: "",
+    salesperson_id: undefined,
+    start_date: undefined,
+    end_date: undefined,
+  });
 }
 </script>

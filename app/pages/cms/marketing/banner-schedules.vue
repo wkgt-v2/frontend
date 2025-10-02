@@ -276,12 +276,7 @@ function applyFilter() {
     }
   }
 
-  Object.assign(filter, {
-    banner_id: _filter.banner_id,
-    start_date: _filter.start_date,
-    end_date: _filter.end_date,
-  });
-
+  Object.assign(filter, { ..._filter });
   showFilter.value = false;
 }
 
@@ -391,12 +386,10 @@ function openModal(schedule?: BannerSchedule) {
 }
 
 function resetFilter() {
-  Object.assign(filter, {
+  Object.assign(_filter, {
     banner_id: undefined,
     start_date: undefined,
     end_date: undefined,
   });
-
-  showFilter.value = false;
 }
 </script>

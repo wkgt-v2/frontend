@@ -112,20 +112,7 @@ const state = reactive({
 });
 const toast = useToast();
 
-const { data: categories, status: onLoadCategories } = await useFetch(
-  `${config.public.apiBase}/blog-categories?limit=9999`,
-  {
-    headers: { ...bearer },
-    transform: (value: HttpSuccessWithPagination<BlogCategory[]>) => {
-      return value.data.data.map(c => {
-        return {
-          label: c.blog_category_name,
-          value: c.blog_category_id,
-        }
-      });
-    },
-  }
-);
+const { categories, onLoadCategories } = useOptsBlogCategories();
 
 async function handleSubmit(e: FormSubmitEvent<Schema>) {
   formErrors.value = undefined;

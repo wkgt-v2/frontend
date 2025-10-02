@@ -1,9 +1,12 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search Article">
-        <UInput v-model="searchQuery" />
-      </UFormField>
+      <div class="flex items-end gap-4">
+        <UFormField label="Search by title">
+          <UInput v-model="searchQuery" />
+        </UFormField>
+        <UButton icon="i-material-symbols:tune" @click="openFilter" />
+      </div>
       <div class="flex items-end gap-4 *:h-fit">
         <ClientOnly>
           <UTooltip text="If the list is not updated, click this to refresh the data">
@@ -35,6 +38,30 @@
       </ClientOnly>
     </div>
   </div>
+
+  <UModal
+    title="Filter"
+    v-model:open="showFilter"
+    :ui="{ footer: 'justify-end' }"
+  >
+    <template #body>
+      <div class="space-y-6">
+        <UFormField label="Category" name="blog_category_id">
+          <USelectMenu
+            v-model="_filter.blog_category_id"
+            value-key="value"
+            :items="categories"
+            :loading="onLoadCategories === 'pending'"
+          />
+        </UFormField>
+      </div>
+    </template>
+    <template #footer="{ close }">
+      <UButton label="Cancel" variant="outline" @click="close" />
+      <UButton label="Reset" variant="outline" @click="resetFilter" />
+      <UButton label="Apply Filter" @click="applyFilter" />
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -77,7 +104,13 @@ const columns: TableColumn<BlogArticle>[] = [
   },
 ];
 
+const _filter = reactive({
+  blog_category_id: undefined as undefined | number,
+});
 const config = useRuntimeConfig();
+const filter = reactive({
+  blog_category_id: undefined as undefined | number,
+});
 const localeRoute = useLocaleRoute();
 const meta = reactive({
   limit: 10,
@@ -85,6 +118,7 @@ const meta = reactive({
   total: 0,
 });
 const searchQuery = useDebouncedRef("", 500);
+const showFilter = ref(false);
 const toast = useToast();
 const { bearer } = useToken();
 
@@ -93,6 +127,7 @@ const params = computed(() => {
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   if (searchQuery.value) params.append("title", searchQuery.value);
+  if (filter.blog_category_id) params.append("blog_category_id", `${filter.blog_category_id}`);
   return params.toString();
 });
 
@@ -107,6 +142,13 @@ const { data: articles, status: onLoadData, refresh: refreshArticles } = await u
     watch: [() => params.value],
   }
 );
+
+const { categories, onLoadCategories, refreshCategories } = useOptsBlogCategories();
+
+function applyFilter() {
+  Object.assign(filter, { ..._filter });
+  showFilter.value = false;
+}
 
 function getDropdownActions(article: BlogArticle) {
   return [
@@ -162,5 +204,17 @@ async function handleDelete(article: BlogArticle) {
       duration: 0,
     });
   }
+}
+
+function openFilter() {
+  refreshCategories();
+  Object.assign(_filter, { ...filter });
+  showFilter.value = true;
+}
+
+function resetFilter() {
+  Object.assign(_filter, {
+    blog_category_id: undefined,
+  });
 }
 </script>
