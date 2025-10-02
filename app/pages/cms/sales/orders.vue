@@ -216,7 +216,7 @@ const itemColumn: TableColumn<OrderItem>[] = [
   {
     accessorKey: "product",
     header: "Product",
-    cell: ({ row }) => row.original.product.product_name,
+    cell: ({ row }) => row.original.product?.product_name || "-",
   },
   {
     accessorKey: "quantity",
