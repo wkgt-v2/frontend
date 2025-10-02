@@ -271,7 +271,7 @@ const breadcrumbItems = computed(() => {
   const items: BreadcrumbItem[] = [];
   let path = "/cms";
   route.path.split("/").forEach(p => {
-    let label = p;
+    let label = p.replaceAll("-", " ");
     if (p) {
       if (p !== "cms") {
         if (!items.length && p !== "dashboard") {
