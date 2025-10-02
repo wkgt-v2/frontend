@@ -323,8 +323,8 @@ async function openModal(serviceOrder?: ServiceOrder) {
 
   Object.assign(state, {
     no_resi: serviceOrder?.no_resi || "",
-    category_id: serviceOrder?.product.category?.category_id,
-    series_id: serviceOrder?.product.series?.series_id,
+    category_id: serviceOrder?.product?.category?.category_id,
+    series_id: serviceOrder?.product?.series?.series_id,
     product_id: serviceOrder?.product_id,
     customer_name: serviceOrder?.customer_name || "",
     customer_phone: serviceOrder?.customer_phone || "",
