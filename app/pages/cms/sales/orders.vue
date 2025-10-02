@@ -98,7 +98,13 @@
         <div class="space-y-1 text-sm text-tone">
           <div>Order Date</div>
           <div class="font-medium">
-            {{ selected.order_date }}
+            {{ selected.order_date
+              ? new Date(selected.order_date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              : "-" }}
           </div>
         </div>
         <div class="space-y-1 text-sm text-tone">
@@ -116,7 +122,13 @@
         <div class="space-y-1 text-sm text-tone">
           <div>Approved At</div>
           <div class="font-medium">
-            {{ selected.approved_at || "-" }}
+            {{ selected.approved_at
+              ? new Date(selected.approved_at).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              : "-" }}
           </div>
         </div>
         <div class="sm:col-span-2 overflow-x-auto">
