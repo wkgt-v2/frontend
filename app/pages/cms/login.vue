@@ -19,16 +19,10 @@
         @submit="onSubmit"
       >
         <div class="flex items-center justify-between">
-          <img
-            src="/assets/images/logo.png"
-            alt="Logo"
-            class="h-10 select-none dark:hidden"
-          />
-          <img
-            src="/assets/images/logo_dark-mode.png"
-            alt="Logo"
-            class="h-10 select-none hidden dark:block"
-          />
+          <NuxtLink :to="localePath('/')">
+            <img src="/assets/images/logo.png" alt="Logo" class="h-10 select-none dark:hidden" />
+            <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 select-none hidden dark:block" />
+          </NuxtLink>
           <DarkModeToggler class="ml-auto" />
         </div>
         <UFormField label="Username" name="user_username">
