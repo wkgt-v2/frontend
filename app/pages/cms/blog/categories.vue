@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 p-6">
     <div class="flex not-sm:flex-col justify-between gap-4 sm:gap-8">
-      <UFormField label="Search by category name">
+      <UFormField label="Search by name">
         <UInput v-model="searchQuery" />
       </UFormField>
       <div class="flex items-end gap-4 *:h-fit">
