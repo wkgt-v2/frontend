@@ -17,6 +17,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="brands" :loading="onLoadData === 'pending'">
+        <template #sm_icon-cell="{ row }">
+          <ImageViewer :src="row.original.sm_icon" class="size-20" />
+        </template>
         <template #url-cell="{ row }">
           <UButton
             :to="row.original.sm_url"
@@ -91,6 +94,15 @@ import type { HttpError, HttpSuccessWithPagination } from "~/types/http";
 import type { Brand } from "~/types/marketing";
 
 const column: TableColumn<Brand>[] = [
+  {
+    accessorKey: "sm_icon",
+    header: "Logo",
+    meta: {
+      class: {
+        td: "w-28",
+      },
+    },
+  },
   {
     accessorKey: "sm_name",
     header: "Name",

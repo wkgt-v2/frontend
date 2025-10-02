@@ -17,6 +17,10 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="columns" :data="items" :loading="onLoadData === 'pending'">
+        <template #images-cell="{ row }">
+          <ImageViewer v-if="getThumbnail(row.original)" :src="getThumbnail(row.original)!" class="size-20" />
+          <span v-else>-</span>
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -45,9 +49,13 @@ import type { Item } from "~/types/product";
 
 const columns: TableColumn<Item>[] = [
   {
-    accessorKey: "product_id",
-    header: "#",
-    cell: ({ row }) => `#${row.getValue("product_id")}`,
+    accessorKey: "images",
+    header: "Image",
+    meta: {
+      class: {
+        td: "w-28",
+      },
+    },
   },
   {
     accessorKey: "product_name",
@@ -57,10 +65,6 @@ const columns: TableColumn<Item>[] = [
     accessorKey: "product_code",
     header: "Code",
   },
-  // {
-  //   accessorKey: "images",
-  //   header: "Image",
-  // },
   {
     accessorKey: "series",
     header: "Series",
@@ -71,10 +75,6 @@ const columns: TableColumn<Item>[] = [
     header: "Category",
     cell: ({ row }) => row.original.category?.category_name || "-",
   },
-  // {
-  //   accessorKey: "product_marketplace",
-  //   header: "Marketplace",
-  // },
   {
     id: "action",
     meta: {
@@ -141,6 +141,11 @@ function getDropdownActions(item: Item) {
       },
     ],
   ];
+}
+
+function getThumbnail(item: Item) {
+  const thumbnail = item.images.find(i => i.is_main) || item.images[0];
+  return thumbnail?.image_url;
 }
 
 async function handleDelete(item: Item) {

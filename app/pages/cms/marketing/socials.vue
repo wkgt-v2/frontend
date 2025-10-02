@@ -18,7 +18,7 @@
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="socials" :loading="onLoadData === 'pending'">
         <template #icon-cell="{ row }">
-          <UIcon :name="`i-${row.original.sm_icon}`" mode="svg" class="size-6" />
+          <UIcon :name="`i-${row.original.sm_icon}`" mode="svg" class="size-8" />
         </template>
         <template #url-cell="{ row }">
           <UButton

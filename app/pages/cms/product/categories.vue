@@ -17,6 +17,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="categories" :loading="onLoadData === 'pending'">
+        <template #category_image-cell="{ row }">
+          <ImageViewer :src="row.original.category_image" class="size-20" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -87,9 +90,13 @@ import type { Category } from "~/types/product";
 
 const column: TableColumn<Category>[] = [
   {
-    accessorKey: "category_id",
-    header: "#",
-    cell: ({ row }) => `#${row.getValue("category_id")}`,
+    accessorKey: "category_image",
+    header: "Image",
+    meta: {
+      class: {
+        td: "w-28",
+      },
+    },
   },
   {
     accessorKey: "category_name",
@@ -99,10 +106,6 @@ const column: TableColumn<Category>[] = [
     accessorKey: "category_code",
     header: "Code",
   },
-  // {
-  //   accessorKey: "category_image",
-  //   header: "Image",
-  // },
   {
     accessorKey: "category_description",
     header: "Description",

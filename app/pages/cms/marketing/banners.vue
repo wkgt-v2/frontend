@@ -17,13 +17,8 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="banners" :loading="onLoadData === 'pending'">
-        <template #image-cell="{ row }">
-          <UButton
-            :to="row.original.banner_image"
-            target="_blank"
-            variant="link"
-            :label="row.original.banner_image"
-          />
+        <template #banner_image-cell="{ row }">
+          <ImageViewer :src="row.original.banner_image" class="size-20" />
         </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
@@ -92,13 +87,17 @@ import type { Banner } from "~/types/marketing";
 
 const column: TableColumn<Banner>[] = [
   {
-    accessorKey: "banner_title",
-    header: "Title",
-  },
-  {
     accessorKey: "banner_image",
     header: "Image",
-    id: "image",
+    meta: {
+      class: {
+        td: "w-28",
+      },
+    },
+  },
+  {
+    accessorKey: "banner_title",
+    header: "Title",
   },
   {
     accessorKey: "banner_url",
