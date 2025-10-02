@@ -111,24 +111,29 @@ const localeRoute = useLocaleRoute();
 const nav = {
   dashboard: {
     label: "Dashboard",
+    icon: "material-symbols:dashboard-outline",
     to: localePath("cms-dashboard"),
     onSelect: closeSlideover,
   },
   product: {
     label: "Product",
+    icon: "material-symbols:inventory-2-outline",
     children: [
       {
         label: "Categories",
+        icon: "material-symbols:category-outline",
         to: localePath("cms-product-categories"),
         onSelect: closeSlideover,
       },
       {
         label: "Series",
+        icon: "material-symbols:view-list-outline",
         to: localePath("cms-product-series"),
         onSelect: closeSlideover,
       },
       {
         label: "Items",
+        icon: "material-symbols:shopping-bag-outline",
         to: localePath("cms-product-items"),
         onSelect: closeSlideover,
       },
@@ -136,29 +141,35 @@ const nav = {
   },
   marketing: {
     label: "Marketing",
+    icon: "material-symbols:campaign-outline",
     children: [
       {
         label: "Banners",
+        icon: "material-symbols:image-outline",
         to: localePath("cms-marketing-banners"),
         onSelect: closeSlideover,
       },
       {
         label: "Banner Schedules",
+        icon: "material-symbols:schedule-outline",
         to: localePath("cms-marketing-banner-schedules"),
         onSelect: closeSlideover,
       },
       {
         label: "Brands",
+        icon: "material-symbols:sell-outline",
         to: localePath("cms-marketing-brands"),
         onSelect: closeSlideover,
       },
       {
         label: "Clients",
+        icon: "material-symbols:handshake-outline",
         to: localePath("cms-marketing-clients"),
         onSelect: closeSlideover,
       },
       {
         label: "Social Media",
+        icon: "material-symbols:share-outline",
         to: localePath("cms-marketing-socials"),
         onSelect: closeSlideover,
       },
@@ -166,14 +177,17 @@ const nav = {
   },
   service: {
     label: "Service",
+    icon: "material-symbols:support-agent",
     children: [
       {
         label: "Orders",
+        icon: "material-symbols:receipt-long",
         to: localePath("cms-service-orders"),
         onSelect: closeSlideover,
       },
       {
         label: "Centers",
+        icon: "material-symbols:storefront-outline",
         to: localePath("cms-service-centers"),
         onSelect: closeSlideover,
       },
@@ -181,24 +195,29 @@ const nav = {
   },
   sales: {
     label: "Sales",
+    icon: "material-symbols:point-of-sale",
     children: [
       {
         label: "Leads",
+        icon: "material-symbols:person-search-outline",
         to: localePath("cms-sales-leads"),
         onSelect: closeSlideover,
       },
       {
         label: "Activities",
+        icon: "material-symbols:event-note",
         to: localePath("cms-sales-activities"),
         onSelect: closeSlideover,
       },
       {
         label: "Orders",
+        icon: "material-symbols:shopping-cart-checkout",
         to: localePath("cms-sales-orders"),
         onSelect: closeSlideover,
       },
       {
         label: "KPI",
+        icon: "material-symbols:insights",
         to: localePath("cms-sales-kpi"),
         onSelect: closeSlideover,
       },
@@ -206,14 +225,17 @@ const nav = {
   },
   blog: {
     label: "Blog",
+    icon: "material-symbols:article-outline",
     children: [
       {
         label: "Categories",
+        icon: "material-symbols:library-books-outline",
         to: localePath("cms-blog-categories"),
         onSelect: closeSlideover,
       },
       {
         label: "Articles",
+        icon: "material-symbols:description-outline",
         to: localePath("cms-blog-articles"),
         onSelect: closeSlideover,
       },
@@ -221,19 +243,23 @@ const nav = {
   },
   settings: {
     label: "Settings",
+    icon: "material-symbols:settings-outline",
     children: [
       {
         label: "Users",
+        icon: "material-symbols:person-outline",
         to: localePath("cms-settings-users"),
         onSelect: closeSlideover,
       },
       {
         label: "Roles",
+        icon: "material-symbols:admin-panel-settings-outline",
         to: localePath("cms-settings-roles"),
         onSelect: closeSlideover,
       },
       {
         label: "Company",
+        icon: "material-symbols:apartment",
         to: localePath("cms-settings-company"),
         onSelect: closeSlideover,
       },
