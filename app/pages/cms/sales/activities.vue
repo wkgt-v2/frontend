@@ -277,7 +277,7 @@ const schema = v.object({
   ),
 });
 const auditSchema = v.object({
-  audit_status: vRequired(),
+  audit_status: vRequiredStringSelect(),
   audit_notes: v.string(),
 });
 type Schema = v.InferOutput<typeof schema>;
