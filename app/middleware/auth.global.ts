@@ -41,11 +41,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (!companySettings.value) {
     /* TODO: remove headers */
-    const { data } = await useFetch<HttpSuccess<Record<string, string>>>(
-      `${config.public.apiBase}/company-settings/format`,
-      { headers: { ...bearer } },
-    );
-    console.log(data.value)
-    if (data.value) companySettings.value = data.value.data;
+    // const { data } = await useFetch<HttpSuccess<Record<string, string>>>(
+    //   `${config.public.apiBase}/company-settings/format`,
+    //   { headers: { ...bearer } },
+    // );
+    // console.log(data.value)
+    // if (data.value) companySettings.value = data.value.data;
   }
 });
