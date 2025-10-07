@@ -218,48 +218,48 @@ async function handleDelete(category: Category) {
 }
 
 async function onSubmit(e: FormSubmitEvent<Schema>) {
-  if (!modal.onSubmit) {
-    modal.onSubmit = true;
+  if (modal.onSubmit) return;
 
-    try {
-      const body = new FormData();
-      for (const key in e.data) {
-        const value = e.data[key as keyof typeof e.data];
-        if (key === "category_image" && typeof value === "string") continue;
-        if (value) body.append(key, value);
-      }
-      body.append("category_instruction", "-");
-      body.append("category_main", "true");
+  modal.onSubmit = true;
 
-      await $fetch(`${config.public.apiBase}/categories${selected.value ? "/" + selected.value.category_id : ""}`, {
-        headers: { ...bearer },
-        method: selected.value ? "PUT" : "POST",
-        body
-      });
-
-      toast.add({
-        title: `Category ${modal.type === "add" ? "created" : "updated"} successfully!`,
-        color: "success",
-        icon: "i-heroicons-check-circle",
-      });
-      modal.open = false;
-      setTimeout(() => {
-        refreshCategory();
-      }, 100);
-    } catch (error) {
-      console.log(error)
-      const e = error as FetchError<HttpError>;
-      toast.add({
-        title: `Failed to ${modal.type === "add" ? "create" : "update"} category!`,
-        description: e.data?.message,
-        color: "error",
-        icon: "i-heroicons-exclamation-circle",
-        duration: 0,
-      });
+  try {
+    const body = new FormData();
+    for (const key in e.data) {
+      const value = e.data[key as keyof typeof e.data];
+      if (key === "category_image" && typeof value === "string") continue;
+      if (value) body.append(key, value);
     }
+    body.append("category_instruction", "-");
+    body.append("category_main", "true");
 
-    modal.onSubmit = false;
+    await $fetch(`${config.public.apiBase}/categories${selected.value ? "/" + selected.value.category_id : ""}`, {
+      headers: { ...bearer },
+      method: selected.value ? "PUT" : "POST",
+      body
+    });
+
+    toast.add({
+      title: `Category ${modal.type === "add" ? "created" : "updated"} successfully!`,
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    modal.open = false;
+    setTimeout(() => {
+      refreshCategory();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: `Failed to ${modal.type === "add" ? "create" : "update"} category!`,
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
   }
+
+  modal.onSubmit = false;
 }
 
 async function openModal(category?: Category) {

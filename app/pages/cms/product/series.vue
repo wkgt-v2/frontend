@@ -250,39 +250,39 @@ async function handleDelete(series: Series) {
 }
 
 async function onSubmit(e: FormSubmitEvent<Schema>) {
-  if (!modal.onSubmit) {
-    modal.onSubmit = true;
+  if (modal.onSubmit) return;
 
-    try {
-      await $fetch(`${config.public.apiBase}/series${selected.value ? "/" + selected.value.series_id : ""}`, {
-        headers: { ...bearer },
-        method: selected.value ? "PUT" : "POST",
-        body: e.data,
-      });
+  modal.onSubmit = true;
 
-      toast.add({
-        title: `Series ${modal.type === "add" ? "created" : "updated"} successfully!`,
-        color: "success",
-        icon: "i-heroicons-check-circle",
-      });
-      modal.open = false;
-      setTimeout(() => {
-        refreshSeries();
-      }, 100);
-    } catch (error) {
-      console.log(error)
-      const e = error as FetchError<HttpError>;
-      toast.add({
-        title: `Failed to ${modal.type === "add" ? "create" : "update"} series!`,
-        description: e.data?.message,
-        color: "error",
-        icon: "i-heroicons-exclamation-circle",
-        duration: 0,
-      });
-    }
+  try {
+    await $fetch(`${config.public.apiBase}/series${selected.value ? "/" + selected.value.series_id : ""}`, {
+      headers: { ...bearer },
+      method: selected.value ? "PUT" : "POST",
+      body: e.data,
+    });
 
-    modal.onSubmit = false;
+    toast.add({
+      title: `Series ${modal.type === "add" ? "created" : "updated"} successfully!`,
+      color: "success",
+      icon: "i-heroicons-check-circle",
+    });
+    modal.open = false;
+    setTimeout(() => {
+      refreshSeries();
+    }, 100);
+  } catch (error) {
+    console.log(error)
+    const e = error as FetchError<HttpError>;
+    toast.add({
+      title: `Failed to ${modal.type === "add" ? "create" : "update"} series!`,
+      description: e.data?.message,
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
   }
+
+  modal.onSubmit = false;
 }
 
 function openFilter() {
