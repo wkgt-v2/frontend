@@ -57,12 +57,7 @@
           <UInput v-model="state.sm_name" />
         </UFormField>
         <UFormField label="Icon" name="sm_icon">
-          <UFileUpload
-            accept=".jpg,.jpeg,.png,.webp"
-            class="w-full h-48"
-            description="JPG, JPEG, PNG, WebP"
-            v-model="state.sm_icon"
-          />
+          <FileUpload v-model="state.sm_icon" />
         </UFormField>
         <UFormField label="URL" name="sm_url">
           <UInput v-model="state.sm_url" />
@@ -124,13 +119,7 @@ const column: TableColumn<Brand>[] = [
 
 const schema = v.object({
   sm_name: vRequired(),
-  sm_icon: v.pipe(
-    v.file("Please select an image file."),
-    v.mimeType(
-      ["image/jpeg", "image/png", "image/jpg", "image/webp"],
-      "Please select a JPG, JPEG, PNG or WebP file."
-    )
-  ),
+  sm_icon: vImage(),
   sm_url: v.pipe(
     v.string(),
     v.nonEmpty("This field is required."),
@@ -239,7 +228,9 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
     const body = new FormData();
     body.append("sm_type", "brand");
     for (const key in e.data) {
-      body.append(key, e.data[key as keyof typeof e.data]);
+      const value = e.data[key as keyof typeof e.data];
+      if (key === "sm_icon" && typeof value === "string") continue;
+      if (value) body.append(key, value);
     }
     await $fetch(`${config.public.apiBase}/social-medias${selected.value ? "/" + selected.value.sm_id : ""}`, {
       headers: { ...bearer },
@@ -274,15 +265,9 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 async function openModal(brand?: Brand) {
   selected.value = brand;
 
-  let brandLogo: any = brand?.sm_icon;
-  if (brandLogo) {
-    const splitted = brandLogo.split(".");
-    brandLogo = await getBlobFromUrl(brandLogo, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
-  }
-
   Object.assign(state, {
     sm_name: brand?.sm_name || "",
-    sm_icon: brandLogo,
+    sm_icon: brand?.sm_icon,
     sm_url: brand?.sm_url || "",
   });
 

@@ -324,8 +324,8 @@ const schema = v.object({
   activity_type: vRequiredStringSelect(),
   follow_up_date: vRequiredStringSelect(),
   proof_photos: v.pipe(
-    v.array(v.file()),
-    v.filterItems((item) => ALLOWED_FILE_TYPES.includes(item.type)),
+    v.array(v.union([v.file(), v.string()])),
+    v.filterItems((item) => typeof item === "string" || ALLOWED_FILE_TYPES.includes(item.type)),
     v.minLength(1, "Select at least one image."),
   ),
 });
@@ -547,7 +547,7 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
         const value = e.data[key as keyof typeof e.data];
         if (key === "proof_photos") {
           (value as File[]).forEach(file => {
-            formData?.append("proof_photos", file);
+            if (file) formData?.append("proof_photos", file);
           });
         } else {
           formData.append(key, `${value}`);
@@ -595,20 +595,12 @@ async function openModal(activity?: Activity) {
   selected.value = activity;
   refreshUsers();
 
-  /* Only to bypass validation */
-  let photo: File | undefined;
-  let photos = activity?.photos;
-  if (photos?.length) {
-    const splitted = photos[0]!.photo_url.split(".");
-    photo = await getBlobFromUrl(photos[0]!.photo_url, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
-  }
-
   Object.assign(state, {
     salesperson_id: isSuperadmin ? (activity?.salesperson_id || undefined) : uid.value,
     lead_id: activity?.lead_id || undefined,
     activity_type: activity?.activity_type || undefined,
     follow_up_date: activity?.follow_up_date || undefined,
-    proof_photos: activity ? [photo] : [],
+    proof_photos: activity ? [""] : [],
   });
 
   modal.type = activity ? "edit" : "add";

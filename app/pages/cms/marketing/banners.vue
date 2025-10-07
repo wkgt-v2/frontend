@@ -49,12 +49,7 @@
           <UInput v-model="state.banner_title" />
         </UFormField>
         <UFormField label="Image" name="banner_image">
-          <UFileUpload
-            accept=".jpg,.jpeg,.png,.webp"
-            class="w-full h-48"
-            description="JPG, JPEG, PNG, WebP"
-            v-model="state.banner_image"
-          />
+          <FileUpload v-model="state.banner_image" />
         </UFormField>
         <UFormField label="URL" name="banner_url">
           <UInput v-model="state.banner_url" />
@@ -116,13 +111,7 @@ const column: TableColumn<Banner>[] = [
 
 const schema = v.object({
   banner_title: vRequired(),
-  banner_image: v.pipe(
-    v.file("Please select an image file."),
-    v.mimeType(
-      ["image/jpeg", "image/png", "image/jpg", "image/webp"],
-      "Please select a JPG, JPEG, PNG or WebP file."
-    )
-  ),
+  banner_image: vImage(),
   banner_url: v.union([
     v.literal(""),
     v.pipe(
@@ -148,7 +137,7 @@ const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Banner>();
 const state = reactive({
   banner_title: "",
-  banner_image: undefined as undefined | File,
+  banner_image: undefined,
   banner_url: "",
 });
 const toast = useToast();
@@ -231,6 +220,7 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
       const body = new FormData();
       for (const key in e.data) {
         const value = e.data[key as keyof typeof e.data];
+        if (key === "banner_image" && typeof value === "string") continue;
         if (value) body.append(key, value);
       }
 
@@ -268,15 +258,9 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 async function openModal(banner?: Banner) {
   selected.value = banner;
 
-  let bannerImage: any = banner?.banner_image;
-  if (bannerImage) {
-    const splitted = bannerImage.split(".");
-    bannerImage = await getBlobFromUrl(bannerImage, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
-  }
-
   Object.assign(state, {
     banner_title: banner?.banner_title || "",
-    banner_image: bannerImage,
+    banner_image: banner?.banner_image,
     banner_url: banner?.banner_url || "",
   });
 

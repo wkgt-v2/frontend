@@ -55,12 +55,7 @@
           <Textarea v-model="state.category_description" :rows="2" />
         </UFormField>
         <UFormField label="Image" name="category_image">
-          <UFileUpload
-            accept=".jpg,.jpeg,.png,.webp"
-            class="w-full h-48"
-            description="JPG, JPEG, PNG, WebP"
-            v-model="state.category_image"
-          />
+          <FileUpload v-model="state.category_image" />
         </UFormField>
 
         <div class="flex justify-end gap-4">
@@ -123,13 +118,7 @@ const column: TableColumn<Category>[] = [
 const schema = v.object({
   category_name: vRequired(),
   category_code: vRequired(),
-  category_image: v.pipe(
-    v.file("Please select an image file."),
-    v.mimeType(
-      ["image/jpeg", "image/png", "image/jpg", "image/webp"],
-      "Please select a JPG, JPEG, PNG or WebP file."
-    )
-  ),
+  category_image: vImage(),
   category_description: vRequired(),
   // category_instruction: v.pipe(v.string()),
   // category_main: v.pipe(v.boolean()),
@@ -237,7 +226,7 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
       for (const key in e.data) {
         const value = e.data[key as keyof typeof e.data];
         if (key === "category_image" && typeof value === "string") continue;
-        body.append(key, value);
+        if (value) body.append(key, value);
       }
       body.append("category_instruction", "-");
       body.append("category_main", "true");
@@ -276,16 +265,10 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 async function openModal(category?: Category) {
   selected.value = category;
 
-  let categoryImage: any = category?.category_image;
-  if (categoryImage) {
-    const splitted = categoryImage.split(".");
-    categoryImage = await getBlobFromUrl(categoryImage, splitted[splitted!.length - 2] || `${new Date().getTime()}`);
-  }
-
   Object.assign(state, {
     category_name: category?.category_name || "",
     category_code: category?.category_code || "",
-    category_image: categoryImage,
+    category_image: category?.category_image,
     category_description: category?.category_description || "",
     // category_instruction: category?.category_instruction || "",
     // category_main: category?.category_main ?? true,
