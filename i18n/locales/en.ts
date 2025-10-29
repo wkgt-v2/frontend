@@ -12,13 +12,13 @@ export default {
   },
   footer: {
     label: "Computer Hardware Solutions For Your Business.",
-    copyright: "Copyright © 2025 Wahana Komputer. All Rights Reserved",
+    copyright: "Copyright © 2025 WAHANA KARYA GUNA TEKNOLOGI. All Rights Reserved",
     privacy_policy: "Privacy Policy",
     terms_of_service: "Terms of Service",
   },
   landing: {
     about_us: {
-      title: "With Wahana Komputer",
+      title: "With WAHANA KARYA GUNA TEKNOLOGI",
       subtitle: "As a distributor focused on discipline and consistency, we have supported various government and private projects with the right technology solutions.",
       item1: {
         title: "Proven Experience",

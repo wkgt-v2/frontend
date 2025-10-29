@@ -102,7 +102,7 @@ import type { BreadcrumbItem, DropdownMenuItem, NavigationMenuItem } from "@nuxt
 
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} | Wahana Komputer` : "Wahana Komputer";
+    return titleChunk ? `${titleChunk} | WAHANA KARYA GUNA TEKNOLOGI` : "WAHANA KARYA GUNA TEKNOLOGI";
   },
 });
 

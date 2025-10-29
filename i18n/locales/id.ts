@@ -12,13 +12,13 @@ export default {
   },
   footer: {
     label: "Solusi Perangkat Keras Komputer Untuk Bisnis Anda.",
-    copyright: "Hak Cipta © 2025 Wahana Komputer. Semua Hak Dilindungi Undang-undang",
+    copyright: "Hak Cipta © 2025 WAHANA KARYA GUNA TEKNOLOGI. Semua Hak Dilindungi Undang-undang",
     privacy_policy: "Kebijakan Privasi",
     terms_of_service: "Ketentuan Layanan",
   },
   landing: {
     about_us: {
-      title: "Bersama Wahana Komputer",
+      title: "Bersama WAHANA KARYA GUNA TEKNOLOGI",
       subtitle: "Sebagai distributor yang berfokus pada kedisiplinan dan konsistensi, kami telah membantu berbagai proyek pemerintah dan swasta dengan solusi teknologi yang tepat.",
       item1: {
         title: "Pengalaman Teruji",
