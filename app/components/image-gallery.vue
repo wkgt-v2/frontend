@@ -9,7 +9,7 @@
       class="w-full mx-auto"
       @select="onSelect"
     >
-      <img :src="item" width="420" height="420" class="w-full aspect-square object-cover rounded-2xl">
+      <img :src="item" width="420" height="420" class="w-full aspect-square object-contain rounded-2xl">
     </UCarousel>
 
     <div class="overflow-x-auto">

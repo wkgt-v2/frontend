@@ -23,7 +23,7 @@
           <img
             :src="category.category_image"
             :alt="category.category_name"
-            class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
+            class="w-full object-contain aspect-square rounded-t-xl" loading="lazy"
           />
           <div class="space-y-1 p-6">
             <h5 class="text-base text-tone font-medium">

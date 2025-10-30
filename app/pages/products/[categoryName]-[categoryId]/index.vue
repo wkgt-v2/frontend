@@ -70,7 +70,7 @@
               <img
                 :src="getProductThumbnail(product)"
                 :alt="product.product_name"
-                class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
+                class="w-full object-contain aspect-square rounded-t-xl" loading="lazy"
               />
               <div class="space-y-1 p-6">
                 <small class="text-sm text-primary">
