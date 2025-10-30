@@ -95,7 +95,7 @@
     </div>
     <div class="flex justify-center">
       <ClientOnly>
-        <UPagination v-model:page="meta.page" :total="meta.total" />
+        <UPagination v-model:page="meta.page" :items-per-page="meta.limit" :total="meta.total" />
       </ClientOnly>
     </div>
   </div>
