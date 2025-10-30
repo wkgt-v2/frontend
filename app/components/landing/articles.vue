@@ -1,5 +1,5 @@
 <template>
-  <div v-if="articles" class="relative container space-y-16 py-16 text-center">
+  <div v-if="articles?.length" class="relative container space-y-16 py-16 text-center">
     <h1 class="text-5xl text-primary font-semibold">
       {{ $t("landing.articles.title") }}
     </h1>
