@@ -109,6 +109,7 @@ const navItems = computed(() => {
     },
     {
       label: t("nav.product"),
+      to: localePath("products"),
       slot: "products" as const,
       children: productCategories.value,
     },
