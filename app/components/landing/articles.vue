@@ -10,7 +10,10 @@
       :ui="{ item: 'sm:basis-1/2 lg:basis-1/3 xl:basis-1/4' }"
       dots
     >
-      <div class="w-full glass border border-accent rounded-xl">
+      <NuxtLink
+        :to="$localeRoute(`/blog/${item.blog_article_id}`)"
+        class="block w-full glass border border-accent rounded-xl"
+      >
         <img
           :src="item.thumbnail"
           :alt="item.title"
@@ -21,14 +24,11 @@
             {{ item.title }}
           </h4>
           <p class="text-tone line-clamp-2" v-html="item.content"></p>
-          <UButton
-            :to="$localeRoute(`/blog/${item.blog_article_id}`)"
-            variant="link"
-          >
+          <span class="text-sm text-primary">
             {{ $t("landing.articles.read_more") }}
-          </UButton>
+          </span>
         </div>
-      </div>
+      </NuxtLink>
     </UCarousel>
 
     <UButton
