@@ -163,6 +163,10 @@ const isSuperadmin = useSuperadmin();
 
 const column: TableColumn<Order>[] = [
   {
+    accessorKey: "order_id",
+    header: "Order ID",
+  },
+  {
     accessorKey: "salesperson",
     header: "Sales Person",
     meta: {
