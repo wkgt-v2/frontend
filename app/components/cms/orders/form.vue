@@ -15,7 +15,7 @@
             :loading="onLoadUsers === 'pending'"
           />
         </UFormField>
-        <UFormField label="Lead" name="lead_id">
+        <UFormField label="Customer" name="lead_id">
           <USelectMenu
             v-model="state.lead_id"
             :items="leads"
