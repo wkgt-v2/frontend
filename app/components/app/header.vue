@@ -49,13 +49,7 @@
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
         <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
       </NuxtLink>
-      <UNavigationMenu
-        :items="navItems"
-        variant="link"
-        :ui="{
-          link: 'text-base'
-        }"
-      >
+      <UNavigationMenu :items="navItems" variant="link">
         <template #products-content="{ item }: { item: NavigationMenuItem }">
           <div class="grid grid-cols-2 gap-0.5 py-2 px-4">
             <div v-if="highlightedCategory" class="row-span-6 p-2">

@@ -8,6 +8,18 @@ export default defineAppConfig({
         root: "w-full",
       },
     },
+    navigationMenu: {
+      slots: {
+        link: "text-base",
+      },
+      variants: {
+        active: {
+          false: {
+            link: "text-tone",
+          },
+        },
+      },
+    },
     select: {
       slots: {
         base: "w-full",
