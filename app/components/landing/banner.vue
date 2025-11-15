@@ -9,7 +9,7 @@
       auto-height
       :ui="{ dots: 'bottom-4' }"
     >
-      <NuxtLink :to="item.banner_url || undefined">
+      <NuxtLink :to="item.banner_url || undefined" target="_blank">
         <img :src="item.banner_image" class="w-full max-h-[420px] object-contain rounded-lg md:rounded-2xl" loading="lazy" />
       </NuxtLink>
     </UCarousel>
