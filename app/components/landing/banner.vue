@@ -10,7 +10,7 @@
       :ui="{ dots: 'bottom-4' }"
     >
       <NuxtLink :to="item.banner_url || undefined">
-        <img :src="item.banner_image" class="w-full max-h-96 object-contain rounded-lg md:rounded-2xl" loading="lazy" />
+        <img :src="item.banner_image" class="w-full max-h-[420px] object-contain rounded-lg md:rounded-2xl" loading="lazy" />
       </NuxtLink>
     </UCarousel>
   </div>
