@@ -23,7 +23,7 @@
           <label for="id_perbaikan" class="text-base text-tone">
             {{ $t("service.field_label") }}
           </label>
-          <UInput name="id_perbaikan" size="lg" variant="subtle" placeholder="IDXXXXXXXX" v-model="form.id" />
+          <UInput name="id_perbaikan" size="lg" variant="subtle" v-model="form.id" />
         </div>
         <UButton size="lg" class="whitespace-nowrap" :loading="onCheck" @click="checkStatus">
           {{ $t("service.button_label") }}
