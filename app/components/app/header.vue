@@ -44,12 +44,18 @@
         </template>
       </USlideover>
     </div>
-    <div class="not-lg:hidden container flex items-center justify-between h-16">
+    <div class="not-lg:hidden container flex items-center justify-between h-20">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
         <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
       </NuxtLink>
-      <UNavigationMenu :items="navItems" variant="link">
+      <UNavigationMenu
+        :items="navItems"
+        variant="link"
+        :ui="{
+          link: 'text-base'
+        }"
+      >
         <template #products-content="{ item }: { item: NavigationMenuItem }">
           <div class="grid grid-cols-2 gap-0.5 py-2 px-4">
             <div v-if="highlightedCategory" class="row-span-6 p-2">
@@ -59,7 +65,7 @@
               v-for="child in item.children"
               :key="child.label"
               :to="child.to"
-              class="hover:bg-elevated/50 py-1 px-2 text-sm text-left rounded-md"
+              class="hover:bg-elevated/50 py-1 px-2 text-base text-left rounded-md"
               @mouseenter="highlightedCategory = child.img"
             >
               <p class="font-medium text-tone">
@@ -74,6 +80,7 @@
           v-model="lang"
           :items="langOptions"
           variant="ghost"
+          size="lg"
           class="w-fit"
           :ui="{
             base: 'font-medium uppercase',
