@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed top-0 w-full glass shadow-md z-[99]">
+  <nav class="fixed top-0 w-full glass not-dark:bg-cyan-100/60 shadow-md z-[99]">
     <div class="lg:hidden container flex items-center justify-between h-16">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
@@ -44,7 +44,7 @@
         </template>
       </USlideover>
     </div>
-    <div class="not-lg:hidden container flex items-center justify-between h-20">
+    <div class="not-lg:hidden container flex items-center justify-between h-20 lg:px-8 xl:px-8">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
         <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
