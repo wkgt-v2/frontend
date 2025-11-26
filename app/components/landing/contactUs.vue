@@ -20,7 +20,7 @@
           {{ $t("landing.contact_us.cta") }}
         </UButton>
       </div>
-      <img src="/assets/images/illustrations/landing-2.jpg" alt="Typing on laptop" class="size-full aspect-square object-cover rounded-3xl">
+      <img src="/assets/images/illustrations/landing-2.jpg" alt="Typing on laptop" class="sm:hidden lg:block size-full aspect-square object-cover rounded-3xl">
     </div>
   </div>
 </template>
