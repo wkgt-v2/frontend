@@ -5,7 +5,7 @@
     <div class="absolute inset-0 border-b border-primary overflow-hidden -z-10">
       <Radial class="absolute bottom-0 left-1/2 translate-y-[55%] -translate-x-1/2 size-[960px] -z-10" />
     </div>
-    <div class="not-lg:space-y-16 not-lg:mx-auto not-lg:text-center lg:grid lg:grid-cols-2 items-center gap-6 py-16 lg:py-32">
+    <div class="not-lg:space-y-16 not-lg:mx-auto not-lg:text-center lg:grid lg:grid-cols-2 items-center gap-6 lg:gap-12 py-16 lg:py-32">
       <div class="shrink-0 space-y-6 max-w-lg text-tone">
         <h1 class="text-5xl font-semibold [&_span]:text-primary" v-html="parseI18n($t('landing.hero.title'))"></h1>
         <p class="text-tone">
