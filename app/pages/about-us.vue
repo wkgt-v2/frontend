@@ -100,15 +100,21 @@
             {{ $t("about_us.section3.content") }}
           </p>
         </div>
-        <div class="not-lg:grid not-lg:grid-cols-2 lg:flex gap-3">
-          <div
-            v-for="strategy in strategies"
-            class="space-y-1 glass p-3 border border-accent rounded-xl"
-          >
-            <UIcon :name="`i-${strategy.icon}`" class="size-5 mx-auto text-primary" mode="svg" />
-            <p class="text-tone">{{ strategy.content }}</p>
+        <UCarousel
+          v-slot="{ item }"
+          :items="strategies"
+          class="w-full"
+          :ui="{ item: 'sm:basis-1/2 lg:basis-1/3 h-full' }"
+          dots
+          autoplay
+        >
+          <div class="space-y-1 glass p-6 border border-accent rounded-xl">
+            <UIcon :name="item.icon" class="size-8 mx-auto text-primary" mode="svg" />
+            <p class="text-lg text-tone">
+              {{ item.content }}
+            </p>
           </div>
-        </div>
+        </UCarousel>
       </section>
       <section class="space-y-16 py-16 text-center">
         <h1 class="text-5xl text-tone font-semibold [&_span]:text-primary" v-html="parseI18n($t('about_us.section4.title'))"></h1>
@@ -195,23 +201,23 @@ const businesses = computed(() => {
 const strategies = computed(() => {
   return [
     {
-      icon: "material-symbols-devices-outline",
+      icon: "i-material-symbols-devices-outline",
       content: t("about_us.section3.strategy1"),
     },
     {
-      icon: "material-symbols-build-outline",
+      icon: "i-material-symbols-build-outline",
       content: t("about_us.section3.strategy2"),
     },
     {
-      icon: "material-symbols-broadcast-on-personal-outline",
+      icon: "i-material-symbols-broadcast-on-personal-outline",
       content: t("about_us.section3.strategy3"),
     },
     {
-      icon: "material-symbols-globe-asia",
+      icon: "i-material-symbols-globe-asia",
       content: t("about_us.section3.strategy4"),
     },
     {
-      icon: "material-symbols-phone-android-outline",
+      icon: "i-material-symbols-phone-android-outline",
       content: t("about_us.section3.strategy5"),
     },
   ];
