@@ -20,8 +20,8 @@
     <UTabs variant="link" :items="mainTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8', list: 'justify-end' }">
       <template #overview>
         <div class="space-y-16">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-6">
-            <ImageGallery :urls="sortedImages.map(i => i.image_url)">
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-16 md:gap-6">
+            <ImageGallery :urls="sortedImages.map(i => i.image_url)" class="md:col-span-2">
               <template #action="{ url }">
                 <div class="absolute top-1 right-1 flex flex-col gap-1">
                   <UTooltip text="Set as main image">
@@ -44,7 +44,7 @@
                 </div>
               </template>
             </ImageGallery>
-            <div class="space-y-8">
+            <div class="space-y-8 md:col-span-3">
               <div class="space-y-2">
                 <h2 class="text-2xl text-tone font-semibold">
                   {{ item.product_name }}
