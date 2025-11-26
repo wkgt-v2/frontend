@@ -4,7 +4,7 @@
       <Teleport to="body">
         <div
           ref="radialRef"
-          class="eclipse fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
+          class="eclipse radial-position fixed size-[960px] pointer-events-none -translate-x-1/2 -translate-y-1/2 transform-gpu will-change-transform"
           :class="{ hidden: !radialEnabled }"
         ></div>
       </Teleport>
@@ -353,15 +353,10 @@ function updateRadialPosition(e: MouseEvent) {
 </script>
 
 <style scoped>
-.eclipse {
+.radial-position {
   --y: 0px;
   --x: 0px;
   top: var(--y);
   left: var(--x);
-  background: radial-gradient(
-    50% 50% at 50% 50%,
-    #00b8db1a 0%,
-    rgba(0, 184, 219, 0) 100%
-  );
 }
 </style>

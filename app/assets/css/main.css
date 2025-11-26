@@ -22,6 +22,7 @@
   --color-cyan-950: #06324b;
   --color-tone: var(--color-slate-950);
   --color-accent: var(--color-cyan-200);
+  --eclipse: radial-gradient(50% 50% at 50% 50%, #0062751a 0%, rgba(0, 184, 219, 0) 100%);
 }
 
 @utility container {
@@ -30,6 +31,10 @@
 
 @utility glass {
   @apply bg-cyan-200/20 dark:bg-cyan-900/20 backdrop-blur-md;
+}
+
+@utility eclipse {
+  background: var(--eclipse);
 }
 
 :root {
@@ -42,6 +47,7 @@
   --ui-primary: var(--ui-color-primary-400);
   --color-tone: var(--color-slate-50);
   --color-accent: var(--color-cyan-800);
+  --eclipse: radial-gradient(50% 50% at 50% 50%, #00b8db1a 0%, rgba(0, 184, 219, 0) 100%);
 }
 
 /* TipTap Preflight */
