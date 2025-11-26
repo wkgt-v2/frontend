@@ -44,7 +44,7 @@
         </template>
       </USlideover>
     </div>
-    <div class="not-lg:hidden container flex items-center justify-between h-20 lg:px-8 xl:px-8">
+    <div class="not-lg:hidden container flex items-center justify-between max-w-7xl h-20">
       <NuxtLink :to="localePath('/')">
         <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
         <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
