@@ -12,7 +12,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div v-for="item in items" class="space-y-1 glass p-6 border border-accent rounded-xl">
-        <UIcon name="i-material-symbols-handshake-outline-rounded" class="size-5 mx-auto text-primary" mode="svg" />
+        <UIcon :name="item.icon" class="size-8 mx-auto text-primary" mode="svg" />
         <h5 class="text-lg text-primary font-semibold">
           {{ item.title }}
         </h5>
@@ -37,14 +37,17 @@ const { t } = useI18n();
 const items = computed(() => {
   return [
     {
+      icon: "i-material-symbols:verified-outline",
       title: t("landing.about_us.item1.title"),
       description: t("landing.about_us.item1.description"),
     },
     {
+      icon: "i-material-symbols:handshake-outline",
       title: t("landing.about_us.item2.title"),
       description: t("landing.about_us.item2.description"),
     },
     {
+      icon: "i-material-symbols:task-alt",
       title: t("landing.about_us.item3.title"),
       description: t("landing.about_us.item3.description"),
     },
