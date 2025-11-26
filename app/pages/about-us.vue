@@ -168,7 +168,7 @@ const businesses = computed(() => {
       ],
     },
     {
-      img: "pcb.jpg",
+      img: "factory.jpg",
       title: t("about_us.section2.business2.title"),
       industries: [
         t("about_us.section2.business2.industry1"),
@@ -180,7 +180,7 @@ const businesses = computed(() => {
       ],
     },
     {
-      img: "pcb.jpg",
+      img: "handshake.jpg",
       title: t("about_us.section2.business3.title"),
       industries: [
         t("about_us.section2.business3.industry1"),
