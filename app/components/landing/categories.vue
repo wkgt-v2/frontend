@@ -9,7 +9,7 @@
         v-for="category in categories"
         :key="category.category_id"
         :to="$localeRoute(`/products/${category.category_name}-${category.category_id}`)"
-        class="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6 p-1 md:p-2 lg:p-3"
+        class="basis-1/2 md:basis-1/3 lg:basis-1/4 p-1 md:p-2 lg:p-3"
       >
         <div class="space-y-2 text-center">
           <img :src="category.category_image" :alt="category.category_name" class="size-40 mx-auto object-contain" loading="lazy">
