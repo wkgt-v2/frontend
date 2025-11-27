@@ -90,7 +90,7 @@
           </div>
         </div>
         <div class="space-y-1 text-sm text-tone">
-          <div>Customer Name</div>
+          <div>Pelanggan</div>
           <div class="font-medium">
             {{ selected.lead.customer_name }}
           </div>
