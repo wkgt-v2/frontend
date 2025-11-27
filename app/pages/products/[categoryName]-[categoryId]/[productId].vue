@@ -22,6 +22,22 @@
                   </div>
                 </div>
                 <p class="tiptap ProseMirror" v-html="item.product_description"></p>
+                <div v-if="item.product_marketplace" class="flex gap-4">
+                  <NuxtLink
+                    v-if="item.product_marketplace.tokopedia"
+                    :to="item.product_marketplace.tokopedia"
+                    target="_blank"
+                  >
+                    <img src="/assets/images/logo/marketplace/tokopedia.png" alt="Tokopedia" class="w-full h-16">
+                  </NuxtLink>
+                  <NuxtLink
+                    v-if="item.product_marketplace.shopee"
+                    :to="item.product_marketplace.shopee"
+                    target="_blank"
+                  >
+                    <img src="/assets/images/logo/marketplace/shopee.png" alt="Shopee" class="w-full h-16">
+                  </NuxtLink>
+                </div>
               </div>
             </div>
             <UTabs variant="link" :items="subTabs" class="w-full" :ui="{ root: 'gap-4 xl:gap-8' }">
