@@ -61,10 +61,47 @@ export default {
   },
   about_us: {
     section1: {
+      content: "WAHANA KARYA GUNA TEKNOLOGI adalah perusahaan yang bergerak dibidang distribusi perangkat keras dan solusi kebutuhan teknologi yang berdomisili di Jakarta dan didirikan pada tahun 2000 ber kantor pusat di Harco Mangga Dua Jakarta. Kami hadir untuk memberikan solusi kebutuhan di bidang teknologi terutama di bidang komputer, oleh sebab itu komunikasi dan kemudahan berinteraksi menjadi pilar penting yang selalu dijaga dan kembangkan Bersama. Teknologi selalu tumbuh dan berkembang dengan kecepatan yang sangat tinggi, hal ini telah menjadi salah satu pemicu bagi kami untuk selalu bekerja sama dalam team bahu membahu untuk mengikuti perkembangan tersebut secara mendetail dalam rangka mempersembahkan solusi yang paling optimal bagi pelanggan pelanggan kami. Menjaga keseimbangan alam merupakan panduan kami dalam berkegiatan sehari hari, sehingga perhatian terhadap penggunaan bahan bahan ramah lingkungan juga merupakan pilihan kami berkaitan dengan produk dan solusi yang kami tawarkan. Kami percaya bahwa pelayanan adalah bagian penting dari bisnis kami, oleh sebab itu memiliki team yang sanggup memberikan layanan yang prima kepada pelanggan menjadi tolak ukur dalam evaluasi kinerja dari tahun ke tahun. Integritas berada di barisan paling depan dalam kerangka pengambilan keputusan.",
+    },
+    section2: {
+      culture1: {
+        title: "CONFIDENCE",
+        description: "Fully believes in the work being done and is able to bring a positive aura within the team when completing tasks.",
+      },
+      culture2: {
+        title: "TIME MANAGEMENT",
+        description: "Focused and able to prioritize time effectively.",
+      },
+      culture3: {
+        title: "STRONG ETHICS",
+        description: "Practices good values according to social norms at all times.",
+      },
+      culture4: {
+        title: "OPEN TO CRITICISM",
+        description: "Able to accept criticism and is open to learning and growing within the work environment.",
+      },
+      culture5: {
+        title: "SOLUTIVE",
+        description: "Always ready and individually capable of providing solutions to problems.",
+      },
+      culture6: {
+        title: "GOOD COMMUNICATION",
+        description: "Verbally builds good relationships both vertically and horizontally.",
+      },
+      culture7: {
+        title: "ADAPTABILITY",
+        description: "Capable of accepting new situations, challenges, and blending into them.",
+      },
+      culture8: {
+        title: "TEAMWORK",
+        description: "Able to work in groups and willing to take on leadership challenges when needed.",
+      },
+    },
+    section3: {
       title: "Experience of More Than _-A Decade-_",
       content: "Starting from a computer store in Harco Mangga Dua Computer Center Jakarta in the mid-2000s as a retail computer shop, Wahana continued to grow and develop creatively in the computer business and its equipment and components. Along the way, Wahana expanded into distribution and handled both government and private projects since 2010.",
     },
-    section2: {
+    section4: {
       title: "Best Expertise For Your Business",
       business1: {
         title: "Technology Products & Solutions",
@@ -92,7 +129,7 @@ export default {
         industry5: "Trends",
       },
     },
-    section3: {
+    section5: {
       title: "Our Strategic Direction For Future _-Business Growth-_",
       content: "We believe stagnation is not an option. To stay relevant and at the forefront, we consistently expand our business wings into various key areas. Every step we take is designed to create more value, both for you and the market.",
       strategy1: "Local brand for AIO, Server, and Notebook products",
@@ -101,8 +138,8 @@ export default {
       strategy4: "Tap into internet retail and B2B business as new solutions for marketing and sales",
       strategy5: "Mobile Applications, keeping up with the dynamics of technological development",
     },
-    section4: {
-      title: "Our Strategic Direction For Future _-Business Growth-_",
+    section6: {
+      title: "Our Strategic Journey of _-Growth-_",
       timeline1: {
         item1: "Engaged as distributor of outdoor antenna products, Commscope brand",
         item2: "Collaboration with Fujitsu Indonesia to develop massive data profiling for the Attorney General's Office",

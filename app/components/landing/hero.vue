@@ -1,5 +1,5 @@
 <template>
-  <div class="relative container flex items-center -mt-16 min-h-dvh">
+  <div class="relative container flex items-center -mt-16 lg:-mt-20 min-h-dvh">
     <Radial class="absolute -top-1/3 -left-1/4 size-[960px] -z-10" />
     <Radial class="absolute -top-1/5 -right-1/5 size-[960px] -z-10" />
     <div class="absolute inset-0 border-b border-primary overflow-hidden -z-10">

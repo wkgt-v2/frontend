@@ -61,10 +61,47 @@ export default {
   },
   about_us: {
     section1: {
+      content: "WAHANA KARYA GUNA TEKNOLOGI adalah perusahaan yang bergerak dibidang distribusi perangkat keras dan solusi kebutuhan teknologi yang berdomisili di Jakarta dan didirikan pada tahun 2000 ber kantor pusat di Harco Mangga Dua Jakarta. Kami hadir untuk memberikan solusi kebutuhan di bidang teknologi terutama di bidang komputer, oleh sebab itu komunikasi dan kemudahan berinteraksi menjadi pilar penting yang selalu dijaga dan kembangkan Bersama. Teknologi selalu tumbuh dan berkembang dengan kecepatan yang sangat tinggi, hal ini telah menjadi salah satu pemicu bagi kami untuk selalu bekerja sama dalam team bahu membahu untuk mengikuti perkembangan tersebut secara mendetail dalam rangka mempersembahkan solusi yang paling optimal bagi pelanggan pelanggan kami. Menjaga keseimbangan alam merupakan panduan kami dalam berkegiatan sehari hari, sehingga perhatian terhadap penggunaan bahan bahan ramah lingkungan juga merupakan pilihan kami berkaitan dengan produk dan solusi yang kami tawarkan. Kami percaya bahwa pelayanan adalah bagian penting dari bisnis kami, oleh sebab itu memiliki team yang sanggup memberikan layanan yang prima kepada pelanggan menjadi tolak ukur dalam evaluasi kinerja dari tahun ke tahun. Integritas berada di barisan paling depan dalam kerangka pengambilan keputusan.",
+    },
+    section2: {
+      culture1: {
+        title: "PERCAYA DIRI",
+        description: "Sepenuhnya percaya pada hal yang dikerjakan, sanggup membawa aura positif di dalam kelompok dalam menyelesaikan pekerjaan",
+      },
+      culture2: {
+        title: "PENGATURAN WAKTU",
+        description: "Fokus dan sanggup memprioritaskan waktu",
+      },
+      culture3: {
+        title: "ETIKA YANG KUAT",
+        description: "Mempraktekkan kebaikan sesuai kaidah kehidupan sosial di setiap waktu",
+      },
+      culture4: {
+        title: "TERBUKA TERHADAP KRITIK",
+        description: "Sanggup menerima keritik dan terbuka untuk belajar dan berkembang dalam lingkup kerja",
+      },
+      culture5: {
+        title: "SOLUTIF",
+        description: "Selalu siap dan secara indivual sanggup memberikan solusi terhadap permasalahan",
+      },
+      culture6: {
+        title: "KOMUNIKASI YANG BAIK",
+        description: "Secara lisan menjalin hubungan yang baik secara vertikal maupun horisontal",
+      },
+      culture7: {
+        title: "BERADAPTASI",
+        description: "Sanggup dalam menerima situasi baru, tantangan dan berbaur didalamnya",
+      },
+      culture8: {
+        title: "BEKERJA DALAM TIM",
+        description: "Sanggup bekerja dalam kelompok dan sanggup menerima tantangan kepemimpinan manakala dibutuhkan",
+      },
+    },
+    section3: {
       title: "Pengalaman Lebih Dari _-Satu Dekade-_",
       content: "Bermula dari sebuah toko komputer di Harco Mangga Dua Computer Center Jakarta dipertengahan tahun 2000 sebagai toko komputer ritel, terus tumbuh dan berkembang secara kreatif dalam bisnis komputer dan perlengkapan serta komponen komputer. Dalam perjalannya, Wahana melebarkan sayapnya dalam bidang distribusi dan mengerjakan proyek baik dari pemerintah maupun swasta dari tahun 2010.",
     },
-    section2: {
+    section4: {
       title: "Expertise Terbaik Untuk Bisnis Anda",
       business1: {
         title: "Produk & Solusi Teknologi",
@@ -92,8 +129,8 @@ export default {
         industry5: "Trends",
       },
     },
-    section3: {
-      title: "Arah Strategi Kami Dalam Pertumbuhan _-Masa Depan-_ Bisnis",
+    section5: {
+      title: "Perjalanan Strategis Kami Menuju _-Pertumbuhan-_",
       content: "Kami percaya bahwa stagnasi bukanlah pilihan. Untuk tetap relevan dan menjadi yang terdepan, kami secara konsisten mengembangkan sayap bisnis kami ke berbagai area kunci. Setiap langkah yang kami ambil dirancang untuk menciptakan nilai lebih, baik bagi Anda maupun pasar.",
       strategy1: "Merek lokal untuk produk AIO, Server dan Notebook",
       strategy2: "Managed Service sebagai pelebaran sayap bisnis",
@@ -101,7 +138,7 @@ export default {
       strategy4: "Tap on internet retail dan B2B business sebagai solusi baru untuk marketing dan sales",
       strategy5: "Mobile Application, dengan mengikuti dinamika perkembangan teknologi",
     },
-    section4: {
+    section6: {
       title: "Arah Strategi Kami Dalam Pertumbuhan _-Masa Depan-_ Bisnis",
       timeline1: {
         item1: "Engage sebagai distributor produk outdoor antenna Commscope brand",
