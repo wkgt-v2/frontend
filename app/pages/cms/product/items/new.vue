@@ -157,9 +157,21 @@ const schema = v.object({
   product_info: vRequired(),
   category_id: vRequiredSelect(),
   series_id: vRequiredSelect(),
-  // specifications: [{ key: "", value: "" }],
-  marketplace_tokopedia: v.pipe(v.string(), v.url("Please enter a valid URL.")),
-  marketplace_shopee: v.pipe(v.string(), v.url("Please enter a valid URL.")),
+  // specifications: [{ key: "", value: "" }],v.union([
+  marketplace_tokopedia: v.union([
+    v.literal(""),
+    v.pipe(
+      v.string(),
+      v.url("Please enter a valid URL.")
+    )
+  ]),
+  marketplace_shopee: v.union([
+    v.literal(""),
+    v.pipe(
+      v.string(),
+      v.url("Please enter a valid URL.")
+    )
+  ]),
 });
 type Schema = v.InferOutput<typeof schema>;
 
