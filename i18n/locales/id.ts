@@ -2,6 +2,7 @@ export default {
   nav: {
     about_us: "Tentang Kami",
     product: "Produk Kami",
+    article: "Artikel",
     contact: "Hubungi Kami",
     services: "Inquiries",
   },
@@ -184,8 +185,9 @@ export default {
     pending: "Tertunda",
   },
   blog: {
-    load_more: "Muat lebih banyak",
-    error_load_articles: "Gagal mendapatkan artikel!",
+    search: "Cari Artikel",
+    no_data: "Tidak ada data",
+    categories: "Kategori",
     article_not_found: "Artikel tidak ditemukan",
   },
   service_center: {

@@ -2,6 +2,7 @@ export default {
   nav: {
     about_us: "About Us",
     product: "Our Products",
+    article: "Articles",
     contact: "Contact Us",
     services: "Inquiries",
   },
@@ -184,8 +185,9 @@ export default {
     pending: "Pending",
   },
   blog: {
-    load_more: "Load more",
-    error_load_articles: "Failed to get articles!",
+    search: "Search Article",
+    no_data: "No data",
+    categories: "Categories",
     article_not_found: "Article not found",
   },
   service_center: {

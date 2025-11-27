@@ -90,6 +90,8 @@
 
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import type { BlogCategory } from "~/types/blog";
+import type { HttpSuccessWithPagination } from "~/types/http";
 
 const { categories, refreshCategories } = useCategories();
 refreshCategories();
@@ -101,6 +103,15 @@ const langOptions = locales.value.map(l => {
 const localePath = useLocalePath();
 const localeRoute = useLocaleRoute();
 const openSlideover = ref(false);
+
+const { data: blogCategories } = await useFetch(
+  `${useRuntimeConfig().public.apiBase}/blog-categories?limit=9999`,
+  {
+    transform: (value: HttpSuccessWithPagination<BlogCategory[]>) => {
+      return value.data.data;
+    },
+  }
+);
 
 const navItems = computed(() => {
   return [
@@ -115,6 +126,11 @@ const navItems = computed(() => {
       children: productCategories.value,
     },
     {
+      label: t("nav.article"),
+      to: localePath("blog"),
+      children: parsedBlogCategories.value,
+    },
+    {
       label: t("nav.services"),
       to: localePath("service"),
     },
@@ -123,6 +139,19 @@ const navItems = computed(() => {
       to: localePath("contact-us"),
     },
   ] as NavigationMenuItem[];
+});
+
+const parsedBlogCategories = computed(() => {
+  return blogCategories.value?.map(c => {
+    return {
+      label: c.blog_category_name,
+      to: localeRoute(`/blog?category=${c.blog_category_id}`),
+    };
+  }) || [{
+    label: "",
+    img: "",
+    to: localeRoute(`/blog`)
+  }];
 });
 const productCategories = computed(() => {
   return categories.value?.map(c => {
