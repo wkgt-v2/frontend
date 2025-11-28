@@ -16,7 +16,7 @@
             loading="lazy"
           />
           <div class="shrink-0 space-y-6 max-w-lg text-tone">
-            <p class="text-tone">
+            <p class="text-tone text-justify">
               {{ $t("about_us.section1.content") }}
             </p>
           </div>
