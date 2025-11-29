@@ -64,12 +64,15 @@
           </UFormField>
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-3 gap-6">
           <UFormField label="Tokopedia URL" name="marketplace_tokopedia">
             <UInput v-model="state.marketplace_tokopedia" />
           </UFormField>
           <UFormField label="Shopee URL" name="marketplace_shopee">
             <UInput v-model="state.marketplace_shopee" />
+          </UFormField>
+          <UFormField label="Website URL" name="addon_website_url">
+            <UInput v-model="state.addon_website_url" />
           </UFormField>
         </div>
 
@@ -157,6 +160,13 @@ const schema = v.object({
       v.url("Please enter a valid URL.")
     )
   ]),
+  addon_website_url: v.union([
+    v.literal(""),
+    v.pipe(
+      v.string(),
+      v.url("Please enter a valid URL.")
+    )
+  ]),
 });
 type Schema = v.InferOutput<typeof schema>;
 
@@ -177,6 +187,7 @@ const state = reactive({
   specifications: [{ key: "", value: "" }],
   marketplace_tokopedia: "",
   marketplace_shopee: "",
+  addon_website_url: "",
 });
 const toast = useToast();
 
@@ -212,6 +223,7 @@ watch(() => product.value, (val) => {
     }),
     marketplace_tokopedia: val.product_marketplace.tokopedia,
     marketplace_shopee: val.product_marketplace.shopee,
+    addon_website_url: val.addon_website_url,
   });
 }, { immediate: true });
 watch(() => state.category_id, () => state.series_id = undefined);

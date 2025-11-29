@@ -30,6 +30,7 @@ export interface Item {
     shopee: string;
     tokopedia: string;
   };
+  addon_website_url: null | string;
   created_at: string;
   updated_at: string;
   deleted_at: null | string;

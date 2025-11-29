@@ -28,15 +28,24 @@
                     :to="item.product_marketplace.tokopedia"
                     target="_blank"
                   >
-                    <img src="/assets/images/logo/marketplace/tokopedia.png" alt="Tokopedia" class="w-full h-16">
+                    <img src="/assets/images/logo/marketplace/tokopedia.png" alt="Tokopedia" class="w-full h-12">
                   </NuxtLink>
                   <NuxtLink
                     v-if="item.product_marketplace.shopee"
                     :to="item.product_marketplace.shopee"
                     target="_blank"
                   >
-                    <img src="/assets/images/logo/marketplace/shopee.png" alt="Shopee" class="w-full h-16">
+                    <img src="/assets/images/logo/marketplace/shopee.png" alt="Shopee" class="w-full h-12">
                   </NuxtLink>
+                  <UButton
+                    size="xl"
+                    variant="outline"
+                    v-if="item.addon_website_url"
+                    :to="item.addon_website_url"
+                    target="_blank"
+                    icon="i-material-symbols:captive-portal"
+                    class="size-12 justify-center"
+                  />
                 </div>
               </div>
             </div>
