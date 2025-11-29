@@ -17,6 +17,7 @@
     "@iconify-json/material-symbols": "^1.2.32",
     "@nuxt/ui": "^3.3.0",
     "@nuxtjs/i18n": "^10.0.3",
+    "@tiptap/extension-image": "^3.11.1",
     "@tiptap/extensions": "^3.4.2",
     "@tiptap/pm": "^3.4.2",
     "@tiptap/starter-kit": "^3.4.2",

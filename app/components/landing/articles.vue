@@ -18,7 +18,7 @@
             <h4 class="text-xl text-primary font-semibold">
               {{ article.title }}
             </h4>
-            <p class="text-tone line-clamp-2" v-html="article.content"></p>
+            <p class="text-tone line-clamp-2" v-html="htmlToPlainText(article.content)"></p>
             <span class="text-sm text-primary">
               {{ $t("landing.articles.read_more") }}
             </span>

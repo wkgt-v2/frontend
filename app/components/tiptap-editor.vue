@@ -132,6 +132,36 @@
               @click="editor.chain().focus().setHardBreak().run()"
             />
           </UTooltip>
+          <UTooltip v-if="isFeatureEnabled('image')" text="Insert Image">
+            <UButton
+              as="label"
+              icon="i-material-symbols:image-outline"
+              variant="soft"
+            >
+              <input
+                type="file"
+                id="input_image"
+                :accept="imageAccept.map((e) => `.${e}`).join(',')"
+                @change="fileSelected($event, 'image')"
+                class="hidden"
+              />
+            </UButton>
+          </UTooltip>
+          <UTooltip v-if="isFeatureEnabled('video')" text="Insert Video">
+            <UButton
+              as="label"
+              icon="i-material-symbols:play-circle-outline"
+              variant="soft"
+            >
+              <input
+                type="file"
+                id="input_image"
+                :accept="videoAccept.map((e) => `.${e}`).join(',')"
+                @change="fileSelected($event, 'video')"
+                class="hidden"
+              />
+            </UButton>
+          </UTooltip>
         </div>
       </div>
       <div
@@ -154,21 +184,37 @@ import type { DropdownMenuItem } from "@nuxt/ui";
 import { Placeholder } from "@tiptap/extensions";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor, EditorContent } from "@tiptap/vue-3";
+import Image from "@tiptap/extension-image";
+import type { HttpSuccess } from "~/types/http";
+
+interface UploadResponse {
+  url: string;
+  mime_type: string;
+  size: number;
+  key: string;
+}
 
 const props = withDefaults(
   defineProps<{
     editorClasses?: string;
     isError?: boolean;
     placeholder?: string;
+    enableFeature?: string[];
   }>(),
   {
     editorClasses: "min-h-32",
   }
 );
 
+const { bearer } = useToken();
 const editor = ref<Editor>();
 const emit = defineEmits(["input"]);
+const imageAccept = ["png", "jpg", "jpeg", "gif", "webp"];
+const maxSizeImage = 50;
+const maxSizeVideo = 50;
 const model = defineModel<string>({ default: "" });
+const toast = useToast();
+const videoAccept = ["mp4", "mkv", "mov"];
 
 const headingItems = computed<DropdownMenuItem[][]>(() => {
   return [
@@ -212,14 +258,89 @@ watch(model, (val) => {
   editor.value?.commands.setContent(val, { emitUpdate: false });
 });
 
+async function fileSelected(event: Event, type: "image" | "video") {
+  const body = document.querySelector("body");
+  const input = event.target as HTMLInputElement;
+  try {
+    if (!input.files?.length) return;
+    const file = input.files[0];
+    if (!file) return;
+
+    const acceptedExtension = type === "image" ? imageAccept : videoAccept;
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+
+    if (!fileExtension || !acceptedExtension.includes(fileExtension)) {
+      toast.add({
+        title: "failed",
+        description: `Invalid file type. Please select a${type === "image" ? "n" : ""} ${type} file.`,
+        color: "error",
+        icon: "i-heroicons-exclamation-circle",
+        duration: 0,
+      });
+      input.value = "";
+      return;
+    }
+
+    const maxSize = type === "image" ? maxSizeImage : maxSizeVideo;
+    const fileType = type === "image" ? "Image" : "Video";
+
+    if (maxSize && file.size > maxSize * 1024 * 1024) {
+      toast.add({
+        title: "failed",
+        description: `${fileType} should be less than ${maxSize}MB`,
+        color: "error",
+        icon: "i-heroicons-exclamation-circle",
+        duration: 0,
+      });
+      return;
+    }
+
+    body?.classList.add("cursor-progress");
+
+    const formData = new FormData();
+    formData.append("content_file", file);
+    const res = await $fetch<HttpSuccess<UploadResponse>>(`${useRuntimeConfig().public.apiBase}/blog-articles/upload-media`, {
+      headers: { ...bearer },
+      method: "POST",
+      body: formData,
+    });
+
+    const url = res.data.url;
+
+    if (type === "image") {
+      editor.value?.chain().focus().setImage({ src: url }).run();
+    } else {
+      editor.value?.chain().focus().setVideo(url).run();
+    }
+  } catch (err: any) {
+    toast.add({
+      title: "failed",
+      description: err?.data?.message || "Failed upload file",
+      color: "error",
+      icon: "i-heroicons-exclamation-circle",
+      duration: 0,
+    });
+  }
+  body?.classList.remove("cursor-progress");
+  input.value = "";
+}
+
+function isFeatureEnabled(key: string) {
+  return props.enableFeature?.includes(key);
+}
+
 onMounted(() => {
   editor.value = new Editor({
     content: model.value,
     extensions: [
       StarterKit,
+      Image.configure({
+        inline: true,
+      }),
       Placeholder.configure({
         placeholder: props.placeholder || "",
       }),
+      TiptapVideo,
     ],
     onUpdate: () => {
       if (!editor.value) return;

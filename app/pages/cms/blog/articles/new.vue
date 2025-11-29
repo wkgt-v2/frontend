@@ -41,6 +41,7 @@
           <TiptapEditor
             v-model="state.content"
             :is-error="!!formErrors?.find(e => e.name === 'content')"
+            :enable-feature="['image', 'video']"
           />
         </UFormField>
 
@@ -75,8 +76,8 @@
 import * as v from "valibot";
 import type { FetchError } from "ofetch";
 import type { FormError, FormSubmitEvent } from "@nuxt/ui";
-import type { HttpError, HttpSuccess, HttpSuccessWithPagination } from "~/types/http";
-import type { BlogArticle, BlogCategory } from "~/types/blog";
+import type { HttpError, HttpSuccess } from "~/types/http";
+import type { BlogArticle } from "~/types/blog";
 
 const schema = v.object({
   blog_category_id: vRequiredSelect(),
