@@ -20,6 +20,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="columns" :data="items" :loading="onLoadData === 'pending'">
+        <template #product_name-header>
+          <CmsTableHeader label="Name" value="product_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #product_code-header>
+          <CmsTableHeader label="Code" value="product_code" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #images-cell="{ row }">
           <ImageViewer v-if="getThumbnail(row.original)" :src="getThumbnail(row.original)!" class="size-20" />
           <span v-else>-</span>
@@ -96,11 +102,9 @@ const columns: TableColumn<Item>[] = [
   },
   {
     accessorKey: "product_name",
-    header: "Name",
   },
   {
     accessorKey: "product_code",
-    header: "Code",
   },
   {
     accessorKey: "series",
@@ -138,6 +142,7 @@ const meta = reactive({
   total: 0,
 });
 const searchQuery = useDebouncedRef("", 500);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const showFilter = ref(false);
 const toast = useToast();
 const { bearer } = useToken();
@@ -146,6 +151,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("product_name", searchQuery.value);
   if (filter.category_id) params.append("category_id", `${filter.category_id}`);
   if (filter.series_id) params.append("series_id", `${filter.series_id}`);

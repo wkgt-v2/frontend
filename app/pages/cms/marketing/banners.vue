@@ -17,6 +17,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="banners" :loading="onLoadData === 'pending'">
+        <template #banner_title-header>
+          <CmsTableHeader label="Title" value="banner_title" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #banner_image-cell="{ row }">
           <ImageViewer :src="row.original.banner_image" class="size-20" />
         </template>
@@ -92,7 +95,6 @@ const column: TableColumn<Banner>[] = [
   },
   {
     accessorKey: "banner_title",
-    header: "Title",
   },
   {
     accessorKey: "banner_url",
@@ -135,6 +137,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Banner>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   banner_title: "",
   banner_image: undefined,
@@ -147,6 +150,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("banner_title", searchQuery.value);
   return params.toString();
 });

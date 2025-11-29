@@ -15,6 +15,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="schedules" :loading="onLoadData === 'pending'">
+        <template #start_date-header>
+          <CmsTableHeader label="Start Date" value="start_date" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #end_date-header>
+          <CmsTableHeader label="End Date" value="end_date" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -212,6 +218,7 @@ const modal = reactive({
 });
 const selected = ref<BannerSchedule>();
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   banner_id: undefined as undefined | number,
   start_date: undefined as undefined | string,
@@ -224,6 +231,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (filter.banner_id) params.append("banner_id", `${filter.banner_id}`);
   if (filter.start_date) params.append("start_date", `${filter.start_date}`);
   if (filter.end_date) params.append("end_date", `${filter.end_date}`);

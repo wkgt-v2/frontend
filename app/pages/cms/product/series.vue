@@ -20,6 +20,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="series" :loading="onLoadData === 'pending'">
+        <template #series_name-header>
+          <CmsTableHeader label="Name" value="series_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #series_code-header>
+          <CmsTableHeader label="Code" value="series_code" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -117,11 +123,9 @@ const column: TableColumn<Series>[] = [
   },
   {
     accessorKey: "series_name",
-    header: "Name",
   },
   {
     accessorKey: "series_code",
-    header: "Code",
   },
   {
     accessorKey: "category",
@@ -165,6 +169,7 @@ const modal = reactive({
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Series>();
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   series_name: "",
   series_code: "",
@@ -177,6 +182,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("series_name", searchQuery.value);
   if (filter.category_id) params.append("category_id", `${filter.category_id}`);
   return params.toString();

@@ -20,6 +20,9 @@
         <template #icon-cell="{ row }">
           <UIcon :name="`i-${row.original.sm_icon}`" mode="svg" class="size-8" />
         </template>
+        <template #sm_name-header>
+          <CmsTableHeader label="Name" value="sm_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #url-cell="{ row }">
           <UButton
             :to="row.original.sm_url"
@@ -148,6 +151,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<SocialMedia>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   sm_name: "",
   sm_icon: "",
@@ -161,6 +165,8 @@ const params = computed(() => {
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
   params.append("sm_type", "social_media");
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("sm_name", searchQuery.value);
   return params.toString();
 });

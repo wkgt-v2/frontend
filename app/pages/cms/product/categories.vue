@@ -17,6 +17,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="categories" :loading="onLoadData === 'pending'">
+        <template #category_name-header>
+          <CmsTableHeader label="Name" value="category_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #category_code-header>
+          <CmsTableHeader label="Code" value="category_code" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #category_image-cell="{ row }">
           <ImageViewer :src="row.original.category_image" class="size-20" />
         </template>
@@ -95,15 +101,13 @@ const column: TableColumn<Category>[] = [
   },
   {
     accessorKey: "category_name",
-    header: "Name",
-  },
-  {
-    accessorKey: "category_code",
-    header: "Code",
   },
   {
     accessorKey: "category_description",
     header: "Description",
+  },
+  {
+    accessorKey: "category_code",
   },
   {
     id: "action",
@@ -138,6 +142,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Category>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   category_name: "",
   category_code: "",
@@ -153,6 +158,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("category_name", searchQuery.value);
   return params.toString();
 });
