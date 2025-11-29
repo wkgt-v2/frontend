@@ -211,7 +211,7 @@ watch(() => product.value, (val) => {
       };
     }),
     marketplace_tokopedia: val.product_marketplace.tokopedia,
-    marketplace_shopee: val.product_marketplace.tokopedia,
+    marketplace_shopee: val.product_marketplace.shopee,
   });
 }, { immediate: true });
 watch(() => state.category_id, () => state.series_id = undefined);
