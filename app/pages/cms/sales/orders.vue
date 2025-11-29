@@ -429,6 +429,8 @@ function parseStatus(order: Order): { label: string; color: "success" | "error" 
       return { label: "Paid", color: "success" };
     case "Canceled":
       return { label: "Cancelled", color: "error" };
+    case "Unpaid":
+      return { label: "Unpaid", color: "neutral" };
     default:
       return { label: "Pending", color: "neutral" };
   }

@@ -111,4 +111,4 @@ export interface OrderItem {
   product: ProductItem;
 }
 
-export type OrderStatus = "Pending" | "Paid" | "Canceled";
+export type OrderStatus = "Pending" | "Paid" | "Canceled" | "Unpaid";

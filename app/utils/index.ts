@@ -11,6 +11,7 @@ export const OPTS_ORDER_STATUS = [
   { label: "Pending", value: "Pending" },
   { label: "Cancelled", value: "Canceled" },
   { label: "Paid", value: "Paid" },
+  { label: "Unpaid", value: "Unpaid" },
 ];
 export const OPTS_DATE_RANGE = [
   { label: "Weekly", value: "weekly" },
