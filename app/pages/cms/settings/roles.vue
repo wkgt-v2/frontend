@@ -17,6 +17,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="roles" :loading="onLoadData === 'pending'">
+        <template #role_nama-header>
+          <CmsTableHeader label="Name" value="role_nama" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -90,7 +93,6 @@ const column: TableColumn<UserRole>[] = [
   },
   {
     accessorKey: "role_nama",
-    header: "Name",
   },
   {
     accessorKey: "role_permission",
@@ -133,6 +135,7 @@ const modal = reactive({
 const permissions = ref<RolePermission[]>([]);
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<UserRole>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   role_nama: "",
   role_permission: [],
@@ -143,6 +146,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("role_nama", searchQuery.value);
   return params.toString();
 });

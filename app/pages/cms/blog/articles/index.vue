@@ -20,6 +20,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="columns" :data="articles" :loading="onLoadData === 'pending'">
+        <template #title-header>
+          <CmsTableHeader label="Title" value="title" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #slug-header>
+          <CmsTableHeader label="Slug" value="slug" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -78,11 +84,9 @@ const columns: TableColumn<BlogArticle>[] = [
   },
   {
     accessorKey: "title",
-    header: "Title",
   },
   {
     accessorKey: "slug",
-    header: "Slug",
   },
   {
     accessorKey: "category",
@@ -119,6 +123,7 @@ const meta = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const toast = useToast();
 const { bearer } = useToken();
 
@@ -126,6 +131,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("title", searchQuery.value);
   if (filter.blog_category_id) params.append("blog_category_id", `${filter.blog_category_id}`);
   return params.toString();

@@ -15,6 +15,15 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="activities" :loading="onLoadData === 'pending'">
+        <template #activity_type-header>
+          <CmsTableHeader label="Activity Type" value="activity_type" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #follow_up_date-header>
+          <CmsTableHeader label="Follow-Up Date" value="follow_up_date" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #audit_status-header>
+          <CmsTableHeader label="Audit Status" value="audit_status" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #audit_status-cell="{ row }">
           <UBadge :label="parseAuditStatus(row.original).label" :color="parseAuditStatus(row.original).color" />
         </template>
@@ -289,11 +298,9 @@ const column: TableColumn<Activity>[] = [
   },
   {
     accessorKey: "activity_type",
-    header: "Activity Type",
   },
   {
     accessorKey: "follow_up_date",
-    header: "Follow-Up Date",
     cell: ({ row }) => {
       return row.original.follow_up_date
         ? new Date(row.original.follow_up_date).toLocaleDateString("en-US", {
@@ -306,7 +313,6 @@ const column: TableColumn<Activity>[] = [
   },
   {
     accessorKey: "audit_status",
-    header: "Audit Status",
   },
   {
     id: "action",
@@ -373,6 +379,7 @@ const modal = reactive({
 const route = useRoute();
 const selected = ref<Activity>();
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   salesperson_id: undefined,
   lead_id: undefined,
@@ -387,6 +394,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (!isSuperadmin) {
     params.append("salesperson_id", `${uid.value}`);
   } else {

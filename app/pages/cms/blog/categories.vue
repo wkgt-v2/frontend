@@ -17,6 +17,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="categories" :loading="onLoadData === 'pending'">
+        <template #blog_category_name-header>
+          <CmsTableHeader label="Name" value="blog_category_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #blog_category_slug-header>
+          <CmsTableHeader label="Slug" value="blog_category_slug" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -82,11 +88,9 @@ const column: TableColumn<BlogCategory>[] = [
   },
   {
     accessorKey: "blog_category_name",
-    header: "Name",
   },
   {
     accessorKey: "blog_category_slug",
-    header: "Slug",
   },
   {
     id: "action",
@@ -121,6 +125,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<BlogCategory>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   blog_category_name: "",
   blog_category_slug: "",
@@ -132,6 +137,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("blog_category_name", searchQuery.value);
   return params.toString();
 });

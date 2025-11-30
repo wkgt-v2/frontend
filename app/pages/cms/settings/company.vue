@@ -17,6 +17,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="settings" :loading="onLoadData === 'pending'">
+        <template #company_setting_name-header>
+          <CmsTableHeader label="Name" value="company_setting_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -77,7 +80,6 @@ import type { CompanySetting } from "~/types";
 const column: TableColumn<CompanySetting>[] = [
   {
     accessorKey: "company_setting_name",
-    header: "Name",
     cell: ({ row }) => (
       OPTS_COMPANY_SETTINGS.find(s => s.value === row.original.company_setting_name)?.label
         || row.original.company_setting_name
@@ -116,6 +118,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<CompanySetting>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   company_setting_name: undefined,
   company_setting_value: "",
@@ -127,6 +130,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("company_setting_name", searchQuery.value);
   return params.toString();
 });

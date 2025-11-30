@@ -15,6 +15,18 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="orders" :loading="onLoadData === 'pending'">
+        <template #order_date-header>
+          <CmsTableHeader label="Order Date" value="order_date" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #total_amount-header>
+          <CmsTableHeader label="Total Amount" value="total_amount" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #status-header>
+          <CmsTableHeader label="Status" value="status" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #approved_at-header>
+          <CmsTableHeader label="Approved At" value="approved_at" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #status-cell="{ row }">
           <UBadge :label="parseStatus(row.original).label" :color="parseStatus(row.original).color" />
         </template>
@@ -184,7 +196,6 @@ const column: TableColumn<Order>[] = [
   },
   {
     accessorKey: "order_date",
-    header: "Order Date",
     cell: ({ row }) => {
       return new Date(row.original.order_date).toLocaleDateString("en-US", {
         year: "numeric",
@@ -195,17 +206,22 @@ const column: TableColumn<Order>[] = [
   },
   {
     accessorKey: "total_amount",
-    header: "Total Amount",
     cell: ({ row }) => formatPrice(row.original.total_amount),
   },
   {
     accessorKey: "status",
-    header: "Status",
   },
   {
     accessorKey: "approved_at",
-    header: "Approved",
-    cell: ({ row }) => row.original.approved_at ? "Yes" : "-",
+    cell: ({ row }) => {
+      return row.original.approved_at
+        ? new Date(row.original.approved_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        : "-";
+    },
   },
   {
     id: "action",
@@ -271,6 +287,7 @@ const meta = reactive({
 const selected = ref<Order>();
 const showDetails = ref(false);
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const toast = useToast();
 const uid = useUid();
 
@@ -278,6 +295,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (!isSuperadmin) params.append("salesperson_id", `${uid.value}`);
   if (filter.status) params.append("status", `${filter.status}`);
   if (filter.salesperson_id) params.append("salesperson_id", `${filter.salesperson_id}`);

@@ -17,6 +17,18 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="data" :loading="onLoadData === 'pending'">
+        <template #no_resi-header>
+          <CmsTableHeader label="No. Resi" value="no_resi" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #customer_name-header>
+          <CmsTableHeader label="Customer Name" value="customer_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #start_date-header>
+          <CmsTableHeader label="Start Date" value="start_date" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #status-header>
+          <CmsTableHeader label="Status" value="status" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #status-cell="{ row }">
           <UBadge :label="parseStatus(row.original).label" :color="parseStatus(row.original).color" />
         </template>
@@ -122,7 +134,6 @@ import type { ServiceOrder } from "~/types";
 const column: TableColumn<ServiceOrder>[] = [
   {
     accessorKey: "no_resi",
-    header: "No. Resi",
   },
   {
     accessorKey: "customer_name",
@@ -133,6 +144,16 @@ const column: TableColumn<ServiceOrder>[] = [
     header: "Description",
   },
   {
+    accessorKey: "start_date",
+    cell: ({ row }) => {
+      return new Date(row.original.start_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+  },
+  {
     accessorKey: "product",
     header: "Product",
     cell: ({ row }) => (
@@ -141,7 +162,6 @@ const column: TableColumn<ServiceOrder>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
   },
   {
     id: "action",
@@ -180,6 +200,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<ServiceOrder>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   no_resi: "",
   category_id: undefined,
@@ -197,6 +218,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("no_resi", searchQuery.value);
   return params.toString();
 });

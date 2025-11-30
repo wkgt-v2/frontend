@@ -17,6 +17,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="users" :loading="onLoadData === 'pending'">
+        <template #user_username-header>
+          <CmsTableHeader label="Name" value="user_username" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #user_email-header>
+          <CmsTableHeader label="Email" value="user_email" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -96,11 +102,9 @@ const column: TableColumn<User>[] = [
   },
   {
     accessorKey: "user_username",
-    header: "Name",
   },
   {
     accessorKey: "user_email",
-    header: "Email",
   },
   {
     accessorKey: "role",
@@ -150,6 +154,7 @@ const modal = reactive({
 });
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<User>();
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   user_username: "",
   user_email: "",
@@ -163,6 +168,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("user_username", searchQuery.value);
   return params.toString();
 });

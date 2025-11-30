@@ -15,6 +15,9 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="serviceCenters" :loading="onLoadData === 'pending'">
+        <template #city-header>
+          <CmsTableHeader label="City" value="city" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -179,6 +182,7 @@ const modal = reactive({
 });
 const selected = ref<ServiceCenter>();
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   province: "",
   city: "",
@@ -194,6 +198,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (filter.province) params.append("province", `${filter.province}`);
   if (filter.city) params.append("city", `${filter.city}`);
   return params.toString();

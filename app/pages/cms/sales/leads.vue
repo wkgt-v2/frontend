@@ -20,6 +20,12 @@
     </div>
     <div class="overflow-x-auto">
       <UTable :columns="column" :data="leads" :loading="onLoadData === 'pending'">
+        <template #customer_name-header>
+          <CmsTableHeader label="Customer Name" value="customer_name" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
+        <template #status-header>
+          <CmsTableHeader label="Status" value="status" v-model:by="sort.by" v-model:order="sort.order" />
+        </template>
         <template #action-cell="{ row }">
           <UDropdownMenu :items="getDropdownActions(row.original)">
             <UButton
@@ -155,7 +161,6 @@ const column: TableColumn<Lead>[] = [
   },
   {
     accessorKey: "customer_name",
-    header: "Customer Name",
   },
   {
     accessorKey: "salesperson",
@@ -178,7 +183,6 @@ const column: TableColumn<Lead>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
   },
   {
     accessorKey: "follow_up_date",
@@ -250,6 +254,7 @@ const modal = reactive({
 const searchQuery = useDebouncedRef("", 500);
 const selected = ref<Lead>();
 const showFilter = ref(false);
+const sort = reactive({ by: "created_at", order: "DESC" as "ASC" | "DESC" });
 const state = reactive({
   date_in: undefined,
   lead_source: "",
@@ -269,6 +274,8 @@ const params = computed(() => {
   const params = new URLSearchParams();
   params.append("page", `${meta.page}`);
   params.append("limit", `${meta.limit}`);
+  params.append("sortBy", sort.by);
+  params.append("sortDir", sort.order);
   if (searchQuery.value) params.append("customer_name", searchQuery.value);
   if (!isSuperadmin) {
     params.append("salesperson_id", `${uid.value}`);
