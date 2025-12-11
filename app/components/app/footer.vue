@@ -4,8 +4,7 @@
     <div class="container flex flex-col md:flex-row justify-between gap-8 py-8">
       <div class="space-y-2 max-w-sm">
         <div class="space-y-1">
-          <img src="/assets/images/logo.png" alt="Logo" class="h-8 dark:hidden">
-          <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-8 hidden dark:block">
+          <Logo />
           <div class="text-sm text-tone font-semibold">
             {{ $t("footer.label") }}
           </div>

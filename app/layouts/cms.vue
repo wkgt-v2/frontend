@@ -10,16 +10,7 @@
       </Teleport>
       <div class="not-lg:hidden shrink-0 space-y-4 w-80 h-dvh glass py-4 px-6 border-r border-accent">
         <NuxtLink :to="$localePath('/')" class="block">
-          <img
-            src="/assets/images/logo.png"
-            alt="Logo"
-            class="h-10 select-none dark:hidden"
-          />
-          <img
-            src="/assets/images/logo_dark-mode.png"
-            alt="Logo"
-            class="h-10 select-none hidden dark:block"
-          />
+          <Logo />
         </NuxtLink>
         <div class="h-[calc(100dvh-136px)] -mx-6 p-6 overflow-y-auto">
           <UNavigationMenu :items="navItems" orientation="vertical" />
@@ -51,8 +42,7 @@
                 <div class="space-y-4 h-dvh p-4">
                   <div class="flex items-center justify-between">
                     <NuxtLink :to="localePath('/')">
-                      <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-                      <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
+                      <Logo />
                     </NuxtLink>
                     <UButton
                       variant="outline"

@@ -2,8 +2,7 @@
   <nav class="fixed top-0 w-full glass not-dark:bg-cyan-100/60 shadow-md z-[99]">
     <div class="lg:hidden container flex items-center justify-between h-16">
       <NuxtLink :to="localePath('/')">
-        <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-        <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
+        <Logo />
       </NuxtLink>
       <USlideover side="top" v-model:open="openSlideover">
         <UButton variant="outline" icon="i-material-symbols:menu" />
@@ -12,8 +11,7 @@
           <div class="container space-y-2 py-4">
             <div class="flex items-center justify-between">
               <NuxtLink :to="localePath('/')">
-                <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-                <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 not-dark:hidden">
+                <Logo />
               </NuxtLink>
               <UButton
                 variant="outline"
@@ -46,8 +44,7 @@
     </div>
     <div class="not-lg:hidden container flex items-center justify-between max-w-7xl h-20">
       <NuxtLink :to="localePath('/')">
-        <img src="/assets/images/logo.png" alt="Logo" class="h-10 dark:hidden">
-        <img src="/assets/images/logo_dark-mode.png" alt="Logo" class="h-10 hidden dark:block">
+        <Logo />
       </NuxtLink>
       <UNavigationMenu :items="navItems" variant="link">
         <template #products-content="{ item }: { item: NavigationMenuItem }">
