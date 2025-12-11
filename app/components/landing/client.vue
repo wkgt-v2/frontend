@@ -17,12 +17,7 @@
         :to="client.sm_url"
         target="_blank"
       >
-        <img
-          :src="client.sm_icon"
-          :alt="client.sm_name"
-          class="h-[72px]"
-          loading="lazy"
-        />
+        <Image :src="client.sm_icon" :alt="client.sm_name" height="h-[72px]" />
       </NuxtLink>
     </div>
   </div>

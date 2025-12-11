@@ -248,12 +248,12 @@
         </div>
         <div class="sm:col-span-2 space-y-1 text-sm text-tone">
           <div>Photos</div>
-          <img
+          <Image
             v-for="photo in selected.photos"
             :key="photo.photo_id"
             :src="photo.photo_url"
             :alt="photo.photo_url"
-            class="w-full rounded-md object-contain"
+            image-classes="rounded-md"
           />
         </div>
       </div>

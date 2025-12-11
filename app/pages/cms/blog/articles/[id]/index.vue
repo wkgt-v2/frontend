@@ -1,6 +1,12 @@
 <template>
   <div v-if="article" class="space-y-6 p-6">
-    <img :src="state.newThumbnail || article.thumbnail" :alt="article.title" class="w-full max-w-xl max-h-96 mx-auto object-contain">
+    <Image
+      :src="state.newThumbnail || article.thumbnail"
+      :alt="article.title"
+      width="w-full max-w-xl"
+      height="max-h-96"
+      class="mx-auto"
+    />
     <div class="space-y-2">
       <div class="flex not-2xl:flex-col-reverse items-start justify-between gap-4 2xl:gap-16">
         <h2 class="text-2xl text-tone font-semibold">

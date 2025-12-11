@@ -67,10 +67,10 @@
               :to="$localeRoute(`/products/${product.category.category_name}-${product.category_id}/${product.product_id}`)"
               class="w-full glass border border-accent rounded-xl"
             >
-              <img
+              <Image
                 :src="getProductThumbnail(product)"
                 :alt="product.product_name"
-                class="w-full object-contain aspect-square rounded-t-xl" loading="lazy"
+                image-classes="aspect-square rounded-t-xl"
               />
               <div class="space-y-1 p-6">
                 <small class="text-sm text-primary">

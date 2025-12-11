@@ -9,7 +9,10 @@
       class="w-full mx-auto"
       @select="onSelect"
     >
-      <img :src="item" width="420" height="420" class="w-full aspect-square object-contain rounded-2xl">
+      <Image
+        :src="item"
+        image-classes="aspect-square rounded-2xl"
+      />
     </UCarousel>
 
     <div class="overflow-x-auto">
@@ -21,7 +24,13 @@
           :class="{ 'opacity-100': activeIndex === index }"
           @click="select(index)"
         >
-          <img :src="url" width="96" height="96" class="size-24 object-cover rounded-lg">
+          <Image
+            :src="url"
+            width="w-24"
+            height="h-24"
+            image-classes="rounded-lg"
+            mode="cover"
+          />
           <slot name="action" :url="url" :index="index"></slot>
         </div>
       </div>

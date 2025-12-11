@@ -20,10 +20,10 @@
         class="basis-1/2 md:basis-1/3 lg:basis-1/4 p-1 md:p-2 lg:p-3"
       >
         <div class="h-full glass border border-accent rounded-xl">
-          <img
+          <Image
             :src="category.category_image"
             :alt="category.category_name"
-            class="w-full object-contain aspect-square rounded-t-xl" loading="lazy"
+            image-classes="aspect-square rounded-t-xl"
           />
           <div class="space-y-1 p-6">
             <h5 class="text-base text-tone font-medium">

@@ -53,7 +53,7 @@
         <template #products-content="{ item }: { item: NavigationMenuItem }">
           <div class="grid grid-cols-2 gap-0.5 py-2 px-4">
             <div v-if="highlightedCategory" class="row-span-6 p-2">
-              <img :src="highlightedCategory" class="size-full object-cover">
+              <Image :src="highlightedCategory" image-classes="aspect-square" />
             </div>
             <ULink
               v-for="child in item.children"

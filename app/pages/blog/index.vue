@@ -66,10 +66,10 @@
               :to="$localeRoute(`/blog/${article.blog_article_id}`)"
               class="w-full glass border border-accent rounded-xl"
             >
-              <img
+              <Image
                 :src="article.thumbnail"
                 :alt="article.title"
-                class="w-full object-contain aspect-square rounded-t-xl" loading="lazy"
+                image-classes="aspect-square rounded-t-xl"
               />
               <div class="space-y-1 p-6">
                 <small class="text-sm text-primary">

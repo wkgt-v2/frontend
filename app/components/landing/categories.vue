@@ -12,7 +12,13 @@
         class="basis-1/2 md:basis-1/3 lg:basis-1/4 p-1 md:p-2 lg:p-3"
       >
         <div class="space-y-2 text-center">
-          <img :src="category.category_image" :alt="category.category_name" class="size-40 mx-auto object-contain" loading="lazy">
+          <Image
+            :src="category.category_image"
+            :alt="category.category_name"
+            width="w-40"
+            height="h-40"
+            class="mx-auto"
+          />
           <h5 class="text-base text-primary font-medium">
             {{ category.category_name }}
           </h5>

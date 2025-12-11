@@ -1,7 +1,13 @@
 <template>
   <div class="container space-y-16 py-16">
     <template v-if="article">
-      <img :src="article.thumbnail" :alt="article.title" class="w-full max-w-xl max-h-96 mx-auto object-contain">
+      <Image
+        :src="article.thumbnail"
+        :alt="article.title"
+        width="w-full max-w-xl"
+        height="max-h-96"
+        class="mx-auto"
+      />
       <div class="space-y-2">
         <h2 class="text-2xl text-tone font-semibold">
           {{ article.title }}

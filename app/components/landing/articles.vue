@@ -9,10 +9,11 @@
           :to="$localeRoute(`/blog/${article.blog_article_id}`)"
           class="block size-full glass border border-accent rounded-xl md:hover:scale-105 md:hover:shadow-lg transition-all"
         >
-          <img
+          <Image
             :src="article.thumbnail"
             :alt="article.title"
-            class="w-full object-cover aspect-square rounded-t-xl" loading="lazy"
+            image-classes="aspect-square rounded-t-xl"
+            mode="cover"
           />
           <div class="space-y-1 p-6">
             <h4 class="text-xl text-primary font-semibold">

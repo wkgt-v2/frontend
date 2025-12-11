@@ -69,11 +69,10 @@
             :to="brand.sm_url"
             target="_blank"
           >
-            <img
+            <Image
               :src="brand.sm_icon"
               :alt="brand.sm_name"
-              class="h-12"
-              loading="lazy"
+              height="h-12"
             />
           </NuxtLink>
         </div>
