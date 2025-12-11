@@ -13,13 +13,13 @@ export default {
   },
   footer: {
     label: "Solusi Perangkat Keras Komputer Untuk Bisnis Anda.",
-    copyright: "Hak Cipta © 2025 WAHANA KARYA GUNA TEKNOLOGI. Semua Hak Dilindungi Undang-undang",
+    copyright: "Hak Cipta © 2025 PT. Wahana Karya Guna Teknologi. Semua Hak Dilindungi Undang-undang",
     privacy_policy: "Kebijakan Privasi",
     terms_of_service: "Ketentuan Layanan",
   },
   landing: {
     about_us: {
-      title: "Bersama WAHANA KARYA GUNA TEKNOLOGI",
+      title: "Bersama PT. Wahana Karya Guna Teknologi",
       subtitle: "Sebagai distributor yang berfokus pada kedisiplinan dan konsistensi, kami telah membantu berbagai proyek pemerintah dan swasta dengan solusi teknologi yang tepat.",
       item1: {
         title: "Pengalaman Teruji",
@@ -61,7 +61,7 @@ export default {
   },
   about_us: {
     section1: {
-      content: "WAHANA KARYA GUNA TEKNOLOGI adalah perusahaan yang bergerak dibidang distribusi perangkat keras dan solusi kebutuhan teknologi yang berdomisili di Jakarta dan didirikan pada tahun 2000 ber kantor pusat di Harco Mangga Dua Jakarta. Kami hadir untuk memberikan solusi kebutuhan di bidang teknologi terutama di bidang komputer, oleh sebab itu komunikasi dan kemudahan berinteraksi menjadi pilar penting yang selalu dijaga dan kembangkan Bersama. Teknologi selalu tumbuh dan berkembang dengan kecepatan yang sangat tinggi, hal ini telah menjadi salah satu pemicu bagi kami untuk selalu bekerja sama dalam team bahu membahu untuk mengikuti perkembangan tersebut secara mendetail dalam rangka mempersembahkan solusi yang paling optimal bagi pelanggan pelanggan kami. Menjaga keseimbangan alam merupakan panduan kami dalam berkegiatan sehari hari, sehingga perhatian terhadap penggunaan bahan bahan ramah lingkungan juga merupakan pilihan kami berkaitan dengan produk dan solusi yang kami tawarkan. Kami percaya bahwa pelayanan adalah bagian penting dari bisnis kami, oleh sebab itu memiliki team yang sanggup memberikan layanan yang prima kepada pelanggan menjadi tolak ukur dalam evaluasi kinerja dari tahun ke tahun. Integritas berada di barisan paling depan dalam kerangka pengambilan keputusan.",
+      content: "PT. Wahana Karya Guna Teknologi adalah perusahaan yang bergerak dibidang distribusi perangkat keras dan solusi kebutuhan teknologi yang berdomisili di Jakarta dan didirikan pada tahun 2000 ber kantor pusat di Harco Mangga Dua Jakarta. Kami hadir untuk memberikan solusi kebutuhan di bidang teknologi terutama di bidang komputer, oleh sebab itu komunikasi dan kemudahan berinteraksi menjadi pilar penting yang selalu dijaga dan kembangkan Bersama. Teknologi selalu tumbuh dan berkembang dengan kecepatan yang sangat tinggi, hal ini telah menjadi salah satu pemicu bagi kami untuk selalu bekerja sama dalam team bahu membahu untuk mengikuti perkembangan tersebut secara mendetail dalam rangka mempersembahkan solusi yang paling optimal bagi pelanggan pelanggan kami. Menjaga keseimbangan alam merupakan panduan kami dalam berkegiatan sehari hari, sehingga perhatian terhadap penggunaan bahan bahan ramah lingkungan juga merupakan pilihan kami berkaitan dengan produk dan solusi yang kami tawarkan. Kami percaya bahwa pelayanan adalah bagian penting dari bisnis kami, oleh sebab itu memiliki team yang sanggup memberikan layanan yang prima kepada pelanggan menjadi tolak ukur dalam evaluasi kinerja dari tahun ke tahun. Integritas berada di barisan paling depan dalam kerangka pengambilan keputusan.",
     },
     section2: {
       culture1: {

@@ -10,7 +10,7 @@
         </b>
         <div class="pl-6">
           <span>
-            When visiting and using the WAHANA KARYA GUNA TEKNOLOGI website, including all its features and services, every User is required to comply with the following Website User Terms:
+            When visiting and using the PT. Wahana Karya Guna Teknologi website, including all its features and services, every User is required to comply with the following Website User Terms:
           </span>
           <div class="pl-8 *:-indent-8 *:[&_span]:tabular-nums">
             <div>
@@ -20,7 +20,7 @@
               <span>A.2</span>: Access to this site is only permitted for shopping purposes and information related to this site's services.
             </div>
             <div>
-              <span>A.3</span>: Users are not allowed to reproduce, distribute, display, sell, rent, transmit, create derivative works from, translate, modify, reverse engineer, disassemble, decompile, or exploit the WAHANA KARYA GUNA TEKNOLOGI website.
+              <span>A.3</span>: Users are not allowed to reproduce, distribute, display, sell, rent, transmit, create derivative works from, translate, modify, reverse engineer, disassemble, decompile, or exploit the PT. Wahana Karya Guna Teknologi website.
             </div>
             <div>
               <span>A.4</span>: Users are not allowed to upload or publish content that:
@@ -37,7 +37,7 @@
               </div>
             </div>
             <div>
-              <span>A.5</span>: Products offered are not manufactured by WAHANA KARYA GUNA TEKNOLOGI but by Vendors, except for KUBIK.
+              <span>A.5</span>: Products offered are not manufactured by PT. Wahana Karya Guna Teknologi but by Vendors, except for KUBIK.
             </div>
           </div>
         </div>
@@ -48,14 +48,14 @@
         </b>
         <div class="pl-6">
           <span>
-            WAHANA KARYA GUNA TEKNOLOGI is the sole owner or legal holder of all rights to the Website and its content at www.wahana-online.com. All content contained within www.wahana-online.com includes intellectual property rights protected by copyright laws and other intellectual property laws applicable worldwide. All ownership and intellectual property rights of www.wahana-online.com and its content remain with Us, our affiliates, or content licensors. All rights not expressly granted in this Agreement or by Us are protected by law, including but not limited to:
+            PT. Wahana Karya Guna Teknologi is the sole owner or legal holder of all rights to the Website and its content at www.wahana-online.com. All content contained within www.wahana-online.com includes intellectual property rights protected by copyright laws and other intellectual property laws applicable worldwide. All ownership and intellectual property rights of www.wahana-online.com and its content remain with Us, our affiliates, or content licensors. All rights not expressly granted in this Agreement or by Us are protected by law, including but not limited to:
           </span>
           <div class="pl-8 *:-indent-8 *:[&_span]:tabular-nums">
             <div>
               <span>B.1</span>: Full ownership of the Software.
             </div>
             <div>
-              <span>B.2</span>: The WAHANA KARYA GUNA TEKNOLOGI name, icons, and related logos are registered trademarks in various jurisdictions and protected by copyright, trademark, or other intellectual property laws. Strictly prohibited to use, alter, or install those marks for personal gain or to discredit WAHANA KARYA GUNA TEKNOLOGI.
+              <span>B.2</span>: The PT. Wahana Karya Guna Teknologi name, icons, and related logos are registered trademarks in various jurisdictions and protected by copyright, trademark, or other intellectual property laws. Strictly prohibited to use, alter, or install those marks for personal gain or to discredit PT. Wahana Karya Guna Teknologi.
             </div>
           </div>
         </div>
@@ -77,19 +77,19 @@
         <div class="pl-6">
           <div class="pl-8 *:-indent-8 *:[&_span]:tabular-nums">
             <div>
-              <span>C.1</span>: The website <a href="http://wahana-online.com" target="_blank" rel="noopener noreferrer" class="text-blue-500">wahana-online.com</a> or WAHANA KARYA GUNA TEKNOLOGI only serves as a product portfolio. For online purchases, please visit our Official Store on e-commerce or marketplaces listed on <a href="http://wahana-online.com" target="_blank" rel="noopener noreferrer" class="text-blue-500">wahana-online.com</a> or WAHANA KARYA GUNA TEKNOLOGI.
+              <span>C.1</span>: The website <a href="http://wahana-online.com" target="_blank" rel="noopener noreferrer" class="text-blue-500">wahana-online.com</a> or PT. Wahana Karya Guna Teknologi only serves as a product portfolio. For online purchases, please visit our Official Store on e-commerce or marketplaces listed on <a href="http://wahana-online.com" target="_blank" rel="noopener noreferrer" class="text-blue-500">wahana-online.com</a> or PT. Wahana Karya Guna Teknologi.
             </div>
             <div>
               <span>C.2</span>: Some listed items are not in stock and require pre-order.
             </div>
             <div>
-              <span>C.3</span>: Every product purchased from WAHANA KARYA GUNA TEKNOLOGI's Official Store comes with a warranty period according to each manufacturer's warranty. Please contact our sales team for more information.
+              <span>C.3</span>: Every product purchased from PT. Wahana Karya Guna Teknologi's Official Store comes with a warranty period according to each manufacturer's warranty. Please contact our sales team for more information.
             </div>
             <div>
               <span>C.4</span>: Items purchased cannot be returned or exchanged unless there is a prior agreement.
             </div>
             <div>
-              <span>C.5</span>: Every effort has been made to ensure the accuracy of all information provided. WAHANA KARYA GUNA TEKNOLOGI does not guarantee the accuracy of the data, including product specifications or editorial content.
+              <span>C.5</span>: Every effort has been made to ensure the accuracy of all information provided. PT. Wahana Karya Guna Teknologi does not guarantee the accuracy of the data, including product specifications or editorial content.
             </div>
             <div>
               <span>C.6</span>: If a product is damaged during the warranty period, please contact our Technical Center at (021) 6125802.
@@ -103,7 +103,7 @@
         </b>
         <div class="pl-6">
           <span>
-            WAHANA KARYA GUNA TEKNOLOGI always strives to provide product descriptions as accurately as possible. However, we do not guarantee that all descriptions or content on this website are 100% accurate, complete, up-to-date, or error-free. If a product offered by WAHANA KARYA GUNA TEKNOLOGI does not match the product description, you may return it in an unused condition / unopened seal.
+            PT. Wahana Karya Guna Teknologi always strives to provide product descriptions as accurately as possible. However, we do not guarantee that all descriptions or content on this website are 100% accurate, complete, up-to-date, or error-free. If a product offered by PT. Wahana Karya Guna Teknologi does not match the product description, you may return it in an unused condition / unopened seal.
           </span>
         </div>
       </li>
