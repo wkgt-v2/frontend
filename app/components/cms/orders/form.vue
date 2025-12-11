@@ -108,7 +108,7 @@
           <UInput v-model.number="itemState.quantity" />
         </UFormField>
         <UFormField label="Price" name="price">
-          <UInput v-model.number="itemState.price" />
+          <InputPrice v-model.number="itemState.price" />
         </UFormField>
 
         <div class="flex justify-end gap-4">
