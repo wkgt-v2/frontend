@@ -39,6 +39,4 @@ const props = withDefaults(defineProps<{
 
 const onLoad = ref(true);
 const isError = ref(false);
-
-watch(onLoad, (val) => console.log(props.alt, val), { immediate: true });
 </script>
