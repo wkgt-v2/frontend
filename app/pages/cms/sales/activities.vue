@@ -253,6 +253,7 @@
             :key="photo.photo_id"
             :src="photo.photo_url"
             :alt="photo.photo_url"
+            width="w-full max-w-96"
             image-classes="rounded-md"
           />
         </div>
