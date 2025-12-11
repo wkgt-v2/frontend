@@ -101,14 +101,14 @@ export interface Order {
 export interface OrderItem {
   order_item_id: number;
   order_id: number;
-  product_id: number;
+  product_name: string;
+  product_sku: string;
   quantity: number;
   price_per_item: string;
   subtotal: string;
   created_at: string;
   updated_at: string;
   deleted_at: null | string;
-  product: ProductItem;
 }
 
 export type OrderStatus = "Pending" | "Paid" | "Canceled" | "Unpaid";

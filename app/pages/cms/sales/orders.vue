@@ -234,9 +234,14 @@ const column: TableColumn<Order>[] = [
 ];
 const itemColumn: TableColumn<OrderItem>[] = [
   {
-    accessorKey: "product",
-    header: "Product",
-    cell: ({ row }) => row.original.product?.product_name || "-",
+    accessorKey: "product_name",
+    header: "Product Name",
+    cell: ({ row }) => row.original.product_name || "-",
+  },
+  {
+    accessorKey: "product_sku",
+    header: "Product SKU",
+    cell: ({ row }) => row.original.product_sku || "-",
   },
   {
     accessorKey: "quantity",

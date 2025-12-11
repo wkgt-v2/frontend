@@ -76,33 +76,11 @@
   <UModal :title="`${selectedItem ? 'Edit' : 'Add'} Order Item`" v-model:open="modal.showItem">
     <template #body>
       <UForm :schema="itemSchema" :state="itemState" class="space-y-6" @submit="addItem">
-        <UFormField label="Category" name="category_id">
-          <USelectMenu
-            v-model="itemState.category_id"
-            :items="categories"
-            value-key="value"
-            :loading="onLoadCategories === 'pending'"
-          />
+        <UFormField label="Product Name" name="product_name">
+          <UInput v-model="itemState.product_name" />
         </UFormField>
-        <UFormField label="Series" name="series_id">
-          <USelectMenu
-            v-model="itemState.series_id"
-            :items="series"
-            value-key="value"
-            :placeholder="`${!itemState.category_id ? 'Please choose product category first' : ''}`"
-            :disabled="!itemState.category_id"
-            :loading="onLoadSeries === 'pending'"
-          />
-        </UFormField>
-        <UFormField label="Product" name="product_id">
-          <USelectMenu
-            v-model="itemState.product_id"
-            :items="products"
-            value-key="value"
-            :placeholder="`${!itemState.series_id ? 'Please choose product series first' : ''}`"
-            :disabled="!itemState.series_id"
-            :loading="onLoadProducts === 'pending'"
-          />
+        <UFormField label="Product SKU" name="product_sku">
+          <UInput v-model="itemState.product_sku" />
         </UFormField>
         <UFormField label="Quantity" name="quantity">
           <UInput v-model.number="itemState.quantity" />
@@ -133,10 +111,8 @@ import type { HttpError } from "~/types/http";
 
 interface OrderItemPlaceholder {
   id: number;
-  category_id?: number;
-  series_id?: number;
-  product_id?: number;
   product_name: string;
+  product_sku: string;
   quantity: number;
   price: number;
 }
@@ -167,6 +143,10 @@ const itemColumn: TableColumn<OrderItemPlaceholder>[] = [
     header: "Product",
   },
   {
+    accessorKey: "product_sku",
+    header: "SKU",
+  },
+  {
     accessorKey: "quantity",
     header: "Quantity",
     meta: {
@@ -193,10 +173,8 @@ const itemColumn: TableColumn<OrderItemPlaceholder>[] = [
 
 const itemSchema = v.object({
   id: v.pipe(v.number(), v.toMinValue(1)),
-  category_id: vRequiredSelect(),
-  series_id: vRequiredSelect(),
-  product_id: vRequiredSelect(),
-  product_name: vRequiredStringSelect(),
+  product_name: vRequired(),
+  product_sku: vRequired(),
   quantity: v.pipe(v.number(), v.minValue(1, "At least 1 quantity.")),
   price: v.pipe(v.number(), v.minValue(1, "Price can't be zero."), ),
 });
@@ -216,10 +194,8 @@ const errors = reactive({
 });
 const itemState = reactive<OrderItemPlaceholder>({
   id: 0,
-  category_id: undefined,
-  series_id: undefined,
-  product_id: undefined,
   product_name: "",
+  product_sku: "",
   quantity: 1,
   price: 0
 });
@@ -245,28 +221,8 @@ const { leads, onLoadLeads } = useOptsLeads(toRef(() => {
   return { salesperson_id: state.salesperson_id };
 }));
 
-const { categories, onLoadCategories, refreshCategories } = useOptsCategories();
-const { series, onLoadSeries } = useOptsSeries(toRef(() => {
-  return { category_id: itemState.category_id };
-}));
-const { products, onLoadProducts } = useOptsProducts(toRef(() => {
-  return { category_id: itemState.category_id, series_id: itemState.series_id };
-}));
-
-watch(() => series.value, (val) => {
-  if (!val || !itemState.series_id) return;
-  if (!val?.find(s => s.value === itemState.series_id)) itemState.series_id = undefined;
-});
-watch(() => products.value, (val) => {
-  if (!val || !itemState.product_id) return;
-  if (!val?.find(s => s.value === itemState.product_id)) itemState.product_id = undefined;
-});
-
 function addItem(e: FormSubmitEvent<ItemSchema>) {
-  const item: OrderItemPlaceholder = {
-    ...e.data,
-    product_name: products.value?.find(p => p.value === e.data.product_id)?.label || "",
-  };
+  const item = e.data;
   const existingIndex = state.items.findIndex(i => i.id === item.id);
   if (existingIndex >= 0) {
     state.items[existingIndex] = item;
@@ -307,7 +263,8 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
       total_amount: state.items.reduce((acc, val) => acc + (val.price * val.quantity), 0),
       items: state.items.map(i => {
         return {
-          product_id: i.product_id,
+          product_name: i.product_name,
+          product_sku: i.product_sku,
           quantity: i.quantity,
           price: i.price,
         }
@@ -345,23 +302,20 @@ async function onSubmit(e: FormSubmitEvent<Schema>) {
 async function openModal(order?: Order) {
   refreshUsers();
 
-  const items: OrderItemPlaceholder[] = order?.items.map((item, i) => {
-    return {
-      id: i+1,
-      category_id: item.product.category_id,
-      series_id: item.product.series_id,
-      product_id: item.product_id,
-      product_name: item.product.product_name,
-      quantity: item.quantity,
-      price: parseFloat(item.price_per_item),
-    }
-  }) || [];
   Object.assign(state, {
     lead_id: order?.lead_id,
     salesperson_id: isSuperadmin ? (order?.salesperson_id || undefined) : uid.value,
     order_date: order?.order_date,
     status: order?.status,
-    items,
+    items: order?.items.map((item, i) => {
+      return {
+        id: i+1,
+        product_name: item.product_name,
+        product_sku: item.product_sku,
+        quantity: item.quantity,
+        price: parseFloat(item.price_per_item),
+      }
+    }) || [],
   });
 
   modal.type = order ? "edit" : "add";
@@ -370,15 +324,12 @@ async function openModal(order?: Order) {
 
 async function openItemModal(item?: OrderItemPlaceholder) {
   selectedItem.value = item;
-  refreshCategories();
 
   const lastItem = state.items[state.items.length-1];
   Object.assign(itemState, {
     id: item?.id ?? (lastItem ? (lastItem.id + 1) : 1),
-    category_id: item?.category_id,
-    series_id: item?.series_id,
-    product_id: item?.product_id,
     product_name: item?.product_name || "",
+    product_sku: item?.product_sku || "",
     quantity: item?.quantity || 1,
     price: item?.price || 0,
   });
