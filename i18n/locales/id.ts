@@ -55,7 +55,7 @@ export default {
       cta: "Hubungi Kami"
     },
     hero: {
-      title: "Solusi _-Distribusi Perangkat Keras Komputer-_ untuk Bisnis Anda",
+      title: "Architecting the Future",
       subtitle: "Berpengalaman lebih dari satu dekade dalam menyediakan produk berkualitas dan layanan menyeluruh, kami menjadi mitra andal bagi vendor dan klien di seluruh Indonesia.",
     },
   },
