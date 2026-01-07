@@ -55,7 +55,7 @@ export default {
       cta: "Contact Us"
     },
     hero: {
-      title: "Solutions _-Computer Hardware Distribution-_ for Your Business",
+      title: "Architecting the Future",
       subtitle: "With more than a decade of experience in providing quality products and comprehensive services, we have become a reliable partner for vendors and clients across Indonesia.",
     },
   },

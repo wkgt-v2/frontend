@@ -1,58 +1,137 @@
 <template>
-  <footer>
-    <div class="w-full h-px bg-accent"></div>
-    <div class="container flex flex-col md:flex-row justify-between gap-8 py-8">
-      <div class="space-y-2 max-w-sm">
-        <div class="space-y-1">
-          <Logo />
-          <div class="text-sm text-tone font-semibold">
+  <footer
+    id="contact"
+    class="bg-[#020202] text-[#b3b3b3] text-[0.9rem] border-t border-[#1a1a1a] pt-20 pb-8"
+  >
+    <div class="container">
+      <!-- FOOTER GRID -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14"
+      >
+        <!-- COL 1: LOGO + DESC -->
+        <div>
+          <div class="mb-5">
+            <Logo />
+          </div>
+
+          <p class="leading-relaxed">
             {{ $t("footer.label") }}
+          </p>
+        </div>
+
+        <!-- COL 2: QUICK LINKS -->
+        <div>
+          <h4 class="text-white mb-6 text-[1.1rem]">Quick Links</h4>
+          <ul class="space-y-3">
+            <li>
+              <a
+                href="#services"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                IT Solutions
+              </a>
+            </li>
+            <li>
+              <a
+                href="#catalogue"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                Product Catalogue
+              </a>
+            </li>
+            <li>
+              <a
+                href="#portfolio"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                Our Work
+              </a>
+            </li>
+            <li>
+              <a
+                href="#journey"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                About Us
+              </a>
+            </li>
+            <li>
+              <NuxtLink
+                :to="$localePath('privacy-policy')"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                {{ $t("footer.privacy_policy") }}
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
+                :to="$localePath('terms-of-services')"
+                class="transition-all duration-300 hover:text-[#00f7ff] hover:pl-1"
+              >
+                {{ $t("footer.terms_of_service") }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
+
+        <!-- COL 3: CONTACT INFO -->
+        <div>
+          <h4 class="text-white mb-6 text-[1.1rem]">Contact Us</h4>
+
+          <div class="space-y-4">
+            <p class="flex items-start gap-2">
+              <span class="mt-[2px]">📍</span>
+              <span class="leading-relaxed">
+                {{ getCompanySettings("company_address") }}
+              </span>
+            </p>
+
+            <p class="flex items-start gap-2">
+              <span class="mt-[2px]">✉️</span>
+              <span class="leading-relaxed">
+                {{ getCompanySettings("company_email") }}
+              </span>
+            </p>
+
+            <p class="flex items-start gap-2">
+              <span class="mt-[2px]">📞</span>
+              <span class="leading-relaxed">
+                {{ getCompanySettings("company_phone") }}
+              </span>
+            </p>
           </div>
         </div>
-        <div class="text-sm text-tone leading-tight">
-          {{ getCompanySettings("company_address") }}
+
+        <!-- COL 4: CONNECT -->
+        <div>
+          <h4 class="text-white mb-6 text-[1.1rem]">Connect</h4>
+          <p class="leading-relaxed">Follow our journey on social media.</p>
+
+          <div class="flex gap-4 mt-5">
+            <ClientOnly>
+              <UTooltip
+                v-for="social in socials"
+                :key="social.sm_id"
+                :text="social.sm_name"
+                :delay-duration="0"
+              >
+                <UButton
+                  :to="social.sm_url"
+                  target="_blank"
+                  variant="link"
+                  size="xl"
+                  class="w-10 h-10 p-0 rounded-full border border-[#333] flex items-center justify-center transition-all duration-300 hover:border-[#00f7ff] hover:bg-[#00f7ff] hover:text-[#050505] hover:shadow-[0_0_15px_#00f7ff]"
+                  :icon="social.sm_icon"
+                />
+              </UTooltip>
+            </ClientOnly>
+          </div>
         </div>
       </div>
-      <div class="flex flex-wrap md:justify-end gap-3 w-60">
-        <ClientOnly>
-          <UTooltip v-for="social in socials" :key="social.sm_id" :text="social.sm_name" :delay-duration="0">
-            <UButton
-              :to="social.sm_url"
-              target="_blank"
-              variant="link"
-              size="xl"
-              class="h-fit p-0"
-              :icon="social.sm_icon"
-            />
-          </UTooltip>
-        </ClientOnly>
-      </div>
-    </div>
-    <div class="bg-inverted text-inverted">
-      <div class="container flex flex-col md:flex-row-reverse items-start md:items-center justify-between gap-2 py-2">
-        <div class="flex flex-col md:flex-row gap-2 md:gap-6">
-          <UButton
-            :to="$localePath('privacy-policy')"
-            size="sm"
-            variant="link"
-            color="neutral"
-            class="p-0 text-inverted hover:text-inverted"
-          >
-            {{ $t("footer.privacy_policy") }}
-          </UButton>
-          <UButton
-            :to="$localePath('terms-of-services')"
-            size="sm"
-            variant="link"
-            color="neutral"
-            class="p-0 text-inverted hover:text-inverted"
-          >
-            {{ $t("footer.terms_of_service") }}
-          </UButton>
-        </div>
-        <div class="text-sm">
-          {{ $t("footer.copyright") }}
-        </div>
+
+      <!-- FOOTER BOTTOM -->
+      <div class="border-t border-[#111] pt-8 text-center text-[0.8rem]">
+        <p>{{ $t("footer.copyright") }}</p>
       </div>
     </div>
   </footer>
