@@ -15,10 +15,5 @@ export default defineNuxtConfig({
       { code: "en", name: "EN", file: "en.ts", language: "en-US" },
     ],
   },
-  colorMode: {
-    preference: "dark",
-    fallback: "dark",
-    disableTransition: false,
-  },
   compatibilityDate: "2025-07-16",
 });
